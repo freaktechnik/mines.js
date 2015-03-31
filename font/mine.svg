@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2015 by original authors @ fontello.com</metadata>
+<defs>
+<font id="mine" horiz-adv-x="1000" >
+<font-face font-family="mine" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="bomb" unicode="&#x39;" d="m319 521q-6 14-19 20t-28 0q-60-25-106-71t-71-107q-6-14 0-27t19-19q8-3 14-3 23 0 33 23 19 46 55 82t83 55q14 6 20 20t0 27z m525 199l26-26-136-135 38-38q10-11 10-26t-10-25l-36-36q50-90 50-191 0-80-31-153t-84-125-126-84-152-31-153 31-125 84-84 125-31 153 31 152 84 126 125 84 153 31q101 0 191-50l36 36q11 10 25 10t26-10l38-38z m5 31q-6-5-13-5-7 0-12 5l-51 50q-5 6-5 13t5 13q5 5 13 5t13-5l50-51q5-5 5-12t-5-13z m128-128q-6-5-13-5t-13 5l-50 51q-5 5-5 12t5 13q5 5 13 5t12-5l51-50q5-6 5-13t-5-13z m23 102q0-8-5-13t-13-5h-53q-8 0-13 5t-5 13 5 13 13 5h53q8 0 13-5t5-13z m-107 107v-54q0-7-5-12t-13-5-13 5-5 12v54q0 8 5 13t13 5 13-5 5-13z m84-31l-51-50q-5-5-12-5-7 0-13 5-5 5-5 13t5 12l50 51q6 5 13 5t13-5q5-6 5-13t-5-13z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>

@@ -1,0 +1,30 @@
+{
+  "name": "Mines",
+  "description": "Yet another Minesweeper clone with custom boards and mine-flagging",
+  "launch_path": "/index.html",
+  "icons": {
+    "16": "/images/icon-16.png",
+    "32": "/images/icon-32.png",
+    "48": "/images/icon-48.png",
+    "64": "/images/icon-64.png",
+    "90": "/images/icon-90.png",
+    "128": "/images/icon-128.png",
+    "256": "/images/icon-256.png",
+    "512": "/images/icon-512.png"
+  },
+  "developer": {
+    "name": "Martin Giger",
+    "url": "http://humanoids.be"
+  },
+  "default_locale": "en",
+  "locales": {
+    "en": {
+        "name": "Mines",
+        "description": "Yet another Minesweeper clone with custom boards and mine-flagging"
+    },
+    "de": {
+        "name": "Minen",
+        "description": "Ein Minesweeper-Klon mit benutzerdefinierten Feldern und Minenmarkierung"
+    }
+  }
+}

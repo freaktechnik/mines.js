@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html manifest="mines.appcache">
+    <head>
+        <meta charset="utf-8">
+        <title data-l10n-id="title">Mines</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <meta name="defaultLanguage" content="en">
+        <meta name="availableLanguages" content="en, de">
+
+        <link rel="localization" href="locales/{locale}/app.properties">
+        <script src="scripts/l10n.js"></script>
+
+        <script src="scripts/object-assign-polyfill.js"></script>
+        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-fonts/style.css">
+        <link rel="stylesheet" type="text/css" href="styles/layout.css">
+        <link rel="stylesheet" type="text/css" href="styles/buttons.css">
+        <script src="bower_components/gaia-icons/gaia-icons.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-icons/gaia-icons.css">
+        <script src="bower_components/font-fit/font-fit.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-header/dist/gaia-header.css">
+        <script src="bower_components/gaia-header/dist/gaia-header.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles/general.css">
+
+        <script src="mines.js"></script>
+    </head>
+    <body class="skin-comms skin-organic" role="application">
+        <section role="region" class="vbox fit">
+            <gaia-header>
+                <h1 data-l10n-id="title">Mines</h1>
+                <a href="help.html" rel="help" data-icon="help" dat-l10n-id="action_help" aria-label="Help"></a>
+            </gaia-header>
+            <section class="gaia-list fit scroll sticky">
+                <article id="resumeSection" class="hidden" aria-hidden="true">
+                    <ul>
+                        <li><button onclick="document.location = 'mines.html#restore'" data-l10n-id="menu_continue">Continue</button></li>
+                    </ul>
+                </article>
+                <article>
+                    <header data-l10n-id="menu_difficulty_title">Choose Difficulty</header>
+                    <ul>
+                        <li><button onclick="document.location = 'mines.html#beginner'" data-l10n-id="menu_difficulty_beginner">Beginner</button></li>
+                        <li><button onclick="document.location = 'mines.html#advanced'" data-l10n-id="menu_difficulty_advanced">Advanced</button></li>
+                        <li><button onclick="document.location = 'mines.html#expert'" data-l10n-id="menu_difficutly_expert">Expert</button></li>
+                        <li><button onclick="document.location = 'custom.html'" class="icon icon-view" data-l10n-id="menu_difficulty_custom">Custom</button></li>
+                    </ul>
+                </article>
+            </section>
+        </section>
+        <script src="scripts/index.js"></script>
+    </body>
+</html>
+

@@ -1,0 +1,243 @@
+  gaia-header {
+    display: block;
+    -moz-user-select: none;
+    --gaia-header-button-color:
+      var(--header-button-color,
+      var(--header-color,
+      var(--link-color,
+      inherit)));
+  }
+  /**
+   * [hidden]
+   */
+  gaia-header[hidden] {
+    display: none;
+  }
+  /** Reset
+   ---------------------------------------------------------*/
+  gaia-header ::-moz-focus-inner { border: 0; }
+  /** Inner
+   ---------------------------------------------------------*/
+  gaia-header .inner {
+    display: flex;
+    min-height: 50px;
+    direction: ltr;
+    -moz-user-select: none;
+    background:
+      var(--header-background,
+      var(--background,
+      #fff));
+  }
+  /** Action Button
+   ---------------------------------------------------------*/
+  /**
+   * 1. Hidden by default
+   */
+  gaia-header .action-button {
+    position: relative;
+    display: none; /* 1 */
+    width: 50px;
+    font-size: 30px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    align-items: center;
+    background: none;
+    cursor: pointer;
+    transition: opacity 200ms 280ms;
+    color:
+      var(--header-action-button-color,
+      var(--header-icon-color,
+      var(--gaia-header-button-color)));
+  }
+  /**
+   * [action=back]
+   * [action=menu]
+   * [action=close]
+   *
+   * 1. For icon vertical-alignment
+   */
+  gaia-header[action=back] .action-button,
+  gaia-header[action=menu] .action-button,
+  gaia-header[action=close] .action-button {
+    display: flex; /* 1 */
+  }
+  /**
+   * :active
+   */
+  gaia-header .action-button:active {
+    transition: none;
+    opacity: 0.2;
+  }
+  /** Action Button Icon
+   ---------------------------------------------------------*/
+  gaia-header .action-button:before {
+    font-family: 'gaia-icons';
+    font-style: normal;
+    text-rendering: optimizeLegibility;
+    font-weight: 500;
+  }
+  gaia-header[action=close] .action-button:before { content: 'close' }
+  gaia-header[action=back] .action-button:before { content: 'back' }
+  gaia-header[action=menu] .action-button:before { content: 'menu' }
+  /** Action Button Icon
+   ---------------------------------------------------------*/
+  /**
+   * 1. To enable vertical alignment.
+   */
+  gaia-header .action-button:before {
+    display: block;
+  }
+  /** Action Button Text
+   ---------------------------------------------------------*/
+  /**
+   * To provide custom localized content for
+   * the action-button, we allow the user
+   * to provide an element with the class
+   * .l10n-action. This node is then
+   * pulled inside the real action-button.
+   *
+   * Example:
+   *
+   *   <gaia-header action="back">
+   *     <span class="l10n-action" aria-label="Back">Localized text</span>
+   *     <h1>title</h1>
+   *   </gaia-header>
+   */
+  gaia-header .l10n-action {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+  }
+  /** Title
+   ---------------------------------------------------------*/
+  /**
+   * 1. Vertically center text. We can't use flexbox
+   *    here as it breaks text-overflow ellipsis
+   *    without an inner div.
+   */
+  gaia-header h1 {
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    line-height: 50px; /* 1 */
+    font-weight: 300;
+    font-style: italic;
+    font-size: 24px;
+    color:
+      var(--header-title-color,
+      var(--header-color,
+      var(--title-color,
+      var(--text-color,
+      inherit))));
+  }
+  /**
+   * [dir=rtl]
+   *
+   * When the document is in RTL mode we still
+   * want the <h1> text to be reversed to that
+   * strings like '1 selected' become 'selected 1'.
+   *
+   * When we're happy for gaia-header to be fully
+   * RTL responsive we won't need this rule anymore,
+   * but this depends on all Gaia apps being ready.
+   */
+  ::root[dir=rtl] gaia-header h1 {
+    direction: rtl;
+  }
+  /** Buttons
+   ---------------------------------------------------------*/
+  gaia-header a,
+  gaia-header button {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    display: flex;
+    width: auto;
+    height: auto;
+    min-width: 50px;
+    margin: 0;
+    padding: 0 10px;
+    outline: 0;
+    border: 0;
+    font-size: 14px;
+    line-height: 1;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center;
+    background: none;
+    border-radius: 0;
+    font-style: italic;
+    cursor: pointer;
+    transition: opacity 200ms 280ms;
+    color: var(--gaia-header-button-color);
+  }
+  /**
+   * :active
+   */
+  gaia-header a:active,
+  gaia-header button:active {
+    transition: none;
+    opacity: 0.2;
+  }
+  /**
+   * [hidden]
+   */
+  gaia-header a[hidden],
+  gaia-header button[hidden] {
+    display: none;
+  }
+  /**
+   * [disabled]
+   */
+  gaia-header a[disabled],
+  gaia-header button[disabled] {
+    pointer-events: none;
+    color: var(--header-disabled-button-color);
+  }
+  /** Icon Buttons
+   ---------------------------------------------------------*/
+  /**
+   * Icons are a different color to text
+   */
+  gaia-header .icon,
+  gaia-header [data-icon] {
+    color:
+      var(--header-icon-color,
+      var(--gaia-header-button-color));
+  }
+  /**
+   * If users want their action button
+   * to be in the component's light-dom
+   * they can add an .action class
+   * to make it look like the
+   * shadow action button.
+   */
+  gaia-header .action {
+    color:
+      var(--header-action-button-color,
+      var(--header-icon-color,
+      var(--gaia-header-button-color)));
+  }
+  /**
+   * [data-icon]:empty
+   *
+   * Icon buttons with no textContent,
+   * should always be 50px.
+   *
+   * This is to prevent buttons being
+   * larger than they should be before
+   * icon-font has loaded.
+   */
+  gaia-header[data-icon]:empty {
+    width: 50px;
+  }

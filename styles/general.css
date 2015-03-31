@@ -1,0 +1,21 @@
+body {
+    font-family: FiraSans;
+}
+
+gaia-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+.gaia-list {
+    margin-top: 50px;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+

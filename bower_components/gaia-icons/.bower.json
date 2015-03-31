@@ -1,0 +1,34 @@
+{
+  "name": "gaia-icons",
+  "version": "0.7.11",
+  "homepage": "https://github.com/wilsonpage/gaia-icons",
+  "authors": [
+    "Wilson Page <wilsonpage@me.com>"
+  ],
+  "main": "gaia-icons.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "!.jshintrc",
+    "node_modules",
+    "bower_components",
+    "templates",
+    "images",
+    "test",
+    "tests",
+    "index.html",
+    "create-svg-icon-set-file.py",
+    "Gruntfile.js",
+    "README.md",
+    "package.json"
+  ],
+  "_release": "0.7.11",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.7.11",
+    "commit": "f82a512a939d995fd0827c6a3e751238aaa91ff6"
+  },
+  "_source": "git://github.com/gaia-components/gaia-icons.git",
+  "_target": "~0.7.11",
+  "_originalSource": "gaia-components/gaia-icons"
+}

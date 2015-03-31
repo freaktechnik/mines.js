@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html manifest="mines.appcache">
+    <head>
+        <meta charset="utf-8">
+        <title data-l10n-id="custom_title">Custom Minefield</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="defaultLanguage" content="en">
+        <meta name="availableLanguages" content="en, de">
+
+        <link rel="localization" href="locales/{locale}/app.properties">
+        <script src="scripts/l10n.js"></script>
+
+        <script src="scripts/object-assign-polyfill.js"></script>
+        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-fonts/style.css">
+        <link rel="stylesheet" type="text/css" href="styles/layout.css">
+        <link rel="stylesheet" type="text/css" href="styles/input_areas.css">
+        <link rel="stylesheet" type="text/css" href="styles/buttons.css">
+        <script src="bower_components/gaia-icons/gaia-icons.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-icons/gaia-icons.css">
+        <script src="bower_components/font-fit/font-fit.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-header/dist/gaia-header.css">
+        <script src="bower_components/gaia-header/dist/gaia-header.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles/general.css">
+    </head>
+    <body class="skin-comms skin-organic" role="application">
+        <div id="strings" class="hidden" aria-hidden="true">
+            <span data-l10n-id="custom_form_error">There has to be at least one mine and one empty cell in the Minefield.</span>
+        </div>
+        <section role="region" class="vbox fit">
+            <gaia-header action="back" id="header">
+                <span class="l10n-action" aria-label="Back" data-l10n-id="action_back">Back</span>
+                <h1 data-l10n-id="custom_title">Custom Minefield</h1>
+                <a href="help.html" rel="help" data-icon="help" data-l10n-id="action_help" aria-label="Help"></a>
+            </gaia-header>
+            <section class="gaia-list fit scroll sticky">
+                <article>
+                    <form id="form">
+                        <ul>
+                            <li>
+                                <div class="fit">
+                                    <label for="height" data-l10n-id="custom_height">Height:</label>
+                                </div>
+                                <div class="fit">
+                                    <input type="number" id="height" min="1" value="8" required step="1">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fit">
+                                    <label for="width" data-l10n-id="custom_width">Width:</label>
+                                </div>
+                                <div class="fit">
+                                    <input type="number" id="width" min="1" value="8" required step="1">
+                                </div>
+                            </li>
+                            <li>
+                                <div class="fit">
+                                    <label for="mines" data-l10n-id="custom_mines">Mines:</label>
+                                </div>
+                                <div class="fit">
+                                    <input type="number" id="mines" min="1" value="10" required step="1">
+                                </div>
+                            </li>
+                            <li><button id="submit" data-l10n-id="custom_done">Start Game</button></li>
+                        </ul>
+                    </form>
+                </article>
+            </section>
+        </section>
+        <script type="application/javascript" src="scripts/custom.js"></script>
+    </body>
+</html>

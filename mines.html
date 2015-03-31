@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html manifest="mines.appcache">
+    <head>
+        <meta charset="utf-8">
+        <title data-l10n-id="title">Mines</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="defaultLanguage" content="en">
+        <meta name="availableLanguages" content="en, de">
+
+        <link rel="localization" href="locales/{locale}/app.properties">
+        <script src="scripts/l10n.js"></script>
+
+        <script src="mines.js" type="application/javascript"></script>
+        <link rel="help" href="help.html" type="text/html">
+
+        <script src="scripts/object-assign-polyfill.js"></script>
+        <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-fonts/style.css">
+        <link rel="stylesheet" type="text/css" href="styles/layout.css">
+        <link rel="stylesheet" type="text/css" href="styles/toolbars.css">
+        <script src="bower_components/gaia-icons/gaia-icons.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-icons/gaia-icons.css">
+        <script src="bower_components/font-fit/font-fit.js"></script>
+        <link rel="stylesheet" type="text/css" href="bower_components/gaia-header/dist/gaia-header.css">
+        <script src="bower_components/gaia-header/dist/gaia-header.js"></script>
+        <link rel="stylesheet" type="text/css" href="styles/general.css">
+        <link rel="stylesheet" type="text/css" href="styles/style.css">
+    </head>
+    <body class="skin-comms skin-organic" role="application">
+        <div id="strings" class="hidden" aria-hidden="true">
+            <span data-l10n-id="mines_restore_error">Saved game is corrupted. Returning to main menu.</span>
+        </div>
+        <!-- TODO timer, l10n -->
+        <section role="region" class="vbox fit">
+            <gaia-header action="back" id="header">
+                <span class="l10n-action" aria-label="Back" data-l10n-id="action_back">Back</span>
+                <h1 data-l10n-id="title">Mines</h1>
+                <a href="help.html" rel="help" data-icon="help" data-l10n-id="action_help" aria-label="Help"></a>
+            </gaia-header>
+            <section class="gaia-list fit scroll sticky" id="fieldcontainer">
+                <article>
+                    <table id="field" role="grid">
+                    </table>
+                </article>
+            </section>
+            <footer role="toolbar">
+                <button id="reset" data-icon="reload" data-l10n-id="mines_reset">Reset</button>
+                <button id="flagtoggle" data-icon="brightness" data-l10n-id="mines_mode_uncover">Uncover</button>
+                <span><label class="mine" id="countlabel" aria-label="Remaining mines:" data-l10n-id="mines_remaining" for="minecount">9</label><output id="minecount" label="countlabel" for="field"></output aria-live="assertive"></span>
+            </footer>
+        </section>
+        <script type="application/javascript" src="scripts/mines-content.js"></script>
+    </body>
+</html>

@@ -1,0 +1,133 @@
+@font-face {
+  font-family: 'mine';
+  src: url('../font/mine.eot?13636850');
+  src: url('../font/mine.eot?13636850#iefix') format('embedded-opentype'),
+       url('../font/mine.woff?13636850') format('woff'),
+       url('../font/mine.ttf?13636850') format('truetype'),
+       url('../font/mine.svg?13636850#mine') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+footer span {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative;
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 30px;
+    color: #919191;
+    border-radius: 0;
+    height: 100%;
+    line-height: 44px;
+    vertical-align: center;
+}
+
+[role="toolbar"] button {
+    background-image: none;
+}
+
+#fieldcontainer {
+    margin-bottom: 45px;
+}
+
+table {
+    border-spacing: 0 0;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    font-family: FiraSans;
+    transition-property: box-shadow;
+    transition-duration: .5s;
+    margin: 3em auto;
+    color: black;
+    white-space: nowrap;
+}
+td {
+    display: inline-block;
+    min-width: 2em;
+    min-height: 2em;
+    background: lightgray;
+    outline: 1px solid gray;
+    border: 3px solid transparent;
+    padding: 0;
+    cursor: default;
+    text-align: center;
+    line-height: 2em;
+    font-weight: bold;
+    position: relative;
+}
+.air {
+    color: transparent;
+}
+.one {
+    color: blue;
+}
+.two {
+    color: green;
+}
+.three {
+    color: red;
+}
+.four {
+    color: navy;
+}
+.five {
+    color: maroon;
+}
+.six {
+    color: teal;
+}
+.seven {
+    color: purple;
+}
+.eight {
+    color: black;
+}
+.mine {
+    font-family: mine;
+    font-weight: initial;
+}
+.covered {
+    border: 3px outset lightgray;
+    color: transparent;
+}
+table:not(.done) .covered:active {
+    border: 3px inset gray;
+}
+.gameover .covered.mine {
+    color: initial;
+}
+.flagged::before {
+    content: "flag";
+    color: red;
+    font-size: 1.2em;
+    position: absolute;
+    left: .6em;
+    font-weight: 500;
+    font-family: "gaia-icons";
+    font-style: normal;
+    text-rendering: optimizelegibility;
+}
+.done:not(.gameover) {
+    box-shadow: 0 0 3em green;
+}
+.gameover {
+    box-shadow: 0 0 3em red;
+}
+
