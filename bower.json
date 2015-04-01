@@ -1,0 +1,34 @@
+{
+  "name": "mines.",
+  "version": "0.0.1",
+  "homepage": "https://github.com/freaktechnik/mines.js",
+  "authors": [
+    "Martin Giger <martin.a.giger@sunrise.ch>"
+  ],
+  "description": "Yet another minesweeper clone, written with JS",
+  "main": "src/mines.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "minesweeper",
+    "mines",
+    "game"
+  ],
+  "license": "MPLv2",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "dist"
+  ],
+  "dependencies": {
+    "gaia-fonts": "gaia-components/gaia-fonts#~0.2.1",
+    "gaia-header": "gaia-components/gaia-header#~0.8.1",
+    "webcomponentsjs": "~0.6.0",
+    "gaia-layout": "gaia-components/gaia-layout#~0.1.5"
+  }
+}

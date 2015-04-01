@@ -1012,30 +1012,4 @@ function nextTick(fn) {
 });})(typeof define=='function'&&define.amd?define
 :(function(n,w){'use strict';return typeof module=='object'?function(c){
 c(require,exports,module);}:function(c){var m={exports:{}};c(function(n){
-return w[n];},m.exports,m);w[n]=m.exports;};})('gaia-header',this));`<div class="inner">
-    <button class="action-button">
-      <content select=".l10n-action"></content>
-    </button>
-    <content></content>
-  </div>
-
-  <style>
-
-  :host {
-    display: block;
-    -moz-user-select: none;
-
-    --gaia-header-button-color:
-      var(--header-button-color,
-      var(--header-color,
-      var(--link-color,
-      inherit)));
-  }
-
-  /**
-   * [hidden]
-   */
-
-  :host[hidden] {
-    display: none;
-  }
+return w[n];},m.exports,m);w[n]=m.exports;};})('gaia-header',this));

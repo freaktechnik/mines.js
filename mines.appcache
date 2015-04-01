@@ -1,5 +1,5 @@
 CACHE MANIFEST
-# v9
+# v9.1
 mines.html
 index.html
 custom.html
@@ -16,20 +16,21 @@ font/mine.woff?13636850
 font/mine.svg?13636850
 font/mine.ttf?13636850
 styles/buttons/images/forward-light.svg
-bower_components/gaia-fonts/style.css
-bower_components/gaia-fonts/fonts/FiraSans-Regular.woff
-bower_components/gaia-fonts/fonts/FiraSans-Bold.woff
-bower_components/gaia-fonts/fonts/FiraSans-Light.woff
-bower_components/gaia-fonts/fonts/FiraSans-LightItalic.woff
-bower_components/gaia-icons/gaia-icons.js
-bower_components/gaia-icons/gaia-icons.css
-bower_components/gaia-icons/fonts/gaia-icons.ttf
-bower_components/font-fit/font-fit.js
-bower_components/gaia-header/dist/gaia-header.js
-bower_components/gaia-header/dist/gaia-header.css
-bower_components/webcomponentsjs/webcomponents.js
+vendor/gaia-fonts/style.css
+vendor/gaia-fonts/fonts/FiraSans-Regular.woff
+vendor/gaia-fonts/fonts/FiraSans-Bold.woff
+vendor/gaia-fonts/fonts/FiraSans-Light.woff
+vendor/gaia-fonts/fonts/FiraSans-LightItalic.woff
+vendor/gaia-icons/gaia-icons.js
+vendor/gaia-icons/gaia-icons.css
+vendor/gaia-icons/fonts/gaia-icons.ttf
+vendor/font-fit/font-fit.js
+vendor/gaia-header/dist/gaia-header.js
+vendor/webcomponentsjs/webcomponents.js
+styles/gaia-header.css
 locales/de/app.properties
 locales/en/app.properties
+locales/rm/app.properties
 scripts/l10n.js
 scripts/index.js
 scripts/help.js

@@ -5,3 +5,13 @@ Mines is a webapp minesweeper clone. It orients itself at the Firefox OS style. 
 Translate
 ---------
 You can contribute translations to the application on [transifex](http://transifex.com/projects/p/mines).
+
+Build
+-----
+This project can be built using grunt. Run
+```
+bower install
+npm install
+grunt
+```
+
