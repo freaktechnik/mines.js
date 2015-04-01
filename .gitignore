@@ -2,3 +2,4 @@ node_modules/*
 .transifexrc
 dist/*
 bower_components/*
+*.zip
