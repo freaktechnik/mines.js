@@ -10,6 +10,8 @@
     "grunt-contrib-jshint": "*",
     "grunt-contrib-qunit": "*",
     "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-es6-transpiler": "^1.0.2",
     "grunt-transifex": "^0.1.1"
   },
   "repository": {

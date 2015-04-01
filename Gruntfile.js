@@ -52,6 +52,7 @@ module.exports = function(grunt) {
                         'gaia-fonts': {
                             files: [
                                 'fonts/**',
+                                'style.css'
                             ]
                         },
                         'gaia-icons': {
@@ -65,6 +66,27 @@ module.exports = function(grunt) {
             }
         },
         copy: {
+            dev: {
+                files: [
+                    {
+                        'dist/mines.min.js': 'src/*.js',
+                    },
+                    {
+                        expand: true,
+                        cwd: 'assets/scripts',
+                        src: '**/*.js',
+                        dest: 'dist/scripts',
+                        ext: '.min.js'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'assets/styles',
+                        src: ['*.css'],
+                        dest: 'dist/styles/',
+                        ext: '.css'
+                    }
+                ]
+            },
             html: {
                 options: {
                     process: function(file) {
@@ -116,6 +138,19 @@ module.exports = function(grunt) {
                     }
                 },
                 files: [ {'dist/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
+            },
+            devappcache: {
+                options: {
+                    process: function(file) {
+                        return file.replace("{{version}}", Date.now())
+                                    .replace("{{assets}}", grunt.file.expand("dist/**/*")
+                                        .join("\n")
+                                        .replace(/dist\//g, "")
+                                        .replace(grunt.config('pkg.name')+".appcache\n","")
+                                    );
+                    }
+                },
+                files: [ {'dist/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
             }
         },
         transifex: {
@@ -132,7 +167,31 @@ module.exports = function(grunt) {
                 }
             }
         },
-        clean: [ 'dist' ]
+        clean: [ 'dist' ],
+        "es6transpiler": {
+            bowerlibs: {
+                options: {
+                    globals: {
+                        "Event": true,
+                        "define": true
+                    }
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: "dist/vendor",
+                        src: ['gaia-*/*.js'],
+                        dest: 'dist/vendor'
+                    }
+                ]
+            }
+        },
+        watch: {
+            options: {
+                tasks: 'dev'
+            },
+            files: '**'
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -141,11 +200,15 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');    
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-es6-transpiler');
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-transifex');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
-    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:appcache']);
+    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'es6transpiler', 'copy:appcache']);
+
+    grunt.registerTask('dev', ['bower', 'copy:dev', 'copy:html', 'copy:build', 'es6transpiler', 'copy:devappcache']);
 
     grunt.registerTask('test', ['jshint', 'qunit']);
 };
