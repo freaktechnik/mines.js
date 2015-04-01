@@ -15,3 +15,5 @@ npm install
 grunt
 ```
 
+To clean the project directory, run `grunt clean`.
+

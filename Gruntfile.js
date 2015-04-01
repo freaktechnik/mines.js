@@ -43,7 +43,20 @@ module.exports = function(grunt) {
             build: {
                 dest: 'dist/vendor/',
                 options: {
-                    expand: true
+                    expand: true,
+                    packageSpecific: {
+                        'gaia-fonts': {
+                            files: [
+                                'fonts/**',
+                            ]
+                        },
+                        'gaia-icons': {
+                            files: [
+                                'gaia-icons.css',
+                                'fonts/**'
+                            ]
+                        }
+                    }
                 }
             }
         },
@@ -72,12 +85,6 @@ module.exports = function(grunt) {
                     },
                     {
                         expand: true,
-                        cwd: 'bower_components/gaia-fonts/fonts',
-                        src: ['**'],
-                        dest: 'dist/vendor/gaia-fonts/fonts'
-                    },
-                    {
-                        expand: true,
                         cwd: 'assets/styles',
                         src: ['**', '!*.css'],
                         dest: 'dist/styles'
@@ -98,14 +105,16 @@ module.exports = function(grunt) {
                     }
                 }
             }
-        }
+        },
+        clean: [ 'dist' ]
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-copy');    
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-transifex');
 
