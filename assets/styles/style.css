@@ -34,7 +34,7 @@ footer span {
     border-radius: 0;
     height: 100%;
     line-height: 44px;
-    vertical-align: center;
+    vertical-align: middle;
 }
 
 [role="toolbar"] button {

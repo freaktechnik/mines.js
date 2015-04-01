@@ -129,6 +129,12 @@ module.exports = function(grunt) {
                         cwd: 'assets/styles',
                         src: ['**', '!*.css'],
                         dest: 'dist/styles'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'assets/images',
+                        src: ['**/*.png'],
+                        dest: 'dist/images'
                     }
                 ]
             },

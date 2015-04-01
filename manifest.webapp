@@ -25,6 +25,10 @@
     "de": {
         "name": "Minen",
         "description": "Ein Minesweeper-Klon mit benutzerdefinierten Feldern und Minenmarkierung"
+    },
+    "rm": {
+        "name": "Minas",
+        "description": "Anc in clon da Minesweeper cun tavlas persunalisadas e marcar minas"
     }
   }
 }
