@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- Load local QUnit. -->
+        <link rel="stylesheet" href="../node_modules/qunitjs/qunit/qunit.css">
+        <script src="../node_modules/qunitjs/qunit/qunit.js"></script>
+        
+        <!-- Polyfills for PhantomJS -->
+        <script src="event-polyfill.js"></script>
+
+        <script src="../src/mines.js"></script>
+        <script src="test-mines.js"></script>
+    </head>
+    <body>
+        <div id="qunit"></div>
+        <div id='qunit-fixture'>
+            <table id="field" role="grid">
+            </table>
+        </div>
+    </body>
+</html>

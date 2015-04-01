@@ -173,7 +173,10 @@ module.exports = function(grunt) {
                 }
             }
         },
-        clean: [ 'dist', '*.zip' ],
+        clean: {
+            default: [ 'dist', '*.zip' ],
+            test: 'test/dist'
+        },
         "es6transpiler": {
             bowerlibs: {
                 options: {
@@ -188,6 +191,21 @@ module.exports = function(grunt) {
                         cwd: "dist/vendor",
                         src: ['gaia-*/*.js'],
                         dest: 'dist/vendor'
+                    }
+                ]
+            },
+            test: {
+                options: {
+                    globals: {
+                        "Event": true
+                    }
+                },
+                files: [
+                    {
+                        expand: true,
+                        cwd: "src",
+                        src: ["**/*.js"],
+                        dest: "test/dist"
                     }
                 ]
             }
@@ -224,11 +242,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
 
     // Default task(s).
-    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'es6transpiler', 'copy:appcache']);
+    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'es6transpiler:bowerlibs', 'copy:appcache']);
 
     grunt.registerTask('package', ['default', 'compress']);
 
     grunt.registerTask('dev', ['bower', 'copy:dev', 'copy:html', 'copy:build', 'es6transpiler', 'copy:devappcache']);
 
-    grunt.registerTask('test', ['jshint', 'qunit']);
+    grunt.registerTask('test', ['es6transpiler:test', 'jshint', 'qunit', 'clean:test']);
 };
