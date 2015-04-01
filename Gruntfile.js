@@ -1,11 +1,10 @@
 module.exports = function(grunt) {
-    var fs = require("fs");
 
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         locales: function() {
-            return fs.readdirSync("locales").join(",");
+            return grunt.file.expand("locales/*").join(",").replace(/locales\//g, "");
         },
         uglify: {
             options: {
