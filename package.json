@@ -1,5 +1,5 @@
 {
-  "name": "mines.js",
+  "name": "mines",
   "version": "0.0.1",
   "devDependencies": {
     "grunt": "*",

@@ -1,7 +1,28 @@
 module.exports = function(grunt) {
+    var fs = require("fs");
+
+    // from https://gist.github.com/kethinov/6658166
+    var walkSync = function(dir, filelist) {
+      var files = fs.readdirSync(dir);
+      var appcache = grunt.config('pkg.name')+'.appcache';
+      filelist = filelist || [];
+      files.forEach(function(file) {
+        if (fs.statSync(dir + file).isDirectory()) {
+          filelist = walkSync(dir + file + '/', filelist);
+        }
+        else if(file != appcache) {
+          filelist.push(dir+file);
+        }
+      });
+      return filelist;
+    };
+
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        locales: function() {
+            return fs.readdirSync("locales").join(",");
+        },
         uglify: {
             options: {
                 banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
@@ -61,14 +82,23 @@ module.exports = function(grunt) {
             }
         },
         copy: {
-            build: {
+            html: {
+                options: {
+                    process: function(file) {
+                        return file.replace("{{locales}}", grunt.config('locales'));
+                    }
+                },
                 files: [
                     {
                         expand: true,
                         cwd: 'assets',
                         src: ['*.html'],
                         dest: 'dist'
-                    },
+                    }
+                ]
+            },
+            build: {
+               files: [
                     { 'dist/mines.appcache': 'mines.appcache' },
                     { 'dist/manifest.webapp': 'manifest.webapp' },
                     {
@@ -90,6 +120,14 @@ module.exports = function(grunt) {
                         dest: 'dist/styles'
                     }
                 ]
+            },
+            appcache: {
+                options: {
+                    process: function(file) {
+                        return file.replace("{{version}}", grunt.config('pkg.version')).replace("{{assets}}", walkSync("dist/").join("\n").replace(/dist\//g,""));
+                    }
+                },
+                files: [ {'dist/mines.appcache': 'mines.appcache' } ]
             }
         },
         transifex: {
@@ -119,7 +157,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-transifex');
 
     // Default task(s).
-    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy']);
+    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:appcache']);
 
     grunt.registerTask('test', ['jshint', 'qunit']);
 };
