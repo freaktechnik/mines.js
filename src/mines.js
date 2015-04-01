@@ -197,7 +197,7 @@ Mines.prototype.countFlags = function() {
 Mines.prototype.nonMinesCovered = function() {
     if(!this.boardGenerated)
         return true;
-    var count = 0; this.mineCount;
+    var count = 0;
     return this.markedMines.reduce(function(p, row, y) {
         return p.concat(row);
     }, []).some(function(mine) {
@@ -305,7 +305,7 @@ Mines.prototype.uncoverCompleteCells = function(x, y) {
 
 Mines.prototype.cellIsFlagged = function(x, y) {
     return this.markedMines[y][x] == Mines.MINE_FLAG ? 1 : 0;
-}
+};
 
 Mines.prototype.cellFullyMarked = function(x, y) {
     if(Mines.MINE == this.board[y][x]) {
@@ -390,40 +390,40 @@ Mines.prototype.printEmptyBoard = function() {
         this.generateBoard();
     }
     else {
+        var start, row;
         if(this.context.childElementCount > this.dimensions[1]) {
-            var rowsToRemove = this.context.childElementCount - this.dimensions[1],
-                start = this.context.childElementCount - 1;
+            var rowsToRemove = this.context.childElementCount - this.dimensions[1];
+            start = this.context.childElementCount - 1;
             for(var i = 0; i < rowsToRemove; ++i) {
                 this.context.removeChild(this.context.rows[start - i]);
             }
         }
-        var row, start;
-        for(var i = 0; i < this.context.childElementCount; ++i) {
-            row = this.context.rows[i];
+        for(var j = 0; j < this.context.childElementCount; ++j) {
+            row = this.context.rows[j];
             start = row.childElementCount;
             if(start > this.dimensions[0]) {
                 var cellsToRemove = start - this.dimensions[0];
-                for(var j = 0; j < cellsToRemove; ++j) {
-                    row.removeChild(row.cells[start - j]);
+                for(var k = 0; k < cellsToRemove; ++k) {
+                    row.removeChild(row.cells[start - k]);
                 }
                 start = row.childElementCount;
             }
-            for(var k = 0; k < start; ++k) {
-                row.cells[k].textContent = "";
-                row.cells[k].className = COVERED_CLASS;
+            for(var l = 0; l < start; ++l) {
+                row.cells[l].textContent = "";
+                row.cells[l].className = COVERED_CLASS;
             }
             if(start < this.dimensions[0]) {
                 var cellsToAdd = this.dimensions[0] - start;
-                for(var j = 0; j < cellsToAdd; ++j) {
-                    row.appendChild(this.createCell(start+j, i));
+                for(var m = 0; m < cellsToAdd; ++m) {
+                    row.appendChild(this.createCell(start+m, j));
                 }
             }
         }
         if(this.context.childElementCount < this.dimensions[1]) {
-            var rowsToAdd = this.dimensions[1] - this.context.childElementCount,
-                start = this.context.childElementCount;
-            for(var i = 0; i < rowsToAdd; ++i) {
-                this.context.appendChild(this.createRow(start+i));
+            var rowsToAdd = this.dimensions[1] - this.context.childElementCount;
+            start = this.context.childElementCount;
+            for(var n = 0; n < rowsToAdd; ++n) {
+                this.context.appendChild(this.createRow(start+n));
             }
         }
     }
@@ -470,7 +470,7 @@ Mines.hasSavedState = function() {
 Mines.removeSavedState = function() {
     localStorage.setItem("savedGame", "false");
     localStorage.setItem("gameSettings", "");
-}
+};
 
 Mines.prototype.saveState = function() {
     var self = this;

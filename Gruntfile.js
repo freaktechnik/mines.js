@@ -40,8 +40,14 @@ module.exports = function(grunt) {
             files: ['test/**/*.html']
         },
         jshint: {
-            // define the files to lint
-            files: ['Gruntfile.js', 'assets/scripts/**/*.js', 'src/**/*.js', 'test/**/*.js']
+            test: {
+                options: {
+                    esnext: true
+                },
+                files: {
+                    src: ['Gruntfile.js', 'assets/scripts/**/*.js', 'src/**/*.js', 'test/**/*.js']
+                }
+            }
         },
         bower: {
             build: {
