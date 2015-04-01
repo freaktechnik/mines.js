@@ -1,22 +1,6 @@
 module.exports = function(grunt) {
     var fs = require("fs");
 
-    // from https://gist.github.com/kethinov/6658166
-    var walkSync = function(dir, filelist) {
-      var files = fs.readdirSync(dir);
-      var appcache = grunt.config('pkg.name')+'.appcache';
-      filelist = filelist || [];
-      files.forEach(function(file) {
-        if (fs.statSync(dir + file).isDirectory()) {
-          filelist = walkSync(dir + file + '/', filelist);
-        }
-        else if(file != appcache) {
-          filelist.push(dir+file);
-        }
-      });
-      return filelist;
-    };
-
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -124,10 +108,15 @@ module.exports = function(grunt) {
             appcache: {
                 options: {
                     process: function(file) {
-                        return file.replace("{{version}}", grunt.config('pkg.version')).replace("{{assets}}", walkSync("dist/").join("\n").replace(/dist\//g,""));
+                        return file.replace("{{version}}", grunt.config('pkg.version'))
+                                    .replace("{{assets}}", grunt.file.expand("dist/**/*")
+                                        .join("\n")
+                                        .replace(/dist\//g, "")
+                                        .replace(grunt.config('pkg.name')+".appcache\n","")
+                                    );
                     }
                 },
-                files: [ {'dist/mines.appcache': 'mines.appcache' } ]
+                files: [ {'dist/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
             }
         },
         transifex: {
