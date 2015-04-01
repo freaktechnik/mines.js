@@ -167,7 +167,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        clean: [ 'dist' ],
+        clean: [ 'dist', '*.zip' ],
         "es6transpiler": {
             bowerlibs: {
                 options: {
@@ -191,6 +191,17 @@ module.exports = function(grunt) {
                 tasks: 'dev'
             },
             files: '**'
+        },
+        compress: {
+            main: {
+                options: {
+                    archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
+                },
+                expand: true,
+                cwd: 'dist/',
+                src: ['**/*'],
+                dest: '/'
+            }
         }
     });
 
@@ -204,9 +215,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-transifex');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-compress');
 
     // Default task(s).
     grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'es6transpiler', 'copy:appcache']);
+
+    grunt.registerTask('package', ['default', 'compress']);
 
     grunt.registerTask('dev', ['bower', 'copy:dev', 'copy:html', 'copy:build', 'es6transpiler', 'copy:devappcache']);
 
