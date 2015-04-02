@@ -1,6 +1,6 @@
 Mines
 =====
-Mines is a webapp minesweeper clone. It orients itself at the Firefox OS style. There is no public packaged version yet, but you can try a snapshot of the app on http://lab.humanoids.be/mines.js
+Mines is a webapp minesweeper clone. It orients itself at the Firefox OS style. There is no public packaged version yet, but the web version is found at http://humanids.be/mines
 
 Translate
 ---------

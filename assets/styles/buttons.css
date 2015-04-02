@@ -179,7 +179,7 @@ li [role="button"].icon-view:active {
 
 li button.icon-view:before,
 li [role="button"].icon-view:before {
-  background-image: url("buttons/images/forward-light.svg");
+  background-image: url("../images/buttons/forward-light.svg");
   background-size: 3rem;
   right: 0;
 }

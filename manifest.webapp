@@ -2,6 +2,8 @@
   "name": "Mines",
   "description": "Yet another Minesweeper clone with custom boards and mine-flagging",
   "launch_path": "/index.html",
+  "appcache_path": "/mines.appcache",
+  "version": "{{version}}",
   "icons": {
     "16": "/images/icon-16.png",
     "32": "/images/icon-32.png",
@@ -15,7 +17,7 @@
   "developer": {
     "name": "Martin Giger",
     "url": "http://humanoids.be"
-  },
+  }, 
   "default_locale": "en",
   "locales": {
     "en": {
@@ -30,5 +32,7 @@
         "name": "Minas",
         "description": "Anc in clon da Minesweeper cun tavlas persunalisadas e marcar minas"
     }
-  }
+  },
+  "csp": "default-src 'self'; script-src 'self' unsafe-inline; style-src 'self' unsafe-inline",
+  "fullscreen": "true"
 }

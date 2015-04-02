@@ -110,8 +110,6 @@ module.exports = function(grunt) {
             },
             build: {
                files: [
-                    { 'dist/mines.appcache': 'mines.appcache' },
-                    { 'dist/manifest.webapp': 'manifest.webapp' },
                     {
                         expand: true,
                         cwd: 'locales',
@@ -126,17 +124,19 @@ module.exports = function(grunt) {
                     },
                     {
                         expand: true,
-                        cwd: 'assets/styles',
-                        src: ['**', '!*.css'],
-                        dest: 'dist/styles'
-                    },
-                    {
-                        expand: true,
                         cwd: 'assets/images',
-                        src: ['**/*.png'],
+                        src: ['**/*.png', '**/*.svg', '**/*.jpg'],
                         dest: 'dist/images'
                     }
                 ]
+            },
+            manifest: {
+                options: {
+                    process: function(file) {
+                        return file.replace("{{version}}", grunt.config('pkg.version'));
+                    }
+                },
+                files: { 'dist/manifest.webapp': 'manifest.webapp' }
             },
             appcache: {
                 options: {
@@ -248,11 +248,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
 
     // Default task(s).
-    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'es6transpiler:bowerlibs', 'copy:appcache']);
+    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:appcache']);
 
     grunt.registerTask('package', ['default', 'compress']);
 
-    grunt.registerTask('dev', ['bower', 'copy:dev', 'copy:html', 'copy:build', 'es6transpiler', 'copy:devappcache']);
+    grunt.registerTask('dev', ['bower', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
 
     grunt.registerTask('test', ['es6transpiler:test', 'jshint', 'qunit', 'clean:test']);
 };

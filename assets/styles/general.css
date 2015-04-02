@@ -1,5 +1,6 @@
 body {
     font-family: FiraSans;
+    overflow: auto;
 }
 
 gaia-header {
