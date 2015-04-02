@@ -65,6 +65,7 @@ table {
     color: black;
     white-space: nowrap;
 }
+
 td {
     display: inline-block;
     min-width: 2em;
@@ -79,6 +80,12 @@ td {
     font-weight: bold;
     position: relative;
 }
+
+.high-contrast td {
+    outline: 2px black;
+    background: white;
+}
+
 .air {
     color: transparent;
 }
@@ -106,6 +113,11 @@ td {
 .eight {
     color: black;
 }
+
+.high-contrast td:not(.air) {
+    color: black !important;
+}
+
 .mine {
     font-family: mine;
     font-weight: initial;
@@ -114,12 +126,24 @@ td {
     border: 3px outset lightgray;
     color: transparent;
 }
+
+.high-contrast .covered {
+    border: 3px solid white;
+    background: black;
+}
+
 table:not(.done) .covered:active {
     border: 3px inset gray;
 }
+
 .gameover .covered.mine {
     color: initial;
 }
+
+.high-contrast .gameover .covered.mine {
+    color: white !important;
+}
+
 .flagged::before {
     content: "flag";
     color: red;
@@ -131,6 +155,16 @@ table:not(.done) .covered:active {
     font-style: normal;
     text-rendering: optimizelegibility;
 }
+
+.high-contrast td.flagged {
+    background-color: red;
+    color: red !important;
+}
+
+.high-contrast .flagged::before {
+    color: transparent;
+}
+
 .done:not(.gameover) {
     box-shadow: 0 0 3em green;
 }
