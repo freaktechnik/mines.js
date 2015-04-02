@@ -43,6 +43,13 @@ footer span {
 
 #fieldcontainer {
     margin-bottom: 45px;
+    display:flex;
+    justify-content:space-between;
+    flex-flow:column wrap
+}
+
+.spacer {
+    flex: 2;
 }
 
 table {
@@ -54,7 +61,7 @@ table {
     font-family: FiraSans;
     transition-property: box-shadow;
     transition-duration: .5s;
-    margin: 3em auto;
+    margin: 1px auto;
     color: black;
     white-space: nowrap;
 }
