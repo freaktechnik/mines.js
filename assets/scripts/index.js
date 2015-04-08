@@ -4,14 +4,15 @@ if(Mines.hasSavedState()) {
 }
 
 var buttons = document.querySelectorAll(".gaia-list button");
-for(var b = 0; b < buttons.length; ++b) {
-    buttons[b].addEventListener("click", function(e) {
+var listener = function(e) {
         if("custom" == e.target.dataset.difficulty) {
             window.location = "custom.html";
         }
         else {
             window.location = "mines.html#"+e.target.dataset.difficulty;
         }
-    });
+    };
+for(var b = 0; b < buttons.length; ++b) {
+    buttons[b].addEventListener("click", listener);
 }
 

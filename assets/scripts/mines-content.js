@@ -40,7 +40,7 @@ document.getElementById("reset").addEventListener("click", function() {
 }, false);
 
 field.addEventListener("loose", function() {
-    window.navigator.vibrate(1500)
+    window.navigator.vibrate(1500);
 });
 
 field.addEventListener("reset", function() {
