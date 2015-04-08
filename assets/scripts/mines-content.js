@@ -39,11 +39,24 @@ document.getElementById("reset").addEventListener("click", function() {
     mines.reset();
 }, false);
 
+//TODO restore time if there's a saved one and delete said save
+var timer = new Timer(0, document.getElementById("time"));
+
+field.addEventListener("generated", function() {
+    timer.start();
+});
+
 field.addEventListener("loose", function() {
+    timer.pause();
     window.navigator.vibrate(1500);
 });
 
+field.addEventListener("win", function() {
+    timer.pause();
+});
+
 field.addEventListener("reset", function() {
+    timer.reset();
     document.getElementById("flagtoggle").dataset.l10nId = UNCOVER;
     document.getElementById("flagtoggle").dataset.icon = UNCOVER_ICON;
     output.value = mines.mineCount;
@@ -72,8 +85,10 @@ document.getElementById("flagtoggle").addEventListener("click", function(e) {
 }, false);
 
 window.addEventListener("beforeunload", function() {
-    if(!mines.done && mines.boardGenerated)
+    if(!mines.done && mines.boardGenerated) {
+        timer.stop(); //TODO store return value
         mines.saveState();
+    }
 }, false);
 
 document.getElementById("header").addEventListener("action", function() {

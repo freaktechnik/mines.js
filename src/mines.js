@@ -148,11 +148,12 @@ Mines.prototype.generate = function(emptyPoint) {
     }
     this.boardGenerated = true;
     this.printBoard();
+    this.context.dispatchEvent(new Event("generated"));
 };
 
 Mines.prototype.addMine = function(x, y) {
     this.board[y][x] = Mines.MINE;
-    
+
     // Mark the mine around itself
     var left = x > 0, right = x < this.dimensions[0] - 1;
     if(y > 0) {
@@ -211,7 +212,7 @@ Mines.prototype.nonMinesCovered = function() {
 };
 
 Mines.prototype.getCell = function(x, y) {
-    if(x >= 0 && y >= 0 && x < this.dimensions[0] && y < this.dimensions[1]) 
+    if(x >= 0 && y >= 0 && x < this.dimensions[0] && y < this.dimensions[1])
         return this.context.rows[y].cells[x];
     else
         return null;
@@ -494,7 +495,7 @@ Mines.restoreSavedState = function(cfx) {
         if(settings.mode == Mines.MODE_FLAG)
             mines.toggleMode();
 
-        mines.restoreBoard();    
+        mines.restoreBoard();
 
         return mines;
     }

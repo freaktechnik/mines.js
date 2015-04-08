@@ -14,7 +14,18 @@ function Timer(offset, output) {
 
 Timer.prototype.updateOutput = function(time) {
     time = time || Date.now() - this.startTime;
-    this.output.value = Math.round(time/1000, 2);
+    this.output.value = (time/1000.0).toFixed(1);
+};
+
+Timer.prototype.reset = function() {
+    this.startTime = 0;
+    this.offset = 0;
+    this.updateOutput(0.00001);
+    this.running = false;
+    if(this.interval) {
+        clearInterval(this.interval);
+        this.interval = 0;
+    }
 };
 
 Timer.prototype.start = function() {
@@ -22,7 +33,7 @@ Timer.prototype.start = function() {
         this.startTime = Date.now() - this.offset;
         this.running = true;
         if(this.output) {
-            this.interval = setInterval(this.updateOutput().bind(this), 10);
+            this.interval = setInterval(this.updateOutput.bind(this), 100);
             this.output.dispatchEvent(new Event("start"));
         }
     }
@@ -34,6 +45,7 @@ Timer.prototype.pause = function() {
         this.running = false;
         if(this.interval) {
             clearInterval(this.interval);
+            this.interval = 0;
             this.updateOutput(this.offset);
             this.output.dispatchEvent(new CustomEvent("pause", { detail: this.offset }));
         }
@@ -46,9 +58,11 @@ Timer.prototype.stop = function() {
         this.running = false;
         if(this.interval) {
             clearInterval(this.interval);
+            this.interval = 0;
             this.updateOutput(time);
             this.output.dispatchEvent(new CustomEvent("stop", { detail: time }));
         }
+        this.reset();
         return time;
     }
 };

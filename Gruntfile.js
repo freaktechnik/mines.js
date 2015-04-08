@@ -71,12 +71,16 @@ module.exports = function(grunt) {
                 }
             }
         },
+        concat: {
+            dev: {
+                files: [{
+                    'dist/mines.min.js': 'src/*.js'
+                }]
+            }
+        },
         copy: {
             dev: {
                 files: [
-                    {
-                        'dist/mines.min.js': 'src/*.js',
-                    },
                     {
                         expand: true,
                         cwd: 'assets/scripts',
@@ -249,13 +253,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-transifex');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 
     // Default task(s).
     grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:appcache']);
 
     grunt.registerTask('package', ['default', 'compress']);
 
-    grunt.registerTask('dev', ['bower', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
+    grunt.registerTask('dev', ['bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
 
     grunt.registerTask('test', ['es6transpiler:test', 'jshint', 'qunit', 'clean:test']);
 };
