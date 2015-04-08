@@ -39,6 +39,10 @@ document.getElementById("reset").addEventListener("click", function() {
     mines.reset();
 }, false);
 
+field.addEventListener("loose", function() {
+    window.navigator.vibrate(1500)
+});
+
 field.addEventListener("reset", function() {
     document.getElementById("flagtoggle").dataset.l10nId = UNCOVER;
     document.getElementById("flagtoggle").dataset.icon = UNCOVER_ICON;
@@ -46,10 +50,12 @@ field.addEventListener("reset", function() {
 }, false);
 
 field.addEventListener("flagged", function() {
+    window.navigator.vibrate(100);
     output.value = parseInt(output.value, 10) - 1;
 }, false);
 
 field.addEventListener("unflagged", function() {
+    window.navigator.vibrate(100);
     output.value = parseInt(output.value, 10) + 1;
 }, false);
 
