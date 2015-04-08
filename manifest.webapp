@@ -33,6 +33,6 @@
         "description": "Anc in clon da Minesweeper cun tavlas persunalisadas e marcar minas"
     }
   },
-  "csp": "default-src 'self'; script-src 'self' unsafe-inline; style-src 'self' unsafe-inline",
+  "csp": "default-src 'self'; script-src 'self'; style-src 'self' unsafe-inline",
   "fullscreen": "true"
 }
