@@ -68,15 +68,15 @@ table {
 
 td {
     display: inline-block;
-    min-width: 2em;
-    min-height: 2em;
+    min-width: 1.5em;
+    min-height: 1.5em;
     background: lightgray;
     outline: 1px solid gray;
     border: 3px solid transparent;
     padding: 0;
     cursor: default;
     text-align: center;
-    line-height: 2em;
+    line-height: 1.5em;
     font-weight: bold;
     position: relative;
 }
@@ -149,7 +149,7 @@ table:not(.done) .covered:active {
     color: red;
     font-size: 1.2em;
     position: absolute;
-    left: .6em;
+    left: .4em;
     font-weight: 500;
     font-family: "gaia-icons";
     font-style: normal;
