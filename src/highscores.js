@@ -15,7 +15,7 @@ var Highscores = {
         // DB already set up
         request.onsuccess = (function(e) {
             this.db = e.target.result;
-            this.ready = true;
+            this.setReady();
         }).bind(this);
 
         request.onerror = console.error.bind(console);
@@ -26,7 +26,11 @@ var Highscores = {
         var scores = this.db.createObjectStore(this.TABLE, { keyPath: "score" });
         scores.createIndex("game", "game", { unique: false });
 
+        this.setReady();
+    },
+    setReady: function() {
         this.ready = true;
+        document.dispatchEvent(new Event("dbready"));
     },
     clear: function() {
         var transaction = this.db.transaction(this.TABLE, "readwrite");
@@ -35,7 +39,7 @@ var Highscores = {
     },
     isNewTop: function(gameDescription, score, cbk) {
         this.getTop(gameDescription, 1, function(top) {
-            cbk(score > top.score);
+            cbk(!top.length || score < top[0].score);
         });
     },
     save: function(gameDescription, score, name) {

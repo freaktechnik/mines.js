@@ -23,10 +23,9 @@ function getMinesFromHash(hash, field) {
     }
 }
 
-var preset = document.location.hash.substr(1),
-    field = document.getElementById("field"),
+var field = document.getElementById("field"),
     output = document.getElementById("minecount"),
-    mines = getMinesFromHash(preset, field);
+    mines = getMinesFromHash(document.location.hash.substr(1), field);
 
 const UNCOVER = "mines_mode_uncover";
 const FLAG = "mines_mode_flag";
@@ -34,6 +33,10 @@ const UNCOVER_ICON = "brightness";
 const FLAG_ICON = "flag";
 
 output.value = mines.mineCount - mines.countFlags();
+
+function gameDescriptionFromMines(mines) {
+    return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
+}
 
 document.getElementById("reset").addEventListener("click", function() {
     mines.reset();
@@ -61,6 +64,21 @@ field.addEventListener("loose", function() {
 
 field.addEventListener("win", function() {
     timer.pause();
+    var game = gameDescriptionFromMines(mines);
+    var time = timer.getTime();
+    Highscores.isNewTop(game, time, function(newTop) {
+        if(newTop) {
+            var lastUser = localStorage.getItem("highscoreUser");
+            if(lastUser === null)
+                lastUser = "";
+            var user = window.prompt(document.querySelector("[data-l10n-id='mines_new_highscore']").textContent, lastUser);
+            if(user) {
+                console.log("saving");
+                localStorage.setItem("highscoreUser", user);
+                Highscores.save(game, time, user);
+            }
+        }
+    });
 });
 
 field.addEventListener("reset", function() {

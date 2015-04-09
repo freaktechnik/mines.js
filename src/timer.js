@@ -29,6 +29,13 @@ Timer.prototype.reset = function() {
     this.output.dispatchEvent(new Event("reset"));
 };
 
+Timer.prototype.getTime = function() {
+    if(!this.running)
+        return this.offset;
+    else
+        return Date.now() - this.startTime;
+};
+
 Timer.prototype.start = function() {
     if(!this.running) {
         this.startTime = Date.now() - this.offset;
