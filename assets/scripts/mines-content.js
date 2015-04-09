@@ -1,6 +1,13 @@
+function deleteSave() {
+    Mines.removeSavedState();
+    localStorage.setItem("savedTime", "false");
+    localStorage.setItem("time", "0");
+}
+
 function getMinesFromHash(hash, field) {
     if(hash.charAt(0) == "r") {
         var mines = Mines.restoreSavedState(field);
+        restoredSavedBoard = true;
         if(!mines) {
             window.alert(document.querySelector("[data-l10n-id='mines_restore_error']").textContent);
             Mines.removeSavedState();
@@ -11,6 +18,7 @@ function getMinesFromHash(hash, field) {
         }
     }
     else {
+        deleteSave();
         var preset;
         if(hash.charAt(0) == "c") {
             var vals = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/);
