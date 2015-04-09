@@ -16,7 +16,16 @@ gaia-header {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
+    visibility: hidden;
+}
+
+.visuallyhidden {
+    position: fixed;
+    top: -10px;
+    left: -10px;
+    height: 0;
+    width: 0;
     visibility: hidden;
 }
 

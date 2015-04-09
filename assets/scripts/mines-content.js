@@ -73,7 +73,7 @@ field.addEventListener("loose", function() {
 field.addEventListener("win", function() {
     timer.pause();
     var game = gameDescriptionFromMines(mines);
-    var time = timer.getTime();
+    var time = timer.getTime()/1000.0;
     Highscores.isNewTop(game, time, function(newTop) {
         if(newTop) {
             var lastUser = localStorage.getItem("highscoreUser");
@@ -83,7 +83,7 @@ field.addEventListener("win", function() {
             if(user) {
                 console.log("saving");
                 localStorage.setItem("highscoreUser", user);
-                Highscores.save(game, time, user);
+                Highscores.save(game, time.toFixed(2), user);
             }
         }
     });
