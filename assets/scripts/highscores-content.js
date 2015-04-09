@@ -19,7 +19,7 @@ function highscoreListItem(name, time) {
     var divA = document.createElement("div");
     var divB = document.createElement("div");
     var nameNode = document.createTextNode(name);
-    var timeNode = document.createTextNode(time);
+    var timeNode = document.createTextNode(time+"s");
 
     li.classList.add("dynamic");
     divA.classList.add("fit");
