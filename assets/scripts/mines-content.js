@@ -39,8 +39,16 @@ document.getElementById("reset").addEventListener("click", function() {
     mines.reset();
 }, false);
 
-//TODO restore time if there's a saved one and delete said save
-var timer = new Timer(0, document.getElementById("time"));
+var time = 0;
+if(localStorage.getItem("savedTime") == "true") {
+    time = parseInt(localStorage.getItem("time"), 10);
+    localStorage.setItem("savedTime", "false");
+    localStorage.setItem("time", "0");
+}
+var timer = new Timer(time, document.getElementById("time"));
+if(time !== 0) {
+    timer.start();
+}
 
 field.addEventListener("generated", function() {
     timer.start();
@@ -86,7 +94,8 @@ document.getElementById("flagtoggle").addEventListener("click", function(e) {
 
 window.addEventListener("beforeunload", function() {
     if(!mines.done && mines.boardGenerated) {
-        timer.stop(); //TODO store return value
+        localStorage.setItem("time", timer.stop());
+        localStorage.setItem("savedTime", "true");
         mines.saveState();
     }
 }, false);
