@@ -210,7 +210,8 @@ module.exports = function(grunt) {
                         "Event": true,
                         "Math": true,
                         "CustomEvent": true,
-                        "Date": true
+                        "Date": true,
+                        "IDBKeyRange": true
                     }
                 },
                 files: [
@@ -260,7 +261,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('package', ['default', 'compress']);
 
-    grunt.registerTask('dev', ['bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
+    grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
 
     grunt.registerTask('test', ['es6transpiler:test', 'jshint', 'qunit', 'clean:test']);
 };
