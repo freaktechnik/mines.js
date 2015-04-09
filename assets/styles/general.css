@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'mine';
+  src: url('../font/mine.eot');
+  src: url('../font/mine.eot#iefix') format('embedded-opentype'),
+       url('../font/mine.woff') format('woff'),
+       url('../font/mine.ttf') format('truetype'),
+       url('../font/mine.svg#mine') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
     font-family: FiraSans;
     overflow: auto;
@@ -27,5 +38,12 @@ gaia-header {
     height: 0;
     width: 0;
     visibility: hidden;
+}
+
+.custom_icon {
+    font-family: mine;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 30px;
 }
 

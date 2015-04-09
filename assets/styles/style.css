@@ -1,14 +1,3 @@
-@font-face {
-  font-family: 'mine';
-  src: url('../font/mine.eot?13636850');
-  src: url('../font/mine.eot?13636850#iefix') format('embedded-opentype'),
-       url('../font/mine.woff?13636850') format('woff'),
-       url('../font/mine.ttf?13636850') format('truetype'),
-       url('../font/mine.svg?13636850#mine') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
 footer {
     position: fixed;
     bottom: 0;
