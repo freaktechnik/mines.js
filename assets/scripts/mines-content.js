@@ -81,7 +81,6 @@ field.addEventListener("win", function() {
                 lastUser = "";
             var user = window.prompt(document.querySelector("[data-l10n-id='mines_new_highscore']").textContent, lastUser);
             if(user) {
-                console.log("saving");
                 localStorage.setItem("highscoreUser", user);
                 Highscores.save(game, time.toFixed(2), user);
             }
