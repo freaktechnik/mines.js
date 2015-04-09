@@ -31,6 +31,8 @@
     "rm": {
         "name": "Minas",
         "description": "Anc in clon da Minesweeper cun tavlas persunalisadas e marcar minas"
+    },
+    "el": {
     }
   },
   "csp": "default-src 'self'; script-src 'self'; style-src 'self' unsafe-inline",

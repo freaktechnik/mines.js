@@ -4,8 +4,9 @@ var list = document.getElementById("highscores");
 var noresults = document.getElementById("noresults");
 
 function gameDescriptionFromValue(val, callback) {
-    var [ size, mines ] = val.split(":");
-    size = size.split("x");
+    var mines = val.split(":");
+    var size = mines[0].split("x");
+    mines = mines[1];
     var string = document.querySelector("[data-l10n-id='highscores_custom_board']");
     navigator.mozL10n.setAttributes(string, "highscores_custom_board", { width: size[0], height: size[1], mines: mines });
     navigator.mozL10n.once(function() {
