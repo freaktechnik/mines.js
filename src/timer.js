@@ -26,6 +26,7 @@ Timer.prototype.reset = function() {
         clearInterval(this.interval);
         this.interval = 0;
     }
+    this.output.dispatchEvent(new Event("reset"));
 };
 
 Timer.prototype.start = function() {
