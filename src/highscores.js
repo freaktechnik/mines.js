@@ -18,7 +18,9 @@ var Highscores = {
             this.setReady();
         }).bind(this);
 
-        request.onerror = console.error.bind(console);
+        request.onerror = function(e) {
+            console.error(request.error);
+        };
     },
     setupDB: function(e) {
         this.db = e.target.result;
