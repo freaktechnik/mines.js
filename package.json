@@ -2,6 +2,7 @@
   "name": "mines",
   "version": "0.1.2",
   "devDependencies": {
+    "bower": "*",
     "grunt": "*",
     "grunt-bower": "^0.18.0",
     "grunt-contrib-clean": "^0.6.0",
@@ -22,5 +23,8 @@
     "url": "git://github.com/freaktechnik/mines.js.git"
   },
   "author": "Martin Giger",
-  "license": "MPLv2"
+  "license": "MPLv2",
+  "scripts": {
+    "test": "grunt test"
+  }
 }

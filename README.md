@@ -10,8 +10,8 @@ Build
 -----
 This project can be built using grunt. Run
 ```
-bower install
 npm install
+bower install
 grunt
 ```
 
