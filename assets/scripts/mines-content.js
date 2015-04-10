@@ -7,7 +7,10 @@ function deleteSave() {
 function getMinesFromHash(hash, field) {
     if(hash.charAt(0) == "r") {
         var mines = Mines.restoreSavedState(field);
-        restoredSavedBoard = true;
+        if(mines.mode == Mines.MODE_FLAG) {
+            document.getElementById("flagtoggle").dataset.l10nId = FLAG;
+            document.getElementById("flagtoggle").dataset.icon = FLAG_ICON;
+        }
         if(!mines) {
             window.alert(document.querySelector("[data-l10n-id='mines_restore_error']").textContent);
             Mines.removeSavedState();
