@@ -3,6 +3,15 @@ const FLAG = "mines_mode_flag";
 const UNCOVER_ICON = "brightness";
 const FLAG_ICON = "flag";
 
+if(!localStorage.getItem("vibration")) {
+    localStorage.setItem("vibration", "enabled");
+}
+
+function vibrate(time) {
+    if(localStorage.getItem("vibration") == "enabled")
+        navigator.vibrate(time);
+}
+
 function deleteSave() {
     Mines.removeSavedState();
     localStorage.setItem("savedTime", "false");
@@ -70,7 +79,7 @@ field.addEventListener("generated", function() {
 
 field.addEventListener("loose", function() {
     timer.pause();
-    window.navigator.vibrate(1000);
+    vibrate(1000);
 });
 
 field.addEventListener("win", function() {
@@ -99,12 +108,14 @@ field.addEventListener("reset", function() {
 }, false);
 
 field.addEventListener("flagged", function() {
-    window.navigator.vibrate(50);
+    if(document.getElementById("flagtoggle").dataset.l10nId == UNCOVER)
+        vibrate(50);
     output.value = parseInt(output.value, 10) - 1;
 }, false);
 
 field.addEventListener("unflagged", function() {
-    window.navigator.vibrate(50);
+    if(document.getElementById("flagtoggle").dataset.l10nId == UNCOVER)
+        vibrate(50);
     output.value = parseInt(output.value, 10) + 1;
 }, false);
 
@@ -130,4 +141,4 @@ window.addEventListener("beforeunload", function() {
 
 document.getElementById("header").addEventListener("action", function() {
     window.location = "index.html";
-}, false);
+}, false);vib
