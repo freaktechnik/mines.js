@@ -33,6 +33,8 @@
         "description": "Anc in clon da Minesweeper cun tavlas persunalisadas e marcar minas"
     },
     "el": {
+        "name": "Mines",
+        "description": "Ακόμα ένας κλώνος Minesweeper με προσαρμοσμένα πίνακες και η δική μου η υπαγωγή"
     }
   },
   "csp": "default-src 'self'; script-src 'self'; style-src 'self' unsafe-inline",
