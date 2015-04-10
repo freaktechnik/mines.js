@@ -37,6 +37,6 @@
         "description": "Ακόμα ένας κλώνος Minesweeper με προσαρμοσμένα πίνακες και η δική μου η υπαγωγή"
     }
   },
-  "csp": "default-src 'self'; script-src 'self'; style-src 'self' unsafe-inline",
+  "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'",
   "fullscreen": "true"
 }

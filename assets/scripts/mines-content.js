@@ -1,3 +1,8 @@
+const UNCOVER = "mines_mode_uncover";
+const FLAG = "mines_mode_flag";
+const UNCOVER_ICON = "brightness";
+const FLAG_ICON = "flag";
+
 function deleteSave() {
     Mines.removeSavedState();
     localStorage.setItem("savedTime", "false");
@@ -7,16 +12,16 @@ function deleteSave() {
 function getMinesFromHash(hash, field) {
     if(hash.charAt(0) == "r") {
         var mines = Mines.restoreSavedState(field);
-        if(mines.mode == Mines.MODE_FLAG) {
-            document.getElementById("flagtoggle").dataset.l10nId = FLAG;
-            document.getElementById("flagtoggle").dataset.icon = FLAG_ICON;
-        }
         if(!mines) {
             window.alert(document.querySelector("[data-l10n-id='mines_restore_error']").textContent);
             Mines.removeSavedState();
             window.location = "index.html";
         }
         else {
+            if(mines.mode == Mines.MODE_FLAG) {
+                document.getElementById("flagtoggle").dataset.l10nId = FLAG;
+                document.getElementById("flagtoggle").dataset.icon = FLAG_ICON;
+            }
             return mines;
         }
     }
@@ -37,11 +42,6 @@ function getMinesFromHash(hash, field) {
 var field = document.getElementById("field"),
     output = document.getElementById("minecount"),
     mines = getMinesFromHash(document.location.hash.substr(1), field);
-
-const UNCOVER = "mines_mode_uncover";
-const FLAG = "mines_mode_flag";
-const UNCOVER_ICON = "brightness";
-const FLAG_ICON = "flag";
 
 output.value = mines.mineCount - mines.countFlags();
 
@@ -70,7 +70,7 @@ field.addEventListener("generated", function() {
 
 field.addEventListener("loose", function() {
     timer.pause();
-    window.navigator.vibrate(1500);
+    window.navigator.vibrate(1000);
 });
 
 field.addEventListener("win", function() {
@@ -99,12 +99,12 @@ field.addEventListener("reset", function() {
 }, false);
 
 field.addEventListener("flagged", function() {
-    window.navigator.vibrate(100);
+    window.navigator.vibrate(50);
     output.value = parseInt(output.value, 10) - 1;
 }, false);
 
 field.addEventListener("unflagged", function() {
-    window.navigator.vibrate(100);
+    window.navigator.vibrate(50);
     output.value = parseInt(output.value, 10) + 1;
 }, false);
 
