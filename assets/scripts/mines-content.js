@@ -141,4 +141,4 @@ window.addEventListener("beforeunload", function() {
 
 document.getElementById("header").addEventListener("action", function() {
     window.location = "index.html";
-}, false);vib
+}, false);
