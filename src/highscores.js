@@ -8,7 +8,7 @@ var Highscores = {
     db: null,
     ready: false,
     init: function() {
-        var request = window.indexedDB.open("highscores", this.version);
+        var request = window.indexedDB.open("highscores", this.VERSION);
 
         // Create DB if needed
         request.onupgradeneeded = this.setupDB.bind(this);
