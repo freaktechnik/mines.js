@@ -41,7 +41,10 @@ Timer.prototype.start = function() {
         this.startTime = Date.now() - this.offset;
         this.running = true;
         if(this.output) {
-            this.interval = setInterval(this.updateOutput.bind(this), 100);
+            var that = this;
+            this.interval = setInterval(function() {
+                that.updateOutput();
+            }, 100);
             this.output.dispatchEvent(new Event("start"));
         }
     }
@@ -67,7 +70,6 @@ Timer.prototype.stop = function() {
         if(this.interval) {
             clearInterval(this.interval);
             this.interval = 0;
-            this.updateOutput(time);
             this.output.dispatchEvent(new CustomEvent("stop", { detail: time }));
         }
         this.reset();
