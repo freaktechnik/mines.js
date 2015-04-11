@@ -226,47 +226,42 @@ Mines.prototype.getCell = function(x, y) {
 };
 
 Mines.prototype.uncoverCell = function(x, y) {
-    var cell = this.getCell(x, y);
-    if(this.markedMines[y][x] === Mines.MINE_UNKNOWN) {
+    if(this.markedMines[y][x] === Mines.MINE_UNKNOWN && !this.done) {
         if(!this.boardGenerated) {
             this.generate([x, y]);
         }
-        else {
-            if(Mines.MINE == this.board[y][x]) {
-                this.gameOver();
-                return;
-            }
-        }
+
+        var cell = this.getCell(x, y);
         cell.classList.remove(COVERED_CLASS);
         cell.setAttribute("aria-pressed", "true");
         this.markedMines[y][x] = Mines.MINE_KNOWN;
 
-        if(!this.nonMinesCovered()) {
-            this.win();
-            return;
+        if(Mines.MINE == this.board[y][x]) {
+            this.gameOver();
         }
-        else {
-            if(this.cellFullyMarked(x, y)) {
-                var left = x > 0, right = x < this.dimensions[0] - 1;
-                if(y > 0) {
-                    this.uncoverCell(x, y-1);
-                    if(left)
-                        this.uncoverCell(x-1, y-1);
-                    if(right)
-                        this.uncoverCell(x+1, y-1);
-                }
-                if(y < this.dimensions[1] - 1) {
-                    this.uncoverCell(x, y+1);
-                    if(left)
-                        this.uncoverCell(x-1, y+1);
-                    if(right)
-                        this.uncoverCell(x+1, y+1);
-                }
+        else if(!this.nonMinesCovered()) {
+            this.win();
+        }
+        else if(this.cellFullyMarked(x, y)) {
+            var left = x > 0, right = x < this.dimensions[0] - 1;
+            if(y > 0) {
+                this.uncoverCell(x, y-1);
                 if(left)
-                    this.uncoverCell(x-1, y);
+                    this.uncoverCell(x-1, y-1);
                 if(right)
-                    this.uncoverCell(x+1, y);
+                    this.uncoverCell(x+1, y-1);
             }
+            if(y < this.dimensions[1] - 1) {
+                this.uncoverCell(x, y+1);
+                if(left)
+                    this.uncoverCell(x-1, y+1);
+                if(right)
+                    this.uncoverCell(x+1, y+1);
+            }
+            if(left)
+                this.uncoverCell(x-1, y);
+            if(right)
+                this.uncoverCell(x+1, y);
         }
     }
 };
