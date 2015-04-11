@@ -28,7 +28,8 @@
 }
 
 [role="toolbar"] button:active,
-[role="toolbar"] a:active {
+[role="toolbar"] a:active,
+[data-whatinput='keyboard'] [role="toolbar"] button:focus {
   background-image: none;
   color: #fff;
   background-color: #b2f2ff;

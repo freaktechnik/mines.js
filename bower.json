@@ -28,6 +28,7 @@
   "dependencies": {
     "gaia-fonts": "gaia-components/gaia-fonts#~0.2.1",
     "gaia-header": "gaia-components/gaia-header#~0.8.1",
-    "webcomponentsjs": "~0.6.0"
+    "webcomponentsjs": "~0.6.0",
+    "what-input": "*"
   }
 }

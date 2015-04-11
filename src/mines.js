@@ -66,6 +66,13 @@ function Mines(cfx, dimensions, mineCount) {
 
     this.printEmptyBoard();
 
+    var self = this;
+    this.context.addEventListener("keypress", function(e) {
+        if(e.key == "r") {
+            self.reset();
+        }
+    }, false);
+
     if(Mines.hasSavedState())
         Mines.removeSavedState();
 }
@@ -347,6 +354,7 @@ Mines.prototype.createCell = function(x, y) {
     cell.classList.add(COVERED_CLASS);
     cell.setAttribute("aria-pressed", "false");
     cell.setAttribute("role", "gridcell");
+    cell.setAttribute("tabindex", 0);
 
     var self = this;
     cell.addEventListener("click", function(e) {
@@ -367,7 +375,54 @@ Mines.prototype.createCell = function(x, y) {
         e.preventDefault();
         if(!self.done && self.markedMines[y][x] !== Mines.MINE_KNOWN)
             self.flagCell(x, y);
-    });
+    }, false);
+    cell.addEventListener("keypress", function(e) {
+        if(e.key == "ArrowUp" || e.key == "PageUp") {
+            if(y > 0)
+                self.getCell(x, y-1).focus();
+            e.preventDefault();
+            cell.scrollIntoView(true);
+            // scrollIntoView doesn't really work with the fixed header and footer, sadly
+        }
+        else if(e.key == "ArrowDown" || e.key == "PageDown") {
+            if(y < self.dimensions[1] - 1)
+                self.getCell(x, y+1).focus();
+            e.preventDefault();
+            cell.scrollIntoView();
+        }
+        else if(e.key == "ArrowLeft") {
+            if(x > 0)
+                self.getCell(x-1, y).focus();
+            e.preventDefault();
+            cell.scrollIntoView();
+        }
+        else if(e.key == "ArrowRight") {
+            if(x < self.dimensions[0] - 1)
+                self.getCell(x+1, y).focus();
+            e.preventDefault();
+            cell.scrollIntoView();
+        }
+        else if(e.key == "Home") {
+            self.getCell(0, 0).focus();
+        }
+        else if(e.key == "End") {
+            self.getCell(self.dimensions[0]-1, self.dimensions[1]-1).focus();
+        }
+        else if(e.key == "r") {
+            self.reset();
+        }
+        else if(e.key == " ") {
+            cell.click();
+        }
+        else if(!self.done) {
+            if(self.markedMines[y][x] !== Mines.MINE_KNOWN) {
+                if(e.key == "f") {
+                    e.preventDefault();
+                    self.flagCell(x, y);
+                }
+            }
+        }
+    }, false);
 
     return cell;
 };

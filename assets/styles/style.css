@@ -70,6 +70,10 @@ td {
     position: relative;
 }
 
+[data-whatinput='keyboard'] td:focus {
+    background: white;
+}
+
 .high-contrast td {
     outline: 2px black;
     background: white;
