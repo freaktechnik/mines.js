@@ -232,8 +232,10 @@ Mines.prototype.uncoverCell = function(x, y) {
             this.generate([x, y]);
         }
         else {
-            if(Mines.MINE == this.board[y][x])
+            if(Mines.MINE == this.board[y][x]) {
                 this.gameOver();
+                return;
+            }
         }
         cell.classList.remove(COVERED_CLASS);
         cell.setAttribute("aria-pressed", "true");
@@ -241,6 +243,7 @@ Mines.prototype.uncoverCell = function(x, y) {
 
         if(!this.nonMinesCovered()) {
             this.win();
+            return;
         }
         else {
             if(this.cellFullyMarked(x, y)) {
