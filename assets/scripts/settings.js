@@ -1,4 +1,10 @@
-document.getElementById("vibration").checked = localStorage.getItem("vibration") == "enabled";
+var vibration = localStorage.getItem("vibration");
+if(vibration != "enabled" && vibration != "disabled") {
+    localStorage.setItem("vibration", "enabled");
+    vibration = "enabled";
+}
+
+document.getElementById("vibration").checked = vibration == "enabled";
 
 document.getElementById("vibration").addEventListener("change", function(e) {
     if(e.target.checked) {
