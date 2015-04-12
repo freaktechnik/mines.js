@@ -7,9 +7,10 @@ if(!localStorage.getItem("vibration")) {
     localStorage.setItem("vibration", "enabled");
 }
 
+// Execute an asynchonous vibration if it's enabled
 function vibrate(time) {
     if(localStorage.getItem("vibration") == "enabled")
-        navigator.vibrate(time);
+        setTimeout(navigator.vibrate(time), 0);
 }
 
 function deleteSave() {
