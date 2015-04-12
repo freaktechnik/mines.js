@@ -176,7 +176,9 @@ module.exports = function(grunt) {
                     resources: ['app_properties'],
                     filename: '_lang_/app.properties',
                     templateFn: function(strings) {
-                        return strings.reduce(function(p, string) {
+                        return strings.sort(function(a, b) {
+                            return a.key.localeCompare(b.key);
+                        }).reduce(function(p, string) {
                             return p + string.key + "=" + string.translation + "\n";
                         }, "");
                     }
