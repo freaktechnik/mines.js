@@ -47,3 +47,9 @@ gaia-header {
     font-size: 30px;
 }
 
+[data-whatinput='keyboard'] a:focus,
+[data-whatinput='keyboard'] button:focus,
+[data-whatinput='keyboard'] select:focus {
+    outline: 1px dotted !important;
+}
+
