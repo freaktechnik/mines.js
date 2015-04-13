@@ -41,7 +41,7 @@ var Highscores = {
     },
     isNewTop: function(gameDescription, score, cbk) {
         this.getTop(gameDescription, 1, function(top) {
-            cbk(!top.length || score < top[0].score);
+            cbk(!top.length || score < parseFloat(top[0].score));
         });
     },
     save: function(gameDescription, score, name) {

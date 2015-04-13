@@ -29,8 +29,7 @@ function getMinesFromHash(hash, field) {
         }
         else {
             if(mines.mode == Mines.MODE_FLAG) {
-                document.getElementById("flagtoggle").dataset.l10nId = FLAG;
-                document.getElementById("flagtoggle").dataset.icon = FLAG_ICON;
+                toggleMode(mines);
             }
             return mines;
         }
@@ -51,7 +50,8 @@ function getMinesFromHash(hash, field) {
 
 var field = document.getElementById("field"),
     output = document.getElementById("minecount"),
-    mines = getMinesFromHash(document.location.hash.substr(1), field);
+    mines = getMinesFromHash(document.location.hash.substr(1), field),
+    time = 0;
 
 output.value = mines.mineCount - mines.countFlags();
 
@@ -59,11 +59,25 @@ function gameDescriptionFromMines(mines) {
     return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
 }
 
+function toggleMode(mines) {
+    mines = mines || this.mines;
+    var button = document.getElementById("flagtoggle");
+    mines.toggleMode();
+    if(button.dataset.l10nId == UNCOVER) {
+        button.dataset.l10nId = FLAG;
+        button.dataset.icon = FLAG_ICON;
+    }
+    else {
+        button.dataset.l10nId = UNCOVER;
+        button.dataset.icon = UNCOVER_ICON;
+    }
+}
+
 document.getElementById("reset").addEventListener("click", function() {
     mines.reset();
 }, false);
 
-var time = 0;
+
 if(localStorage.getItem("savedTime") == "true") {
     time = parseInt(localStorage.getItem("time"), 10);
     localStorage.setItem("savedTime", "false");
@@ -76,6 +90,9 @@ if(time !== 0) {
 
 field.addEventListener("generated", function() {
     timer.start();
+    if(localStorage.getItem("autotoggle") == "enabled") {
+        toggleMode();
+    }
 });
 
 field.addEventListener("loose", function() {
@@ -121,15 +138,7 @@ field.addEventListener("unflagged", function() {
 }, false);
 
 document.getElementById("flagtoggle").addEventListener("click", function(e) {
-    mines.toggleMode();
-    if(e.currentTarget.dataset.l10nId == UNCOVER) {
-        e.currentTarget.dataset.l10nId = FLAG;
-        e.currentTarget.dataset.icon = FLAG_ICON;
-    }
-    else {
-        e.currentTarget.dataset.l10nId = UNCOVER;
-        e.currentTarget.dataset.icon = UNCOVER_ICON;
-    }
+    toggleMode();
 }, false);
 
 window.addEventListener("beforeunload", function() {
