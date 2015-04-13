@@ -64,7 +64,9 @@ var Highscores = {
                 cursor.continue();
             }
             else if(cbk) {
-                cbk(top);
+                cbk(top.sort(function(a, b) {
+                    return parseFloat(a.score)-parseFloat(b.score);
+                }));
             }
         };
     },
