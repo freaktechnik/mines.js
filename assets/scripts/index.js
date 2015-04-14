@@ -1,6 +1,6 @@
 if(Mines.hasSavedState()) {
     document.getElementById("resumeSection").classList.remove("hidden");
-    document.getElementById("resumeSection").removeAttribute("aria-hidden");
+    document.getElementById("resumeSection").removeAttribute("hidden");
 }
 
 var buttons = document.querySelectorAll(".gaia-list button");

@@ -26,7 +26,8 @@ gaia-header {
     margin-top: 50px;
 }
 
-.hidden {
+.hidden,
+[hidden] {
     display: none !important;
     visibility: hidden;
 }
