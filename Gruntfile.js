@@ -60,12 +60,6 @@ module.exports = function(grunt) {
                                 'fonts/**',
                                 'style.css'
                             ]
-                        },
-                        'gaia-icons': {
-                            files: [
-                                'gaia-icons.css',
-                                'fonts/**'
-                            ]
                         }
                     }
                 }
