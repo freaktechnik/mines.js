@@ -59,7 +59,7 @@
             </gaia-header>
             <section class="gaia-list fit scroll sticky" id="fieldcontainer">
                 <article class="spacer"></article>
-                <article>
+                <article role="main">
                     <table id="field" role="grid">
                     </table>
                 </article>
@@ -68,7 +68,7 @@
             <footer role="toolbar">
                 <button id="reset" data-icon="reload" data-l10n-id="mines_reset">Reset</button>
                 <span><label class="mine" id="countlabel" aria-label="Remaining mines:" data-l10n-id="mines_remaining" for="minecount">9</label><output id="minecount" label="countlabel" for="field"></output aria-live="assertive"></span>
-                <span><label id="timelabel" for="time" class="visuallyhidden">Time:</label><output id="time" label="timelabel">0.0</output>s</span>
+                <span><label id="timelabel" for="time" class="visuallyhidden">Time:</label><output id="time" label="timelabel" rel="timer">0.0</output>s</span>
                 <button id="flagtoggle" data-icon="brightness" data-l10n-id="mines_mode_uncover">Uncover</button>
             </footer>
         </section>
