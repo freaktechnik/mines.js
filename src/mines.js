@@ -89,6 +89,7 @@ Mines.prototype.mode = Mines.MODE_UNCOVER;
 Mines.prototype.gameOver = function() {
     this.context.classList.add("gameover");
     this.context.classList.add("done");
+    this.context.setAttribute("aria-readonly", "true");
     this.done = true;
 
     if(Mines.hasSavedState())
@@ -99,6 +100,7 @@ Mines.prototype.gameOver = function() {
 
 Mines.prototype.win = function() {
     this.context.classList.add("done");
+    this.context.setAttribute("aria-readonly", "true");
     this.done = true;
 
     if(Mines.hasSavedState())
@@ -128,6 +130,7 @@ Mines.prototype.reset = function() {
 
     this.context.classList.remove("done");
     this.context.classList.remove("gameover");
+    this.context.setAttribute("aria-readonly", "false");
 
     if(Mines.hasSavedState())
         Mines.removeSavedState();
