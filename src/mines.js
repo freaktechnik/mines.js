@@ -65,6 +65,7 @@ function Mines(cfx, dimensions, mineCount) {
     this.markedMines = marked;
 
     this.printEmptyBoard();
+    this.context.parentNode.removeAttribute("aria-busy");
 
     var self = this;
     this.context.addEventListener("keypress", function(e) {
