@@ -47,12 +47,14 @@ function showHighscores(game) {
         removeDynamicItems();
         if(tops.length) {
             noresults.classList.add("hidden");
+            noresults.setAttribute("hidden", true);
             tops.forEach(function(top) {
                 list.appendChild(highscoreListItem(top.name, top.score));
             });
         }
         else {
             noresults.classList.remove("hidden");
+            noresults.removeAttribute("hidden");
         }
     });
 }
@@ -76,6 +78,7 @@ document.getElementById("delete-highscores").addEventListener("click", function(
         Highscores.clear();
         removeDynamicItems();
         noresults.classList.remove("hidden");
+        noresults.removeAttribute("hidden");
     }
 });
 
