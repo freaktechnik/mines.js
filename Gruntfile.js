@@ -236,6 +236,15 @@ module.exports = function(grunt) {
                 src: ['**/*'],
                 dest: '/'
             }
+            travis: {
+                options: {
+                    archive: '<%= pkg.name %>.zip'
+                },
+                expand: true,
+                cwd: 'dist/',
+                src: ['**/*'],
+                dest: '/'
+            }
         }
     });
 
@@ -255,7 +264,8 @@ module.exports = function(grunt) {
     // Default task(s).
     grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:appcache']);
 
-    grunt.registerTask('package', ['default', 'compress']);
+    grunt.registerTask('package', ['default', 'compress:main']);
+    grunt.registerTask('travis', ['default', 'compress:travis']);
 
     grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
 
