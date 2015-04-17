@@ -235,7 +235,7 @@ module.exports = function(grunt) {
                 cwd: 'dist/',
                 src: ['**/*'],
                 dest: '/'
-            }
+            },
             travis: {
                 options: {
                     archive: '<%= pkg.name %>.zip'
