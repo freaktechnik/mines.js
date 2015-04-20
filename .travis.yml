@@ -15,4 +15,4 @@ deploy:
     secure: WD1D5Msv6LDpmEebU+OkyIh+hhLTeOXQtK7DcdVIOnd781iPJYKyUeCkHcf6B8hC9GgfRcXm4DE5ThUGLgO8vwXEZ1Ayu3DtE10ezcQDXfh3gFZVplXrQALg03JpMhgPlTJud6sRzb/rPmXPLCn/R6vsI6o5cGZvT5NNERgjqb0=
   file: mines.zip
   on:
-    tags: trues
+    tags: true
