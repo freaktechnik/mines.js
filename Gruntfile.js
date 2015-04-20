@@ -131,7 +131,20 @@ module.exports = function(grunt) {
             manifest: {
                 options: {
                     process: function(file) {
-                        return file.replace("{{version}}", grunt.config('pkg.version'));
+                        var json = JSON.parse(file);
+                        json.version = grunt.config('pkg.version');
+                        json.appcache_path = "/mines.appcache";
+                        return JSON.stringify(json);
+                    }
+                },
+                files: { 'dist/manifest.webapp': 'manifest.webapp' }
+            },
+            pkgmanifest: {
+                options: {
+                    process: function(file) {
+                        var json = JSON.parse(file);
+                        json.version = grunt.config('pkg.version');
+                        return JSON.stringify(json);
                     }
                 },
                 files: { 'dist/manifest.webapp': 'manifest.webapp' }
@@ -183,7 +196,7 @@ module.exports = function(grunt) {
             default: [ 'dist', '*.zip' ],
             test: 'test/dist'
         },
-        "es6transpiler": {
+        es6transpiler: {
             bowerlibs: {
                 options: {
                     globals: {
@@ -264,8 +277,8 @@ module.exports = function(grunt) {
     // Default task(s).
     grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:appcache']);
 
-    grunt.registerTask('package', ['default', 'compress:main']);
-    grunt.registerTask('travis', ['default', 'compress:travis']);
+    grunt.registerTask('package', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:pkgmanifest', 'es6transpiler:bowerlibs', 'compress:main']);
+    grunt.registerTask('travis', ['package', 'compress:travis']);
 
     grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
 

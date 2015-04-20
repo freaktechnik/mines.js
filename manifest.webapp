@@ -2,8 +2,6 @@
   "name": "Mines",
   "description": "Yet another Minesweeper clone with custom boards and mine-flagging",
   "launch_path": "/index.html",
-  "appcache_path": "/mines.appcache",
-  "version": "{{version}}",
   "icons": {
     "16": "/images/icon-16.png",
     "32": "/images/icon-32.png",
