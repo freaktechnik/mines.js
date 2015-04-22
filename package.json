@@ -16,6 +16,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-es6-transpiler": "^1.0.2",
     "grunt-transifex": "^0.1.1",
+    "grunt-validate-webapp": "^0.1.0",
     "qunitjs": "^1.17.1"
   },
   "repository": {

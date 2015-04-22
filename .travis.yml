@@ -6,7 +6,6 @@ install:
 - npm install grunt-cli -g
 - bower install
 before_deploy:
-- grunt clean
 - openssl aes-256-cbc -K $encrypted_a298b6b30e99_key -iv $encrypted_a298b6b30e99_iv -in .transifexrc.enc -out .transifexrc -d
 - grunt travis
 deploy:

@@ -1,5 +1,14 @@
 module.exports = function(grunt) {
 
+    var generateAppcache = function(file, version) {
+        return file.replace("{{version}}", version)
+                    .replace("{{assets}}", grunt.file.expand("dist/**/*")
+                        .join("\n")
+                        .replace(/dist\//g, "")
+                        .replace(grunt.config('pkg.name')+".appcache\n","")
+                    );
+    };
+
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -152,12 +161,7 @@ module.exports = function(grunt) {
             appcache: {
                 options: {
                     process: function(file) {
-                        return file.replace("{{version}}", grunt.config('pkg.version'))
-                                    .replace("{{assets}}", grunt.file.expand("dist/**/*")
-                                        .join("\n")
-                                        .replace(/dist\//g, "")
-                                        .replace(grunt.config('pkg.name')+".appcache\n","")
-                                    );
+                        return generateAppcache(file, grunt.config('pkg.version'));
                     }
                 },
                 files: [ {'dist/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
@@ -165,12 +169,7 @@ module.exports = function(grunt) {
             devappcache: {
                 options: {
                     process: function(file) {
-                        return file.replace("{{version}}", Date.now())
-                                    .replace("{{assets}}", grunt.file.expand("dist/**/*")
-                                        .join("\n")
-                                        .replace(/dist\//g, "")
-                                        .replace(grunt.config('pkg.name')+".appcache\n","")
-                                    );
+                        return generateAppcache(file, Date.now());
                     }
                 },
                 files: [ {'dist/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
@@ -258,6 +257,13 @@ module.exports = function(grunt) {
                 src: ['**/*'],
                 dest: '/'
             }
+        },
+        validatewebapp: {
+            options: {
+                listed: true,
+                packaged: true
+            },
+            files: { src: 'dist/manifest.webapp' }
         }
     });
 
@@ -273,6 +279,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-validate-webapp');
 
     // Default task(s).
     grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:appcache']);
@@ -282,5 +289,5 @@ module.exports = function(grunt) {
 
     grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
 
-    grunt.registerTask('test', ['es6transpiler:test', 'jshint', 'qunit', 'clean:test']);
+    grunt.registerTask('test', ['package', 'es6transpiler:test', 'jshint', 'validatewebapp', 'qunit', 'clean']);
 };
