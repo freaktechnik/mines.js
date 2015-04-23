@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="mines.appcache">
+<html manifest="mines.appcache" lang="en">
     <head>
         <meta charset="utf-8">
         <title data-l10n-id="custom_title">Custom Minefield</title>
@@ -51,7 +51,7 @@
             <gaia-header action="back" id="header">
                 <span class="l10n-action" aria-label="Back" data-l10n-id="action_back">Back</span>
                 <h1 data-l10n-id="custom_title">Custom Minefield</h1>
-                <a href="help.html" rel="help" data-icon="help" data-l10n-id="action_help" aria-label="Help"></a>
+                <a href="help.html" rel="help" data-icon="help" data-l10n-id="action_help" title="Help"></a>
             </gaia-header>
             <section class="gaia-list fit scroll sticky">
                 <article>
@@ -81,7 +81,7 @@
                                     <input type="number" id="mines" min="1" value="10" required step="1">
                                 </div>
                             </li>
-                            <li><button id="submit" data-l10n-id="custom_done">Start Game</button></li>
+                            <li><button type="submit" id="submit" data-l10n-id="custom_done">Start Game</button></li>
                         </ul>
                     </form>
                 </article>

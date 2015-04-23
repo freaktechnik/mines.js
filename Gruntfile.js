@@ -263,7 +263,24 @@ module.exports = function(grunt) {
                 listed: true,
                 packaged: true
             },
-            files: { src: 'dist/manifest.webapp' }
+            main: { src: 'dist/manifest.webapp' }
+        },
+        accessibility: {
+            options: {
+                reportLevels: {
+                    notice: false,
+                    warning: true,
+                    error: true
+                },
+                force: false,
+                ignore: [
+                    'WCAG2A.Principle1.Guideline1_3.1_3_1.H44.NotFormControl',
+                    'WCAG2A.Principle1.Guideline1_3.1_3_1.H85.2'
+                ]
+            },
+            main: {
+                src: 'assets/*.html'
+            }
         }
     });
 
@@ -280,6 +297,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-validate-webapp');
+    grunt.loadNpmTasks('grunt-accessibility');
 
     // Default task(s).
     grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:appcache']);
@@ -289,5 +307,5 @@ module.exports = function(grunt) {
 
     grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
 
-    grunt.registerTask('test', ['package', 'es6transpiler:test', 'jshint', 'validatewebapp', 'qunit', 'clean']);
+    grunt.registerTask('test', ['package', 'jshint', 'validatewebapp', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
 };
