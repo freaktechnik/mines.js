@@ -1,5 +1,6 @@
 {
-  "name": "mines",
+  "name": "Mines",
+  "description": "Yet another Minesweeeper clone with custom boards and mine-flagging",
   "version": "1.0.0",
   "devDependencies": {
     "bower": "*",
@@ -24,7 +25,10 @@
     "type": "git",
     "url": "git://github.com/freaktechnik/mines.js.git"
   },
-  "author": "Martin Giger",
+  "author": {
+    "name": "Martin Giger",
+    "url": "http://humanoids.be"
+  },
   "license": "MPL-2.0",
   "scripts": {
     "test": "grunt test"

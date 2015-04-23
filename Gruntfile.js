@@ -154,6 +154,12 @@ module.exports = function(grunt) {
                         var json = JSON.parse(file);
                         json.version = grunt.config('pkg.version');
                         json.appcache_path = "/mines.appcache";
+                        json.name = grunt.config('pkg.name');
+                        json.description = grunt.config('pkg.description');
+                        json.developer = {
+                            name: grunt.config('pkg.author.name'),
+                            url: grunt.config('pkg.author.url')
+                        };
                         return JSON.stringify(json);
                     }
                 },
@@ -164,6 +170,12 @@ module.exports = function(grunt) {
                     process: function(file) {
                         var json = JSON.parse(file);
                         json.version = grunt.config('pkg.version');
+                        json.name = grunt.config('pkg.name');
+                        json.description = grunt.config('pkg.description');
+                        json.developer = {
+                            name: grunt.config('pkg.author.name'),
+                            url: grunt.config('pkg.author.url')
+                        };
                         return JSON.stringify(json);
                     }
                 },
