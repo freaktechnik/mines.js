@@ -138,45 +138,13 @@ module.exports = function(grunt) {
                         dest: '<%= distdir %>/images'
                     }
                 ]
-            },
-            manifest: {
-                options: {
-                    process: function(file) {
-                        var json = JSON.parse(file);
-                        json.version = grunt.config('pkg.version');
-                        json.appcache_path = "/manifest.appcache";
-                        json.name = grunt.config('pkg.name');
-                        json.description = grunt.config('pkg.description');
-                        json.developer = {
-                            name: grunt.config('pkg.author.name'),
-                            url: grunt.config('pkg.author.url')
-                        };
-                        return JSON.stringify(json);
-                    }
-                },
-                files: { '<%= distdir %>/manifest.webapp': 'manifest.webapp' }
-            },
-            pkgmanifest: {
-                options: {
-                    process: function(file) {
-                        var json = JSON.parse(file);
-                        json.version = grunt.config('pkg.version');
-                        json.name = grunt.config('pkg.name');
-                        json.description = grunt.config('pkg.description');
-                        json.developer = {
-                            name: grunt.config('pkg.author.name'),
-                            url: grunt.config('pkg.author.url')
-                        };
-                        return JSON.stringify(json);
-                    }
-                },
-                files: { '<%= distdir %>/manifest.webapp': 'manifest.webapp' }
             }
         },
         transifex: {
-            'mines': {
+            mines_properties: {
                 options: {
                     targetDir: '<%= localedir %>',
+                    project: 'mines',
                     resources: ['app_properties'],
                     filename: '_lang_/app.properties',
                     templateFn: function(strings) {
@@ -186,6 +154,15 @@ module.exports = function(grunt) {
                             return p + string.key + "=" + string.translation + "\n";
                         }, "");
                     }
+                }
+            },
+            mines_json: {
+                options: {
+                    targetDir: '<%= localedir %>',
+                    resources: ['manifest_json'],
+                    filename: '_lang_/manifest.json',
+                    project: 'mines',
+                    mode: "file"
                 }
             }
         },
@@ -288,6 +265,25 @@ module.exports = function(grunt) {
                 dest: '<%= distdir %>/manifest.appcache',
                 cache: '<%= distdir %>/**/*'
             }
+        },
+        webapp: {
+            options: {
+                localeDir: '<%= localedir %>',
+                icons: 'assets/images/icon-*.png',
+                iconsTarget: 'images/icon-{size}.png'
+            },
+            web: {
+                options: {
+                    target: 'web'
+                },
+                files: [{ '<%= distdir %>/manifest.webapp': 'manifest.webapp' }]
+            },
+            packaged: {
+                options: {
+                    target: 'packaged'
+                },
+                files: [{ '<%= distdir %>/manifest.webapp': 'manifest.webapp' }]
+            }
         }
     });
 
@@ -306,14 +302,15 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-validate-webapp');
     grunt.loadNpmTasks('grunt-accessibility');
     grunt.loadNpmTasks('grunt-appcache');
+    grunt.loadNpmTasks('grunt-webapp');
 
     // Default task(s).
-    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'appcache']);
+    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'webapp:web', 'es6transpiler:bowerlibs', 'appcache']);
 
-    grunt.registerTask('package', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:pkgmanifest', 'es6transpiler:bowerlibs', 'compress:main']);
+    grunt.registerTask('package', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'webapp:packaged', 'es6transpiler:bowerlibs', 'compress:main']);
     grunt.registerTask('travis', ['package', 'compress:travis']);
 
-    grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'appcache']);
+    grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'webapp:web', 'es6transpiler:bowerlibs', 'appcache']);
 
     grunt.registerTask('test', ['package', 'jshint', 'validatewebapp', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
 };
