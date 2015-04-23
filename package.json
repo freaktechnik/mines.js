@@ -18,6 +18,7 @@
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-es6-transpiler": "^1.0.2",
+    "grunt-ftp-deploy": "^0.1.10",
     "grunt-transifex": "^0.1.1",
     "grunt-validate-webapp": "^0.1.0",
     "grunt-webapp": "^0.3.0",

@@ -284,6 +284,24 @@ module.exports = function(grunt) {
                 },
                 files: [{ '<%= distdir %>/manifest.webapp': 'manifest.webapp' }]
             }
+        },
+        'ftp-deploy': {
+            production: {
+                auth: {
+                    host: "humanoids.be",
+                    authKey: "hbp"
+                },
+                src: '<%= distdir %>',
+                dest: '/public_html/mines'
+            },
+            stage: {
+                auth: {
+                    host: "humanoids.be",
+                    authKey: "hbp"
+                },
+                src: '<%= distdir %>',
+                dest: 'public_html/lab/mines.js'
+            }
         }
     });
 
@@ -303,14 +321,20 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-accessibility');
     grunt.loadNpmTasks('grunt-appcache');
     grunt.loadNpmTasks('grunt-webapp');
+    grunt.loadNpmTasks('grunt-ftp-deploy');
 
     // Default task(s).
-    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'webapp:web', 'es6transpiler:bowerlibs', 'appcache']);
+    grunt.registerTask('default', ['web']);
 
+    grunt.registerTask('web', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'webapp:web', 'es6transpiler:bowerlibs', 'appcache']);
     grunt.registerTask('package', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'webapp:packaged', 'es6transpiler:bowerlibs', 'compress:main']);
     grunt.registerTask('travis', ['package', 'compress:travis']);
 
     grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'webapp:web', 'es6transpiler:bowerlibs', 'appcache']);
 
     grunt.registerTask('test', ['package', 'jshint', 'validatewebapp', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
+
+    grunt.registerTask('webdeploy', [ 'default', 'ftp-deploy:production' ]);
+
+    grunt.registerTask('webstage', [ 'dev', 'ftp-deploy:stage' ]);
 };
