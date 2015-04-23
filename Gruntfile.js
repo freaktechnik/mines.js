@@ -11,24 +11,32 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
+        distdir: 'dist',
         pkg: grunt.file.readJSON('package.json'),
+        banner:
+            '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+            '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
+            ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;\n' +
+            ' * This Source Code Form is subject to the terms of the Mozilla Public License,\n' +
+            ' * v. 2.0. If a copy of the MPL was not distributed with this file, You can\n' +
+            ' * obtain one at http://mozilla.org/MPL/2.0/.\n */\n',
         locales: function() {
             return grunt.file.expand("locales/*").join(",").replace(/locales\//g, "");
         },
         uglify: {
             options: {
-                banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
+                banner: '<%= banner %>'
             },
             build: {
                 files: [
                     {
-                        'dist/mines.min.js': 'src/*.js',
+                        '<%= distdir %>/mines.min.js': 'src/*.js',
                     },
                     {
                         expand: true,
                         cwd: 'assets/scripts',
                         src: '**/*.js',
-                        dest: 'dist/scripts',
+                        dest: '<%= distdir %>/scripts',
                         ext: '.min.js'
                     }
                 ]
@@ -40,7 +48,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: 'assets/styles',
                     src: ['*.css'],
-                    dest: 'dist/styles/',
+                    dest: '<%= distdir %>/styles/',
                     ext: '.css'
                 }]
             }
@@ -60,7 +68,7 @@ module.exports = function(grunt) {
         },
         bower: {
             build: {
-                dest: 'dist/vendor/',
+                dest: '<%= distdir %>/vendor/',
                 options: {
                     expand: true,
                     packageSpecific: {
@@ -76,8 +84,11 @@ module.exports = function(grunt) {
         },
         concat: {
             dev: {
+                options: {
+                    banner: '<%= banner %>'
+                },
                 files: [{
-                    'dist/mines.min.js': 'src/*.js'
+                    '<%= distdir %>/mines.min.js': 'src/*.js'
                 }]
             }
         },
@@ -88,14 +99,14 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'assets/scripts',
                         src: '**/*.js',
-                        dest: 'dist/scripts',
+                        dest: '<%= distdir %>/scripts',
                         ext: '.min.js'
                     },
                     {
                         expand: true,
                         cwd: 'assets/styles',
                         src: ['*.css'],
-                        dest: 'dist/styles/',
+                        dest: '<%= distdir %>/styles/',
                         ext: '.css'
                     }
                 ]
@@ -111,7 +122,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'assets',
                         src: ['*.html'],
-                        dest: 'dist'
+                        dest: '<%= distdir %>'
                     }
                 ]
             },
@@ -121,19 +132,19 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: 'locales',
                         src: ['**'],
-                        dest: 'dist/locales'
+                        dest: '<%= distdir %>/locales'
                     },
                     {
                         expand: true,
                         cwd: 'assets/font',
                         src: ['**'],
-                        dest: 'dist/font'
+                        dest: '<%= distdir %>/font'
                     },
                     {
                         expand: true,
                         cwd: 'assets/images',
                         src: ['**/*.png', '**/*.svg', '**/*.jpg'],
-                        dest: 'dist/images'
+                        dest: '<%= distdir %>/images'
                     }
                 ]
             },
@@ -146,7 +157,7 @@ module.exports = function(grunt) {
                         return JSON.stringify(json);
                     }
                 },
-                files: { 'dist/manifest.webapp': 'manifest.webapp' }
+                files: { '<%= distdir %>/manifest.webapp': 'manifest.webapp' }
             },
             pkgmanifest: {
                 options: {
@@ -156,7 +167,7 @@ module.exports = function(grunt) {
                         return JSON.stringify(json);
                     }
                 },
-                files: { 'dist/manifest.webapp': 'manifest.webapp' }
+                files: { '<%= distdir %>/manifest.webapp': 'manifest.webapp' }
             },
             appcache: {
                 options: {
@@ -164,7 +175,7 @@ module.exports = function(grunt) {
                         return generateAppcache(file, grunt.config('pkg.version'));
                     }
                 },
-                files: [ {'dist/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
+                files: [ {'<%= distdir %>/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
             },
             devappcache: {
                 options: {
@@ -172,7 +183,7 @@ module.exports = function(grunt) {
                         return generateAppcache(file, Date.now());
                     }
                 },
-                files: [ {'dist/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
+                files: [ {'<%= distdir %>/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
             }
         },
         transifex: {
@@ -192,7 +203,7 @@ module.exports = function(grunt) {
             }
         },
         clean: {
-            default: [ 'dist', '*.zip' ],
+            default: [ '<%= distdir %>', '*.zip' ],
             test: 'test/dist'
         },
         es6transpiler: {
@@ -206,9 +217,9 @@ module.exports = function(grunt) {
                 files: [
                     {
                         expand: true,
-                        cwd: "dist/vendor",
+                        cwd: "<%= distdir %>/vendor",
                         src: ['gaia-*/*.js'],
-                        dest: 'dist/vendor'
+                        dest: '<%= distdir %>/vendor'
                     }
                 ]
             },
@@ -244,7 +255,7 @@ module.exports = function(grunt) {
                     archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
                 },
                 expand: true,
-                cwd: 'dist/',
+                cwd: '<%= distdir %>/',
                 src: ['**/*'],
                 dest: '/'
             },
@@ -253,7 +264,7 @@ module.exports = function(grunt) {
                     archive: '<%= pkg.name %>.zip'
                 },
                 expand: true,
-                cwd: 'dist/',
+                cwd: '<%= distdir %>/',
                 src: ['**/*'],
                 dest: '/'
             }
@@ -263,7 +274,7 @@ module.exports = function(grunt) {
                 listed: true,
                 packaged: true
             },
-            main: { src: 'dist/manifest.webapp' }
+            main: { src: '<%= distdir %>/manifest.webapp' }
         },
         accessibility: {
             options: {
