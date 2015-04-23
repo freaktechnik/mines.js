@@ -1,17 +1,8 @@
 module.exports = function(grunt) {
-
-    var generateAppcache = function(file, version) {
-        return file.replace("{{version}}", version)
-                    .replace("{{assets}}", grunt.file.expand("dist/**/*")
-                        .join("\n")
-                        .replace(/dist\//g, "")
-                        .replace(grunt.config('pkg.name')+".appcache\n","")
-                    );
-    };
-
     // Project configuration.
     grunt.initConfig({
         distdir: 'dist',
+        localedir: 'locales',
         pkg: grunt.file.readJSON('package.json'),
         banner:
             '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
@@ -21,7 +12,7 @@ module.exports = function(grunt) {
             ' * v. 2.0. If a copy of the MPL was not distributed with this file, You can\n' +
             ' * obtain one at http://mozilla.org/MPL/2.0/.\n */\n',
         locales: function() {
-            return grunt.file.expand("locales/*").join(",").replace(/locales\//g, "");
+            return grunt.file.expand(grunt.config('localedir')+"/*").join(",").replace(new RegExp(grunt.config('localedir')+"/", "g"), "");
         },
         uglify: {
             options: {
@@ -130,9 +121,9 @@ module.exports = function(grunt) {
                files: [
                     {
                         expand: true,
-                        cwd: 'locales',
+                        cwd: '<%= localedir %>',
                         src: ['**'],
-                        dest: '<%= distdir %>/locales'
+                        dest: '<%= distdir %>/<%= localedir %>'
                     },
                     {
                         expand: true,
@@ -153,7 +144,7 @@ module.exports = function(grunt) {
                     process: function(file) {
                         var json = JSON.parse(file);
                         json.version = grunt.config('pkg.version');
-                        json.appcache_path = "/mines.appcache";
+                        json.appcache_path = "/manifest.appcache";
                         json.name = grunt.config('pkg.name');
                         json.description = grunt.config('pkg.description');
                         json.developer = {
@@ -180,28 +171,12 @@ module.exports = function(grunt) {
                     }
                 },
                 files: { '<%= distdir %>/manifest.webapp': 'manifest.webapp' }
-            },
-            appcache: {
-                options: {
-                    process: function(file) {
-                        return generateAppcache(file, grunt.config('pkg.version'));
-                    }
-                },
-                files: [ {'<%= distdir %>/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
-            },
-            devappcache: {
-                options: {
-                    process: function(file) {
-                        return generateAppcache(file, Date.now());
-                    }
-                },
-                files: [ {'<%= distdir %>/<%= pkg.name %>.appcache': '<%= pkg.name %>.appcache' } ]
             }
         },
         transifex: {
             'mines': {
                 options: {
-                    targetDir: 'locales',
+                    targetDir: '<%= localedir %>',
                     resources: ['app_properties'],
                     filename: '_lang_/app.properties',
                     templateFn: function(strings) {
@@ -215,7 +190,7 @@ module.exports = function(grunt) {
             }
         },
         clean: {
-            default: [ '<%= distdir %>', '*.zip' ],
+            main: [ '<%= distdir %>', '*.zip' ],
             test: 'test/dist'
         },
         es6transpiler: {
@@ -259,7 +234,7 @@ module.exports = function(grunt) {
             options: {
                 tasks: 'dev'
             },
-            files: '**'
+            main: '**'
         },
         compress: {
             main: {
@@ -304,6 +279,15 @@ module.exports = function(grunt) {
             main: {
                 src: 'assets/*.html'
             }
+        },
+        appcache: {
+            options: {
+                basePath: '<%= distdir %>'
+            },
+            web: {
+                dest: '<%= distdir %>/manifest.appcache',
+                cache: '<%= distdir %>/**/*'
+            }
         }
     });
 
@@ -321,14 +305,15 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-validate-webapp');
     grunt.loadNpmTasks('grunt-accessibility');
+    grunt.loadNpmTasks('grunt-appcache');
 
     // Default task(s).
-    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:appcache']);
+    grunt.registerTask('default', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'appcache']);
 
     grunt.registerTask('package', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'copy:pkgmanifest', 'es6transpiler:bowerlibs', 'compress:main']);
     grunt.registerTask('travis', ['package', 'compress:travis']);
 
-    grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'copy:devappcache']);
+    grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'copy:manifest', 'es6transpiler:bowerlibs', 'appcache']);
 
     grunt.registerTask('test', ['package', 'jshint', 'validatewebapp', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
 };

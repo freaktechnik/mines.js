@@ -6,6 +6,7 @@
     "bower": "*",
     "grunt": "*",
     "grunt-accessibility": "^3.0.1",
+    "grunt-appcache": "^0.1.8",
     "grunt-bower": "^0.18.0",
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-compress": "^0.13.0",
