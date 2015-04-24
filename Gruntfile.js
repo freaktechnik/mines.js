@@ -376,7 +376,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'jshint', 'validatewebapp', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
+    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'copy:build', 'jshint', 'validatewebapp', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
 
     grunt.registerTask('deploy', 'Deoply the app, targets are :web or :packaged', function(env) {
         env = env || 'web';
