@@ -1,5 +1,6 @@
 {
-  "name": "Mines",
+  "name": "mines",
+  "title": "Mines",
   "description": "Yet another Minesweeeper clone with custom boards and mine-flagging",
   "version": "1.0.0",
   "devDependencies": {
@@ -21,8 +22,11 @@
     "grunt-ftp-deploy": "^0.1.10",
     "grunt-transifex": "^0.1.1",
     "grunt-validate-webapp": "^0.1.0",
-    "grunt-webapp": "^0.3.0",
-    "qunitjs": "^1.17.1"
+    "grunt-webapp": "~0.3.1",
+    "qunitjs": "^1.17.1",
+    "grunt-firefoxos": "~0.1.2",
+    "fxos-deploy": "~0.3.2",
+    "fxos-connect": "~0.3.0"
   },
   "repository": {
     "type": "git",

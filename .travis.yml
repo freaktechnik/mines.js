@@ -8,11 +8,9 @@ install:
 - openssl aes-256-cbc -K $encrypted_a298b6b30e99_key -iv $encrypted_a298b6b30e99_iv -in secrets.tar.enc -out secrets.tar -d
 - tar xvf secrets.tar
 after_success:
-- grunt clean
-- grunt webstage
+- grunt stage:web
 before_deploy:
-- grunt clean
-- grunt webdeploy
+- grunt deploy:web
 - grunt clean
 - grunt travis
 deploy:

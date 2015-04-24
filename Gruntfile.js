@@ -1,3 +1,6 @@
+var deploySim = require('fxos-deploy');
+var connectSim = require('fxos-connect');
+
 module.exports = function(grunt) {
     // Project configuration.
     grunt.initConfig({
@@ -34,7 +37,7 @@ module.exports = function(grunt) {
             }
         },
         cssmin: {
-            minify: {
+            build: {
                 files: [{
                     expand: true,
                     cwd: 'assets/styles',
@@ -45,7 +48,7 @@ module.exports = function(grunt) {
             }
         },
         qunit: {
-            files: ['test/**/*.html']
+            test: ['test/**/*.html']
         },
         jshint: {
             test: {
@@ -167,7 +170,7 @@ module.exports = function(grunt) {
             }
         },
         clean: {
-            main: [ '<%= distdir %>', '*.zip' ],
+            build: [ '<%= distdir %>', '*.zip' ],
             test: 'test/dist'
         },
         es6transpiler: {
@@ -211,10 +214,10 @@ module.exports = function(grunt) {
             options: {
                 tasks: 'dev'
             },
-            main: '**'
+            main: '**/*'
         },
         compress: {
-            main: {
+            build: {
                 options: {
                     archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
                 },
@@ -302,6 +305,12 @@ module.exports = function(grunt) {
                 src: '<%= distdir %>',
                 dest: 'public_html/lab/mines.js'
             }
+        },
+        ffospush: {
+            launch: {
+                appId: '<%= pkg.name %>',
+                zip: '<%= pkg.name %>-<%= pkg.version %>.zip'
+            }
         }
     });
 
@@ -322,19 +331,109 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-appcache');
     grunt.loadNpmTasks('grunt-webapp');
     grunt.loadNpmTasks('grunt-ftp-deploy');
+    grunt.loadNpmTasks('grunt-firefoxos');
 
     // Default task(s).
-    grunt.registerTask('default', ['web']);
+    grunt.registerTask('default', ['build:web']);
 
-    grunt.registerTask('web', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'webapp:web', 'es6transpiler:bowerlibs', 'appcache']);
-    grunt.registerTask('package', ['transifex', 'uglify', 'bower', 'cssmin', 'copy:html', 'copy:build', 'webapp:packaged', 'es6transpiler:bowerlibs', 'compress:main']);
-    grunt.registerTask('travis', ['package', 'compress:travis']);
+    grunt.registerTask('build', 'Build the webapp for the web or as a package (use :web or :packaged)', function(env) {
+        env = env || 'web';
+        grunt.task.run('transifex');
 
-    grunt.registerTask('dev', ['jshint', 'bower', 'concat:dev', 'copy:dev', 'copy:html', 'copy:build', 'webapp:web', 'es6transpiler:bowerlibs', 'appcache']);
+        grunt.task.run('uglify');
+        grunt.task.run('bower');
+        grunt.task.run('cssmin');
+        grunt.task.run('copy:html');
+        grunt.task.run('copy:build');
+        grunt.task.run('webapp:'+env);
+        grunt.task.run('es6transpiler:bowerlibs');
 
-    grunt.registerTask('test', ['package', 'jshint', 'validatewebapp', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
+        if(env == 'packaged') {
+            grunt.task.run('compress:build');
+        }
+        else {
+            grunt.task.run('appcache');
+        }
+    });
 
-    grunt.registerTask('webdeploy', [ 'default', 'ftp-deploy:production' ]);
+    grunt.registerTask('travis', ['build:packaged', 'compress:travis']);
 
-    grunt.registerTask('webstage', [ 'dev', 'ftp-deploy:stage' ]);
+    grunt.registerTask('dev', 'Build an unminified version of the app (use :web or :packaged)', function(env) {
+        env = env || 'web';
+
+        grunt.task.run('bower');
+        grunt.task.run('concat:dev');
+        grunt.task.run('copy:dev');
+        grunt.task.run('copy:html');
+        grunt.task.run('copy:build');
+        grunt.task.run('webapp:'+env);
+        grunt.task.run('es6transpiler:bowerlibs');
+        if(env == 'packaged') {
+            grunt.task.run('compress:build');
+        }
+        else {
+            grunt.task.run('appcache');
+        }
+    });
+
+    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'jshint', 'validatewebapp', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
+
+    grunt.registerTask('deploy', 'Deoply the app, targets are :web or :packaged', function(env) {
+        env = env || 'web';
+        if(env == 'packaged') {
+            grunt.fail.warn("Can't deploy packaged apps yet.");
+        }
+        else {
+            grunt.task.run('build:web');
+            grunt.task.run('ftp-deploy:production');
+        }
+    });
+
+    grunt.registerTask('stage', 'Publish the app to staging with unminified sources (only :web for now)', function(env) {
+        env = env || 'web';
+        if(env == 'web') {
+            grunt.task.run('dev:web');
+            grunt.task.run('ftp-deploy:stage');
+        }
+        else {
+            grunt.fail.warn("Can't deploy anywhere else than web.");
+        }
+    });
+
+    grunt.registerTask('open', function(target) {
+        var done = this.async();
+
+        grunt.task.requires('dev:packaged');
+
+        if(target == 'device') {
+            grunt.task.run('ffospush');
+            done();
+        }
+        else {
+            connectSim({connect: true}).then(function(sim) {
+                return deploySim({
+                    manifestURL: 'dist/manifest.webapp',
+                    zip: grunt.config('pkg.name')+"-"+grunt.config('pkg.version')+".zip",
+                    client: sim.client
+                }).then(function(appId) {
+                    grunt.log.ok("Started simulator with app "+appId);
+                    sim.client.addEventListener("end", done);
+                }, function(err) {
+                    grunt.fail.warn(err);
+                    done(false);
+                });
+            }, function(err) {
+                grunt.fail.warn(err);
+                done(false);
+            });
+        }
+    });
+
+    grunt.registerTask('launch', 'Launch a test version of the app on a FxOS Device or Simulator (use :device or :simulator)', function(target) {
+        target = target || 'simulator';
+
+        grunt.task.run('dev:packaged');
+
+        grunt.task.run('open:'+target);
+    });
 };
