@@ -6,7 +6,14 @@ install:
 - npm install grunt-cli -g
 - bower install
 - openssl aes-256-cbc -K $encrypted_a298b6b30e99_key -iv $encrypted_a298b6b30e99_iv -in .transifexrc.enc -out .transifexrc -d
+after_success:
+- openssl aes-256-cbc -K $encrypted_a298b6b30e99_key -iv $encrypted_a298b6b30e99_iv -in .ftppass.enc -out .ftppass -d
+- grunt clean
+- grunt webstage
 before_deploy:
+- grunt clean
+- grunt webdeploy
+- grunt clean
 - grunt travis
 deploy:
   provider: releases
