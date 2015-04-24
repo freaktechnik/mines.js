@@ -1,6 +1,7 @@
 node_modules/*
 .transifexrc
 .ftppass
+secrets.tar
 dist/*
 bower_components/*
 *.zip
