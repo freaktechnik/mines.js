@@ -212,9 +212,21 @@ module.exports = function(grunt) {
         },
         watch: {
             options: {
+                interrupt: true,
+                debounceDelay: 1000,
+                atBegin: true
+            },
+            web: {
+                options: {
+                    //livereload: true
+                },
+                files: ['assets/**/*', 'src/*', 'manifest.webapp', 'locales/en/*', '!**/*~'],
                 tasks: 'dev'
             },
-            main: '**/*'
+            packaged: {
+                files: ['assets/**/*', 'src/*', 'manifest.webapp', 'locales/en/*', '!**/*~'],
+                tasks: 'launch:simulator'
+            }
         },
         compress: {
             build: {
@@ -400,31 +412,43 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('open', function(target) {
+    grunt.registerTask('simulator', function() {
         var done = this.async();
+        connectSim({connect: true}).then(function(sim) {
+            return deploySim({
+                manifestURL: 'dist/manifest.webapp',
+                zip: grunt.config('pkg.name')+"-"+grunt.config('pkg.version')+".zip",
+                client: sim.client
+            }).then(function(appId) {
+                grunt.log.ok("Started simulator with app "+appId);
+                sim.client.addEventListener("end", done);
+            }, function(err) {
+                grunt.fail.warn(err);
+                done(false);
+            });
+        }, function(err) {
+            grunt.fail.warn(err);
+            done(false);
+        });
+    });
 
+    grunt.registerTask('open', function(target) {
         grunt.task.requires('dev:packaged');
 
         if(target == 'device') {
             grunt.task.run('ffospush');
-            done();
         }
         else {
-            connectSim({connect: true}).then(function(sim) {
-                return deploySim({
-                    manifestURL: 'dist/manifest.webapp',
-                    zip: grunt.config('pkg.name')+"-"+grunt.config('pkg.version')+".zip",
-                    client: sim.client
-                }).then(function(appId) {
-                    grunt.log.ok("Started simulator with app "+appId);
-                    sim.client.addEventListener("end", done);
-                }, function(err) {
-                    grunt.fail.warn(err);
-                    done(false);
-                });
+            grunt.util.spawn({
+                grunt: true,
+                opts: {
+                    stdio: 'inherit'
+                },
+                args: ['simulator']
             }, function(err) {
-                grunt.fail.warn(err);
-                done(false);
+                if(err) {
+                    grunt.fail.warn(err);
+                }
             });
         }
     });
