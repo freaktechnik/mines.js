@@ -226,7 +226,7 @@ p {
 
 .gaia-list label.pack-switch span,
 .gaia-list label.pack-switch p {
-  width: calc(100% - 70px);
+  width: calc(100% - 6.13rem);
 }
 
 .gaia-list label p {
