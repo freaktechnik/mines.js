@@ -2,7 +2,7 @@
   "name": "mines",
   "title": "Mines",
   "description": "Yet another Minesweeeper clone with custom boards and mine-flagging",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "devDependencies": {
     "bower": "*",
     "grunt": "*",
