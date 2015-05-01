@@ -3,13 +3,9 @@ const FLAG = "mines_mode_flag";
 const UNCOVER_ICON = "brightness";
 const FLAG_ICON = "flag";
 
-if(!localStorage.getItem("vibration")) {
-    localStorage.setItem("vibration", "enabled");
-}
-
 // Execute an asynchonous vibration if it's enabled
 function vibrate(time) {
-    if(localStorage.getItem("vibration") == "enabled")
+    if(navigator.vibrate && Preferences.vibration.value)
         setTimeout(navigator.vibrate(time), 0);
 }
 
@@ -29,7 +25,7 @@ function getMinesFromHash(hash, field) {
         }
         else {
             if(mines.mode == Mines.MODE_FLAG) {
-                toggleMode(mines);
+                toggleMode(mines, true);
             }
             return mines;
         }
@@ -59,10 +55,13 @@ function gameDescriptionFromMines(mines) {
     return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
 }
 
-function toggleMode(mines) {
+function toggleMode(mines, dry) {
     mines = mines || this.mines;
     var button = document.getElementById("flagtoggle");
-    mines.toggleMode();
+
+    if(!dry)
+        mines.toggleMode();
+
     if(button.dataset.l10nId == UNCOVER) {
         button.dataset.l10nId = FLAG;
         button.dataset.icon = FLAG_ICON;
@@ -90,7 +89,7 @@ if(time !== 0) {
 
 field.addEventListener("generated", function() {
     timer.start();
-    if(localStorage.getItem("autotoggle") == "enabled") {
+    if(Preferences.autotoggle.value) {
         toggleMode();
     }
 });
