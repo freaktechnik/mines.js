@@ -49,9 +49,9 @@ gaia-header {
 
 .custom_icon {
     font-family: mine;
-    font-style: normal;
+    font-style: normal !important;
     font-weight: 500;
-    font-size: 30px;
+    font-size: 25px !important;
 }
 
 [data-whatinput='keyboard'] a:focus,
