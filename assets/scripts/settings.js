@@ -4,7 +4,7 @@ function setupBoolPreference(name) {
     document.getElementById(name).addEventListener("change", function(e) {
         Preferences[name].value = e.target.checked;
     });
-};
+}
 
 for(var name in Preferences) {
     setupBoolPreference(name);
