@@ -14,7 +14,7 @@ test("Setup", function(assert) {
 });
 
 test("start", function(assert) {
-   var t = new Timer(0, this.output);
+    var t = new Timer(0, this.output);
     t.start();
     assert.ok(t.running);
     assert.notEqual(t.startTime, 0);

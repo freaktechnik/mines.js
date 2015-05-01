@@ -3,8 +3,7 @@ BoolPreference.FALSE = "disabled";
 
 function BoolPreference(name, defaultValue) {
     this.title = name;
-    var pref = localStorage.getItem(name);
-    if(pref != BoolPreference.TRUE && pref != BoolPreference.FALSE) {
+    if(localStorage.getItem(this.title) === null) {
         this.value = defaultValue;
     }
 }
@@ -21,7 +20,7 @@ BoolPreference.prototype = {
 
 function NumberPreference(name, defaultValue) {
     this.title = name;
-    if(isNaN(this.value)) {
+    if(localStorage.getItem(this.title) === null) {
         this.value = defaultValue;
     }
 }
@@ -32,7 +31,9 @@ NumberPreference.prototype = {
         return parseInt(localStorage.getItem(this.title), 10);
     },
     set value(val) {
-        localStorage.setItem(this.title, val);
+        var num = parseInt(val, 10);
+        if(typeof num == "number" && !isNaN(num))
+            localStorage.setItem(this.title, val);
     }
 };
 
