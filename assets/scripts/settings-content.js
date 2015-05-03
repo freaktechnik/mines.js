@@ -6,8 +6,22 @@ function setupBoolPreference(name) {
     });
 }
 
+function setupNumberPreference(name) {
+    document.getElementById(name).value = Preferences[name].value;
+
+    document.getElementById(name).addEventListener("change", function(e) {
+        console.log("ping");
+        Preferences[name].value = e.target.value;
+    });
+}
+
 for(var name in Preferences) {
-    setupBoolPreference(name);
+    if(Preferences[name].type == "bool") {
+        setupBoolPreference(name);
+    }
+    else {
+        setupNumberPreference(name);
+    }
 }
 
 document.querySelector("[data-l10n-id='settings_highscores_clear']").addEventListener("click", function() {

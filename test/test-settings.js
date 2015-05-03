@@ -31,6 +31,9 @@ test("NumberPreference", function(assert) {
     pref.value = "0";
     assert.equal(pref.value, 0);
     assert.equal(typeof pref.value, "number");
+
+    pref.value = 1.1;
+    assert.equal(pref.value, 1.1);
 });
 
 test("Preferences.vibration", function(assert) {
@@ -45,4 +48,11 @@ test("Preferences.autotoggle", function(assert) {
     assert.ok(Preferences.autotoggle instanceof BoolPreference);
     assert.equal(Preferences.autotoggle.title, "autotoggle");
     assert.ok(!Preferences.autotoggle.value, "Autotoggle default value correct");
+});
+
+test("Preferences.fieldsize", function(assert) {
+    assert.ok("fieldsize" in Preferences);
+    assert.ok(Preferences.fieldsize instanceof NumberPreference);
+    assert.equal(Preferences.fieldsize.title, "fieldsize");
+    assert.equal(Preferences.fieldsize.value, 1);
 });

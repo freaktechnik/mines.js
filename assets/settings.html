@@ -36,6 +36,7 @@
         <link rel="stylesheet" type="text/css" href="styles/layout.css">
         <link rel="stylesheet" type="text/css" href="styles/switches.css">
         <link rel="stylesheet" type="text/css" href="styles/buttons.css">
+        <link rel="stylesheet" type="text/css" href="styles/input_areas.css">
         <link rel="stylesheet" type="text/css" href="vendor/gaia-icons/gaia-icons.css">
         <script src="vendor/font-fit/font-fit.js"></script>
         <link rel="stylesheet" type="text/css" href="styles/gaia-header.css">
@@ -71,6 +72,14 @@
                                 <span data-l10n-id="settings_automodeswitch">Switch mode after first cell is uncovered</span>
                             </label>
                         </li>
+                        <li>
+                            <div class="fit">
+                                <label for="fieldsize" data-l10n-id="settings_fieldsize">Field-cell scale:</label>
+                            </div>
+                            <div class="fit">
+                                <input type="number" id="fieldsize" min="0.1" value="1" step="0.1">
+                            </div>
+                        </li>
                     </ul>
                 </article>
                 <article>
@@ -84,7 +93,7 @@
             </section>
         </section>
         <script type="application/javascript" src="vendor/what-input/what-input.js"></script>
-        <script src="scripts/settings.min.js"></script>
+        <script src="scripts/settings-content.min.js"></script>
     </body>
 </html>
 

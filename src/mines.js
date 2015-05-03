@@ -86,6 +86,11 @@ Mines.prototype.markedMines = [];
 Mines.prototype.boardGenerated = false;
 Mines.prototype.done = false;
 Mines.prototype.mode = Mines.MODE_UNCOVER;
+Mines.prototype.size = 1;
+
+Mines.prototype.setSize = function(size) {
+    this.context.style.fontSize = size + 'em';
+};
 
 Mines.prototype.gameOver = function() {
     this.context.classList.add("gameover");

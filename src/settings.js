@@ -28,10 +28,10 @@ NumberPreference.prototype = {
     type: "number",
     title: "",
     get value() {
-        return parseInt(localStorage.getItem(this.title), 10);
+        return parseFloat(localStorage.getItem(this.title), 10);
     },
     set value(val) {
-        var num = parseInt(val, 10);
+        var num = parseFloat(val, 10);
         if(typeof num == "number" && !isNaN(num))
             localStorage.setItem(this.title, val);
     }
@@ -40,6 +40,7 @@ NumberPreference.prototype = {
 // Defaults
 var Preferences = {
     autotoggle: new BoolPreference("autotoggle", false),
-    vibration : new BoolPreference("vibration", true)
+    vibration : new BoolPreference("vibration", true),
+    fieldsize: new NumberPreference("fieldsize", 1)
 };
 

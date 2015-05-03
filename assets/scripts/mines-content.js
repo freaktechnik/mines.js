@@ -51,6 +51,8 @@ var field = document.getElementById("field"),
 
 output.value = mines.mineCount - mines.countFlags();
 
+mines.setSize(Preferences.fieldsize.value);
+
 function gameDescriptionFromMines(mines) {
     return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
 }
