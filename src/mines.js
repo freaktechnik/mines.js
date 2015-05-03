@@ -68,8 +68,8 @@ function Mines(cfx, dimensions, mineCount) {
     this.context.parentNode.removeAttribute("aria-busy");
 
     var self = this;
-    this.context.addEventListener("keypress", function(e) {
-        if(e.key == "r") {
+    this.context.addEventListener("keyup", function(e) {
+        if(e.key == "r" || e.charCode == 114) {
             self.reset();
         }
     }, false);
@@ -384,47 +384,47 @@ Mines.prototype.createCell = function(x, y) {
         if(!self.done && self.markedMines[y][x] !== Mines.MINE_KNOWN)
             self.flagCell(x, y);
     }, false);
-    cell.addEventListener("keypress", function(e) {
-        if(e.key == "ArrowUp" || e.key == "PageUp") {
+    cell.addEventListener("keydown", function(e) {
+        if(e.key == "ArrowUp" || e.key == "PageUp" || e.keyCode == 38 || e.keyCode == 33) {
             if(y > 0)
                 self.getCell(x, y-1).focus();
             e.preventDefault();
-            cell.scrollIntoView(true);
+            cell.scrollIntoView();
             // scrollIntoView doesn't really work with the fixed header and footer, sadly
         }
-        else if(e.key == "ArrowDown" || e.key == "PageDown") {
+        else if(e.key == "ArrowDown" || e.key == "PageDown" || e.keyCode == 40 || e.keyCode == 34) {
             if(y < self.dimensions[1] - 1)
                 self.getCell(x, y+1).focus();
             e.preventDefault();
             cell.scrollIntoView();
         }
-        else if(e.key == "ArrowLeft") {
+        else if(e.key == "ArrowLeft" || e.keyCode == 37) {
             if(x > 0)
                 self.getCell(x-1, y).focus();
             e.preventDefault();
             cell.scrollIntoView();
         }
-        else if(e.key == "ArrowRight") {
+        else if(e.key == "ArrowRight" || e.keyCode == 39) {
             if(x < self.dimensions[0] - 1)
                 self.getCell(x+1, y).focus();
             e.preventDefault();
             cell.scrollIntoView();
         }
-        else if(e.key == "Home") {
+        else if(e.key == "Home" || e.keyCode == 36) {
             self.getCell(0, 0).focus();
         }
-        else if(e.key == "End") {
+        else if(e.key == "End" || e.keyCode == 35 ) {
             self.getCell(self.dimensions[0]-1, self.dimensions[1]-1).focus();
         }
-        else if(e.key == "r") {
+        else if(e.key == "r" || e.keyCode == 82) {
             self.reset();
         }
-        else if(e.key == " ") {
+        else if(e.key == " " || e.keyCode == 32) {
             cell.click();
         }
         else if(!self.done) {
             if(self.markedMines[y][x] !== Mines.MINE_KNOWN) {
-                if(e.key == "f") {
+                if(e.key == "f" || e.keyCode == 70) {
                     e.preventDefault();
                     self.flagCell(x, y);
                 }
