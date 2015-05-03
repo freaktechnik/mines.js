@@ -121,6 +121,7 @@ button[disabled]::-moz-selection,
 li button,
 li [role="button"],
 li .button {
+  box-sizing: border-box;
   position: relative;
   text-align: left;
   border: 0.1rem solid #c7c7c7;
