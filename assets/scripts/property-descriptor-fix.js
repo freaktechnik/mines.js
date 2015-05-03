@@ -1,14 +1,30 @@
+var ELEMENT_TAG = 'div';
 var nativeDescriptor = Object.getOwnPropertyDescriptor;
+var polyfill = function(obj, prop) {
+    return {
+        get: obj.__lookupGetter__(prop),
+        set: obj.__lookupSetter__(prop)
+    };
+};
 
 Object.getOwnPropertyDescriptor = function(obj, prop) {
     var ret = nativeDescriptor(obj, prop);
     if(ret !== undefined) {
         return ret;
     }
-    else if(prop == 'innerHTML') {
-        return nativeDescriptor(document.createElement('div'), prop);
+    else if(prop == 'innerHTML' || prop == 'textContent') {
+        ret = nativeDescriptor(document.createElement(ELEMENT_TAG), prop);
+        if(ret === undefined) {
+            ret = polyfill(obj, prop);
+
+            if(ret === undefined) {
+                ret = polyfill(document.createElement(ELEMENT_TAG), prop);
+            }
+        }
     }
-    else if(prop == 'textContent') {
-        return nativeDescriptor(document.createElement('div'), prop);
+    else {
+        ret = polyfill(obj, prop);
     }
+
+    return ret;
 };
