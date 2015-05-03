@@ -89,6 +89,7 @@ Mines.prototype.mode = Mines.MODE_UNCOVER;
 Mines.prototype.size = 1;
 
 Mines.prototype.setSize = function(size) {
+    this.size = size;
     this.context.style.fontSize = size + 'em';
 };
 

@@ -2,6 +2,7 @@ const UNCOVER = "mines_mode_uncover";
 const FLAG = "mines_mode_flag";
 const UNCOVER_ICON = "brightness";
 const FLAG_ICON = "flag";
+const ZOOM_STEP = 0.1;
 
 // Execute an asynchonous vibration if it's enabled
 function vibrate(time) {
@@ -153,3 +154,18 @@ window.addEventListener("beforeunload", function() {
 document.getElementById("header").addEventListener("action", function() {
     window.location = "index.html";
 }, false);
+
+// Scaling on mobile (since desktop browsers don't let us override it anyways, so nobody complain, k?)
+
+var hammer = new Hammer.Manager(mines.context);
+
+var pinch = new Hammer.Pinch();
+
+hammer.add([pinch]);
+
+hammer.on("pinch", function(e) {
+    mines.setSize(mines.size + e.scale * ZOOM_STEP);
+});
+
+//doubletap zooming?
+
