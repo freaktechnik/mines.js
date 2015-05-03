@@ -2,7 +2,6 @@ const UNCOVER = "mines_mode_uncover";
 const FLAG = "mines_mode_flag";
 const UNCOVER_ICON = "brightness";
 const FLAG_ICON = "flag";
-const ZOOM_STEP = 0.1;
 
 // Execute an asynchonous vibration if it's enabled
 function vibrate(time) {
@@ -158,14 +157,20 @@ document.getElementById("header").addEventListener("action", function() {
 // Scaling on mobile (since desktop browsers don't let us override it anyways, so nobody complain, k?)
 
 var hammer = new Hammer.Manager(mines.context);
+// enable all touch actions so we still get scrolling and the click events
+hammer.set({ touchAction: "auto" });
 
-var pinch = new Hammer.Pinch();
+var pinch = new Hammer.Pinch({ threshold: 0 });
 
-hammer.add([pinch]);
+hammer.add(pinch);
 
-hammer.on("pinch", function(e) {
-    mines.setSize(mines.size + e.scale * ZOOM_STEP);
+var initialSize = Preferences.fieldsize.value;
+
+hammer.on("pinchstart", function(e) {
+    initialSize = mines.size;
 });
 
-//doubletap zooming?
+hammer.on("pinch", function(e) {
+    mines.setSize(initialSize * e.scale);
+});
 
