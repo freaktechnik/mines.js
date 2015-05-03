@@ -150,7 +150,7 @@
    * RTL responsive we won't need this rule anymore,
    * but this depends on all Gaia apps being ready.
    */
-  ::root[dir=rtl] gaia-header h1 {
+  :root[dir=rtl] gaia-header h1 {
     direction: rtl;
   }
   /** Buttons
