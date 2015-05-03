@@ -6,7 +6,7 @@ const FLAG_ICON = "flag";
 // Execute an asynchonous vibration if it's enabled
 function vibrate(time) {
     if(navigator.vibrate && Preferences.vibration.value)
-        setTimeout(function() { navigator.vibrate(time) }, 0);
+        setTimeout(function() { navigator.vibrate(time); }, 0);
 }
 
 function deleteSave() {
