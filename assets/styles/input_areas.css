@@ -23,7 +23,6 @@ textarea {
   box-shadow: none; /* override the box-shadow from the system (performance issue) */
   color: #333;
   background: #fff;
-  margin: 0 0 1rem 0;
 }
 
 label:active {
