@@ -15,6 +15,9 @@ test("BoolPreference", function(assert) {
 
     pref.value = false;
     assert.ok(!pref.value);
+
+    pref.reset();
+    assert.ok(pref.value);
 });
 
 test("NumberPreference", function(assert) {
@@ -34,6 +37,9 @@ test("NumberPreference", function(assert) {
 
     pref.value = 1.1;
     assert.equal(pref.value, 1.1);
+
+    pref.reset();
+    assert.equal(pref.value, 7);
 });
 
 test("Preferences.vibration", function(assert) {
@@ -55,4 +61,15 @@ test("Preferences.fieldsize", function(assert) {
     assert.ok(Preferences.fieldsize instanceof NumberPreference);
     assert.equal(Preferences.fieldsize.title, "fieldsize");
     assert.equal(Preferences.fieldsize.value, 1);
+});
+
+test("Preferences.reset()", function(assert) {
+    Preferences.fieldsize.value = 2;
+    Preferences.autotoggle.value = true;
+    Preferences.vibration.value= false;
+
+    Preferences.reset();
+    assert.equal(Preferences.fieldsize.value, 1);
+    assert.ok(!Preferences.autotoggle.value);
+    assert.ok(Preferences.vibration.value);
 });
