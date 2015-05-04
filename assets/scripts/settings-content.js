@@ -24,6 +24,10 @@ for(var name in Preferences) {
     }
 }
 
+if(!navigator.vibrate) {
+    document.getElementById("vibration").setAttribute("disabled", true);
+}
+
 document.querySelector("[data-l10n-id='settings_highscores_clear']").addEventListener("click", function() {
     if(window.confirm(document.querySelector("[data-l10n-id='highscores_confirm_clear']").textContent)) {
         Highscores.clear();

@@ -59,7 +59,7 @@ var Defaults = {
     },
     vibration: {
         type: "bool",
-        value: true
+        value: !!navigator.vibrate
     }
 };
 
