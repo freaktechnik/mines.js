@@ -3,6 +3,7 @@
  */
 
 //TODO Find a way for aria to not describe contents of cell while covered and to label mines
+//TODO maybe have an output area giving the current coordinates to screenreaders?
 
 Mines.AIR = 0;
 Mines.MINE_1 = 1;

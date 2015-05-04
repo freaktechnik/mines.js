@@ -160,6 +160,7 @@ body {
     font-family: FiraSans;
     overflow: auto;
     background: var(--background);
+    color: var(--text-color);
 }
 
 gaia-header {
