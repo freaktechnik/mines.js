@@ -5,7 +5,7 @@ const FLAG_ICON = "flag";
 
 // Execute an asynchonous vibration if it's enabled
 function vibrate(time) {
-    if(navigator.vibrate && Preferences.vibration.value)
+    if("vibrate" in navigator && Preferences.vibration.value)
         setTimeout(function() { navigator.vibrate(time); }, 0);
 }
 
@@ -98,7 +98,7 @@ field.addEventListener("generated", function() {
 
 field.addEventListener("loose", function() {
     timer.pause();
-    vibrate(1000);
+    vibrate(500);
 });
 
 field.addEventListener("win", function() {
@@ -128,13 +128,13 @@ field.addEventListener("reset", function() {
 
 field.addEventListener("flagged", function() {
     if(document.getElementById("flagtoggle").dataset.l10nId == UNCOVER)
-        vibrate(50);
+        vibrate(20);
     output.value = parseInt(output.value, 10) - 1;
 }, false);
 
 field.addEventListener("unflagged", function() {
     if(document.getElementById("flagtoggle").dataset.l10nId == UNCOVER)
-        vibrate(50);
+        vibrate(20);
     output.value = parseInt(output.value, 10) + 1;
 }, false);
 

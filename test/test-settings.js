@@ -46,7 +46,7 @@ test("Preferences.vibration", function(assert) {
     assert.ok("vibration" in Preferences);
     assert.ok(Preferences.vibration instanceof BoolPreference);
     assert.equal(Preferences.vibration.title, "vibration");
-    assert.equal(Preferences.vibration.value, !!navigator.vibrate, "Vibration default value correct");
+    assert.equal(Preferences.vibration.value, "vibrate" in navigator, "Vibration default value correct");
 });
 
 test("Preferences.autotoggle", function(assert) {
@@ -71,5 +71,5 @@ test("Preferences.reset()", function(assert) {
     Preferences.reset();
     assert.equal(Preferences.fieldsize.value, 1);
     assert.ok(!Preferences.autotoggle.value);
-    assert.equal(Preferences.vibration.value, !!navigator.vibrate);
+    assert.equal(Preferences.vibration.value, "vibrate" in navigator);
 });
