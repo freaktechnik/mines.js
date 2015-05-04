@@ -65,12 +65,22 @@ function addOption(game, gameDescription) {
 }
 
 Highscores.getGames(function(games) {
-    games.forEach(function(game) {
-        if(builtinOptions.indexOf(game) == -1) {
-            gameDescriptionFromValue(game, addOption.bind(null, game));
+    function nextOption(games, i) {
+        if(i == games.length) {
+            showHighscores(select.value);
         }
-    });
-    showHighscores(select.value);
+        else if(builtinOptions.indexOf(games[i]) == -1) {
+            gameDescriptionFromValue(games[i], function(desc) {
+                addOption(games[i], desc);
+                nextOption(games, i+1);
+            });
+        }
+        else {
+            nextOption(games, i+1);
+        }
+    }
+
+    nextOption(games, 0);
 });
 
 document.getElementById("delete-highscores").addEventListener("click", function() {
