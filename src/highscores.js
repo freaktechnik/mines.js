@@ -59,14 +59,14 @@ var Highscores = {
         request.onsuccess = function(e) {
             var cursor = e.target.result;
 
-            if(cursor && top.length < num) {
+            if(cursor) {
                 top.push(cursor.value);
                 cursor.continue();
             }
             else if(cbk) {
                 cbk(top.sort(function(a, b) {
                     return parseFloat(a.score)-parseFloat(b.score);
-                }));
+                }).slice(0, num - 1));
             }
         };
     },
