@@ -66,7 +66,7 @@ var Highscores = {
             else if(cbk) {
                 cbk(top.sort(function(a, b) {
                     return parseFloat(a.score)-parseFloat(b.score);
-                }).slice(0, num - 1));
+                }).slice(0, num));
             }
         };
     },
