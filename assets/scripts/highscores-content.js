@@ -61,24 +61,33 @@ function addOption(game, gameDescription) {
     select.add(item);
 }
 
-Highscores.getGames(function(games) {
-    function nextOption(games, i) {
-        if(i == games.length) {
-            showHighscores(select.value);
-        }
-        else if(builtinOptions.indexOf(games[i]) == -1) {
-            gameDescriptionFromValue(games[i], function(desc) {
-                addOption(games[i], desc);
+function loadGames() {
+    Highscores.getGames(function(games) {
+        function nextOption(games, i) {
+            if(i == games.length) {
+                showHighscores(select.value);
+            }
+            else if(builtinOptions.indexOf(games[i]) == -1) {
+                gameDescriptionFromValue(games[i], function(desc) {
+                    addOption(games[i], desc);
+                    nextOption(games, i+1);
+                });
+            }
+            else {
                 nextOption(games, i+1);
-            });
+            }
         }
-        else {
-            nextOption(games, i+1);
-        }
-    }
 
-    nextOption(games, 0);
-});
+        nextOption(games, 0);
+    });
+}
+
+if(!Highscores.ready) {
+    document.addEventListener("dbready", loadGames, false);
+}
+else {
+    loadGames();
+}
 
 document.getElementById("delete-highscores").addEventListener("click", function() {
     if(window.confirm(strbundle.getString('highscores_confirm_clear'))) {
