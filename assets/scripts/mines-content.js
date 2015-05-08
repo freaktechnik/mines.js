@@ -44,15 +44,6 @@ function getMinesFromHash(hash, field) {
     }
 }
 
-var field = document.getElementById("field"),
-    output = document.getElementById("minecount"),
-    mines = getMinesFromHash(document.location.hash.substr(1), field),
-    time = 0;
-
-output.value = mines.mineCount - mines.countFlags();
-
-mines.setSize(Preferences.fieldsize.value);
-
 function gameDescriptionFromMines(mines) {
     return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
 }
@@ -71,12 +62,14 @@ function toggleMode() {
     }
 }
 
-field.addEventListener("modetoggle", toggleMode);
+var field = document.getElementById("field"),
+    output = document.getElementById("minecount"),
+    mines = getMinesFromHash(document.location.hash.substr(1), field),
+    time = 0;
 
-document.getElementById("reset").addEventListener("click", function() {
-    mines.reset();
-}, false);
+output.value = mines.mineCount - mines.countFlags();
 
+mines.setSize(Preferences.fieldsize.value);
 
 if(localStorage.getItem("savedTime") == "true") {
     time = parseInt(localStorage.getItem("time"), 10);
@@ -87,6 +80,14 @@ var timer = new Timer(time, document.getElementById("time"));
 if(time !== 0) {
     timer.start();
 }
+
+// Event listeners
+
+field.addEventListener("modetoggle", toggleMode);
+
+document.getElementById("reset").addEventListener("click", function() {
+    mines.reset();
+}, false);
 
 field.addEventListener("generated", function() {
     timer.start();
@@ -133,7 +134,7 @@ field.addEventListener("flagged", function() {
     output.value = parseInt(output.value, 10) - 1;
 }, false);
 
-field.addEventListener("unflagged", function() {    
+field.addEventListener("unflagged", function() {
     var id = navigator.mozL10n.getAttributes(document.getElementById("flagtoggle")).id;
     if(id == UNCOVER)
         vibrate(20);
