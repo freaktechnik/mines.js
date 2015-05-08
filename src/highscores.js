@@ -54,7 +54,7 @@ var Highscores = {
                     self.db.deleteObjectStore(self.TABLE);
                     cont();
                 }
-            }
+            };
         }
         else {
             cont();
