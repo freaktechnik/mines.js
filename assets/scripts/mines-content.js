@@ -25,7 +25,7 @@ function getMinesFromHash(hash, field) {
         }
         else {
             if(mines.mode == Mines.MODE_FLAG) {
-                toggleMode(mines);
+                toggleMode();
             }
             return mines;
         }
@@ -57,8 +57,7 @@ function gameDescriptionFromMines(mines) {
     return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
 }
 
-function toggleMode(mines) {
-    mines = mines || this.mines;
+function toggleMode() {
     var button = document.getElementById("flagtoggle");
     var l10nAttrs = navigator.mozL10n.getAttributes(button);
 
