@@ -25,7 +25,7 @@ function getMinesFromHash(hash, field) {
         }
         else {
             if(mines.mode == Mines.MODE_FLAG) {
-                toggleMode(mines, true);
+                toggleMode(mines);
             }
             return mines;
         }
@@ -57,12 +57,9 @@ function gameDescriptionFromMines(mines) {
     return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
 }
 
-function toggleMode(mines, dry) {
+function toggleMode(mines) {
     mines = mines || this.mines;
     var button = document.getElementById("flagtoggle");
-
-    if(!dry)
-        mines.toggleMode();
 
     if(button.dataset.l10nId == UNCOVER) {
         button.dataset.l10nId = FLAG;
@@ -73,6 +70,8 @@ function toggleMode(mines, dry) {
         button.dataset.icon = UNCOVER_ICON;
     }
 }
+
+field.addEventListener("modetoggle", toggleMode);
 
 document.getElementById("reset").addEventListener("click", function() {
     mines.reset();
@@ -92,7 +91,7 @@ if(time !== 0) {
 field.addEventListener("generated", function() {
     timer.start();
     if(Preferences.autotoggle.value) {
-        toggleMode();
+        mines.toggleMode();
     }
 });
 
@@ -139,7 +138,7 @@ field.addEventListener("unflagged", function() {
 }, false);
 
 document.getElementById("flagtoggle").addEventListener("click", function(e) {
-    toggleMode();
+    mines.toggleMode();
 }, false);
 
 window.addEventListener("beforeunload", function() {

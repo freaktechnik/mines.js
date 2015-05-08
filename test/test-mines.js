@@ -19,11 +19,17 @@ test("construction", function(assert) {
 });
 
 test("toggle mode", function(assert) {
+    var done = assert.async();
+    var self = this;
+
     assert.equal(this.mines.mode, Mines.MODE_UNCOVER);
     this.mines.toggleMode();
     assert.equal(this.mines.mode, Mines.MODE_FLAG);
+    this.ctx.addEventListener("modetoggle", function() {
+        assert.equal(self.mines.mode, Mines.MODE_UNCOVER);
+        done();
+    });
     this.mines.toggleMode();
-    assert.equal(this.mines.mode, Mines.MODE_UNCOVER);
 });
 
 test("generate", function(assert) {

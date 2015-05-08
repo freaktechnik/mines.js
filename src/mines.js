@@ -69,9 +69,12 @@ function Mines(cfx, dimensions, mineCount) {
     this.context.parentNode.removeAttribute("aria-busy");
 
     var self = this;
-    this.context.addEventListener("keyup", function(e) {
-        if(e.key == "r" || e.charCode == 114) {
+    this.context.addEventListener("keydown", function(e) {
+        if(e.key == "r" || e.keyCode == 82) {
             self.reset();
+        }
+        else if(e.key == "CapsLock" || e.keyCode == 20) {
+            self.toggleMode();
         }
     }, false);
 
@@ -151,6 +154,8 @@ Mines.prototype.toggleMode = function() {
         this.mode = Mines.MODE_FLAG;
     else
         this.mode = Mines.MODE_UNCOVER;
+
+    this.context.dispatchEvent(new Event("modetoggle"));
 };
 
 Mines.prototype.generate = function(emptyPoint) {
@@ -416,9 +421,6 @@ Mines.prototype.createCell = function(x, y) {
         }
         else if(e.key == "End" || e.keyCode == 35 ) {
             self.getCell(self.dimensions[0]-1, self.dimensions[1]-1).focus();
-        }
-        else if(e.key == "r" || e.keyCode == 82) {
-            self.reset();
         }
         else if(e.key == " " || e.keyCode == 32) {
             cell.click();
