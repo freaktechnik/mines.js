@@ -3,7 +3,7 @@
  */
 
 var Highscores = {
-    VERSION: 1,
+    VERSION: 2,
     TABLE: "scores",
     db: null,
     ready: false,
@@ -25,10 +25,40 @@ var Highscores = {
     setupDB: function(e) {
         this.db = e.target.result;
 
-        var scores = this.db.createObjectStore(this.TABLE, { keyPath: "score" });
-        scores.createIndex("game", "game", { unique: false });
+        var self = this;
+        var oldData = [];
+        var cont = function() {
+            var scores = self.db.createObjectStore(self.TABLE, { keyPath: ["score", "game"] });
+            scores.createIndex("game", "game", { unique: false });
 
-        this.setReady();
+            if(oldData.length) {
+                oldData.forEach(function(score) {
+                    scores.add(score);
+                });
+            }
+
+            self.setReady();
+        };
+
+        if(e.oldVersion > 0) {
+            var store = e.target.transaction.objectStore(this.TABLE);
+            var request = store.openCursor();
+
+            request.onsuccess = function(e) {
+                var cursor = e.target.result;
+                if(cursor) {
+                    oldData.push(cursor.value);
+                    cursor.continue();
+                }
+                else {
+                    self.db.deleteObjectStore(self.TABLE);
+                    cont();
+                }
+            }
+        }
+        else {
+            cont();
+        }
     },
     setReady: function() {
         this.ready = true;
