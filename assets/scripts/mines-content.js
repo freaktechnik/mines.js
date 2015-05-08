@@ -4,6 +4,8 @@ function gameDescriptionFromMines(mines) {
 
 var Page = {
     init: function Page_init() {
+        this.strbundle = new StringBundle(document.getElementById("strings"));
+
         this.mines = this.getMinesFromHash(document.location.hash.substr(1));
         this.mines.setSize(Preferences.fieldsize.value);
 
@@ -30,7 +32,7 @@ var Page = {
                     var lastUser = localStorage.getItem(HIGHSCORE_USER);
                     if(lastUser === null)
                         lastUser = "";
-                    var user = window.prompt(document.querySelector("[data-l10n-id='mines_new_highscore']").textContent, lastUser);
+                    var user = window.prompt(self.strbundle.getString('mines_new_highscore'), lastUser);
                     if(user) {
                         localStorage.setItem(HIGHSCORE_USER, user);
                         Highscores.save(game, time.toFixed(2), user);
@@ -85,6 +87,7 @@ var Page = {
         return document.getElementById("field");
     },
     mines: null,
+    strbundle: null,
     Toolbar: {
         init: function(mines) {
             this.output.value = mines.mineCount - mines.countFlags();
@@ -210,7 +213,7 @@ var Page = {
         if(hash.charAt(0) == "r") {
             var mines = Mines.restoreSavedState(this.field);
             if(!mines) {
-                window.alert(document.querySelector("[data-l10n-id='mines_restore_error']").textContent);
+                window.alert(this.strbundle.getString('mines_restore_error'));
                 Mines.removeSavedState();
                 window.location = "index.html";
             }

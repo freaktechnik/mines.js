@@ -28,8 +28,10 @@ if(!navigator.vibrate) {
     document.getElementById("vibration").setAttribute("disabled", true);
 }
 
+var strbundle = new StringBundle(document.getElementById("strings"));
+
 document.querySelector("[data-l10n-id='settings_highscores_clear']").addEventListener("click", function() {
-    if(window.confirm(document.querySelector("[data-l10n-id='highscores_confirm_clear']").textContent)) {
+    if(window.confirm(strbundle.getString("highscores_confirm_clear"))) {
         Highscores.clear();
         removeDynamicItems();
         noresults.classList.remove("hidden");

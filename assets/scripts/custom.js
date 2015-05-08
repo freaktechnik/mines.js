@@ -1,10 +1,11 @@
 var mines = document.getElementById("mines"),
     height = document.getElementById("height"),
     width = document.getElementById("width"),
+    strbundle = new StringBundle(document.getElementById("strings")),
     minesValidator = function(e) {
         var cells = height.valueAsNumber * width.valueAsNumber;
         if(mines.valueAsNumber >= cells || cells < 2) {
-            mines.setCustomValidity(document.querySelector("[data-l10n-id='custom_form_error']").textContent);
+            mines.setCustomValidity(strbundle.getString('custom_form_error'));
         }
         else {
             mines.setCustomValidity("");

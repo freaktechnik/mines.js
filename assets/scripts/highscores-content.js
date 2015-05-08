@@ -2,16 +2,13 @@ var select = document.getElementById("gametype");
 var builtinOptions = ["8x8:10", "16x16:40", "30x16:99"];
 var list = document.getElementById("highscores");
 var noresults = document.getElementById("noresults");
+var strbundle = new StringBundle(document.getElementById("strings"));
 
 function gameDescriptionFromValue(val, callback) {
     var mines = val.split(":");
     var size = mines[0].split("x");
     mines = mines[1];
-    var string = document.querySelector("[data-l10n-id='highscores_custom_board']");
-    navigator.mozL10n.setAttributes(string, "highscores_custom_board", { width: size[0], height: size[1], mines: mines });
-    navigator.mozL10n.once(function() {
-        callback(string.textContent);
-    });
+    strbundle.getStringAsync("highscores_custom_board", { width: size[0], height: size[1], mines: mines }).then(callback);
 }
 
 function highscoreListItem(name, time) {
@@ -84,7 +81,7 @@ Highscores.getGames(function(games) {
 });
 
 document.getElementById("delete-highscores").addEventListener("click", function() {
-    if(window.confirm(document.querySelector("[data-l10n-id='highscores_confirm_clear']").textContent)) {
+    if(window.confirm(strbundle.getString('highscores_confirm_clear'))) {
         Highscores.clear();
         removeDynamicItems();
         noresults.classList.remove("hidden");
