@@ -60,13 +60,14 @@ function gameDescriptionFromMines(mines) {
 function toggleMode(mines) {
     mines = mines || this.mines;
     var button = document.getElementById("flagtoggle");
+    var l10nAttrs = navigator.mozL10n.getAttributes(button);
 
-    if(button.dataset.l10nId == UNCOVER) {
-        button.dataset.l10nId = FLAG;
+    if(l10nAttrs.id == UNCOVER) {
+        navigator.mozL10n.setAttributes(button, FLAG);
         button.dataset.icon = FLAG_ICON;
     }
     else {
-        button.dataset.l10nId = UNCOVER;
+        navigator.mozL10n.setAttributes(button, UNCOVER);
         button.dataset.icon = UNCOVER_ICON;
     }
 }
@@ -120,19 +121,22 @@ field.addEventListener("win", function() {
 
 field.addEventListener("reset", function() {
     timer.reset();
-    document.getElementById("flagtoggle").dataset.l10nId = UNCOVER;
-    document.getElementById("flagtoggle").dataset.icon = UNCOVER_ICON;
+    var flagtoggle = document.getElementById("flagtoggle");
+    navigator.mozL10n.setAttributes(flagtoggle, UNCOVER);
+    flagtoggle.dataset.icon = UNCOVER_ICON;
     output.value = mines.mineCount;
 }, false);
 
 field.addEventListener("flagged", function() {
-    if(document.getElementById("flagtoggle").dataset.l10nId == UNCOVER)
+    var id = navigator.mozL10n.getAttributes(document.getElementById("flagtoggle")).id;
+    if(id == UNCOVER)
         vibrate(20);
     output.value = parseInt(output.value, 10) - 1;
 }, false);
 
-field.addEventListener("unflagged", function() {
-    if(document.getElementById("flagtoggle").dataset.l10nId == UNCOVER)
+field.addEventListener("unflagged", function() {    
+    var id = navigator.mozL10n.getAttributes(document.getElementById("flagtoggle")).id;
+    if(id == UNCOVER)
         vibrate(20);
     output.value = parseInt(output.value, 10) + 1;
 }, false);
