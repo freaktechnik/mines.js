@@ -65,6 +65,7 @@ module.exports = function(grunt) {
                 dest: '<%= distdir %>/vendor/',
                 options: {
                     expand: true,
+                    ignorePackages: ['WeakMap', 'MutationObserver', 'es6-collections'],
                     packageSpecific: {
                         'gaia-fonts': {
                             files: [
@@ -197,7 +198,8 @@ module.exports = function(grunt) {
                         "Math": true,
                         "CustomEvent": true,
                         "Date": true,
-                        "IDBKeyRange": true
+                        "IDBKeyRange": true,
+                        "unescape": true
                     }
                 },
                 files: [
@@ -205,6 +207,12 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: "src",
                         src: ["**/*.js"],
+                        dest: "test/dist"
+                    },
+                    {
+                        expand: true,
+                        cwd: "assets/scripts",
+                        src: ["l10n.js"],
                         dest: "test/dist"
                     }
                 ]
