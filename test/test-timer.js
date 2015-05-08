@@ -2,6 +2,7 @@ module("timer.js", {
     beforeEach: function() {
         this.output = document.getElementById("output");
         this.output.value = "";
+        this.delta = 50;
     }
 });
 
@@ -35,11 +36,12 @@ test("start event", function(assert) {
 test("pause", function(assert) {
     var done = assert.async();
     var t = new Timer(0, this.output);
+    var self = this;
     t.start();
     setTimeout(function() {
         t.pause();
         assert.ok(!t.running);
-        assert.ok(995 < t.offset && t.offset < 1005);
+        assert.ok(Math.abs(t.offset - 1000) < self.delta);
         done();
     }, 1000);
 });
