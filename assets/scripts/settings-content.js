@@ -10,7 +10,6 @@ function setupNumberPreference(name) {
     document.getElementById(name).value = Preferences[name].value;
 
     document.getElementById(name).addEventListener("change", function(e) {
-        console.log("ping");
         Preferences[name].value = e.target.value;
     });
 }
