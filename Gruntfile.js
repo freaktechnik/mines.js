@@ -73,7 +73,7 @@ module.exports = function(grunt) {
                                 'style.css'
                             ]
                         },
-                        'webcomponents': {
+                        'webcomponentsjs': {
                             files: [ 'webcomponents.min.js' ]
                         }
                     }
