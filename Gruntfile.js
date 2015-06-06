@@ -72,6 +72,9 @@ module.exports = function(grunt) {
                                 'fonts/**',
                                 'style.css'
                             ]
+                        },
+                        'webcomponents': {
+                            files: [ 'webcomponents.min.js' ]
                         }
                     }
                 }
