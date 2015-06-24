@@ -4,7 +4,6 @@
   "description": "Yet another Minesweeeper clone with custom boards and mine-flagging",
   "version": "1.0.1",
   "devDependencies": {
-    "bower": "*",
     "grunt": "*",
     "grunt-accessibility": "^3.0.1",
     "grunt-appcache": "^0.1.8",
