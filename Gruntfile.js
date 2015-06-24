@@ -7,6 +7,7 @@ module.exports = function(grunt) {
         distdir: 'dist',
         localedir: 'locales',
         pkg: grunt.file.readJSON('package.json'),
+        mpAPICreds: grunt.file.readJSON('.marketplacerc'),
         banner:
             '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
@@ -334,6 +335,24 @@ module.exports = function(grunt) {
                 appId: '<%= pkg.name %>',
                 zip: '<%= pkg.name %>-<%= pkg.version %>.zip'
             }
+        },
+        marketplace: {
+            options: {
+                consumerKey: '<%= mpAPICreds.consumerKey %>',
+                consumerSecret: '<%= mpAPICreds.consumerSecret %>'
+            },
+            packaged: {
+                options: {
+                    target: "packaged"
+                },
+                files: ['<%= pkg.name %>-<%= pkg.version %>.zip']
+            },
+            web: {
+                options: {
+                    target: "manifest"
+                },
+                files: ['<%= distdir %>/manifest.webapp']
+            }
         }
     });
 
@@ -355,6 +374,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-webapp');
     grunt.loadNpmTasks('grunt-ftp-deploy');
     grunt.loadNpmTasks('grunt-firefoxos');
+    grunt.loadNpmTasks('grunt-marketplace');
 
     // Default task(s).
     grunt.registerTask('default', ['build:web']);
@@ -407,7 +427,7 @@ module.exports = function(grunt) {
         grunt.task.run('build:'+env);
 
         if(env == 'packaged') {
-            grunt.fail.warn("Can't deploy packaged apps yet.");
+            grunt.task.run('marketplace:packaged');
         }
         else {
             grunt.task.run('ftp-deploy:production');

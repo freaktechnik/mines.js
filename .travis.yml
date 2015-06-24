@@ -11,6 +11,8 @@ after_success:
 before_deploy:
 - grunt deploy:web
 - grunt clean
+- grunt deploy:packaged
+- grunt clean
 - grunt travis
 deploy:
   provider: releases
