@@ -39,5 +39,8 @@
   "license": "MPL-2.0",
   "scripts": {
     "test": "grunt test"
+  },
+  "dependencies": {
+    "grunt-marketplace": "^0.1.1"
   }
 }
