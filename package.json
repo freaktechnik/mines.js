@@ -4,6 +4,8 @@
   "description": "Yet another Minesweeeper clone with custom boards and mine-flagging",
   "version": "1.0.1",
   "devDependencies": {
+    "fxos-connect": "~0.3.0",
+    "fxos-deploy": "~0.3.2",
     "grunt": "*",
     "grunt-accessibility": "^3.0.1",
     "grunt-appcache": "^0.1.8",
@@ -18,14 +20,13 @@
     "grunt-contrib-uglify": "*",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-es6-transpiler": "^1.0.2",
+    "grunt-firefoxos": "~0.1.2",
     "grunt-ftp-deploy": "^0.1.10",
+    "grunt-marketplace": "^0.1.1",
     "grunt-transifex": "^0.1.1",
     "grunt-validate-webapp": "^0.1.0",
     "grunt-webapp": "~0.3.1",
-    "qunitjs": "^1.17.1",
-    "grunt-firefoxos": "~0.1.2",
-    "fxos-deploy": "~0.3.2",
-    "fxos-connect": "~0.3.0"
+    "qunitjs": "^1.17.1"
   },
   "repository": {
     "type": "git",
@@ -38,8 +39,5 @@
   "license": "MPL-2.0",
   "scripts": {
     "test": "grunt test"
-  },
-  "dependencies": {
-    "grunt-marketplace": "^0.1.1"
   }
 }
