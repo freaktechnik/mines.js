@@ -345,13 +345,17 @@ module.exports = function(grunt) {
                 options: {
                     target: "packaged"
                 },
-                files: ['<%= pkg.name %>-<%= pkg.version %>.zip']
+                files: [{
+                    src: ['<%= pkg.name %>-<%= pkg.version %>.zip']
+                }]
             },
             web: {
                 options: {
                     target: "manifest"
                 },
-                files: ['<%= distdir %>/manifest.webapp']
+                files: [{
+                    src: ['<%= distdir %>/manifest.webapp']
+                }]
             }
         }
     });
