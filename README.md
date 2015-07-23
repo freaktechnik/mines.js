@@ -2,7 +2,15 @@ Mines
 =====
 [![Build Status](https://travis-ci.org/freaktechnik/mines.js.svg)](https://travis-ci.org/freaktechnik/mines.js)
 
-Mines is a webapp minesweeper clone. It orients itself at the Firefox OS style. There is no public packaged version yet, but the web version is found at http://humanoids.be/mines
+Mines is a webapp minesweeper clone. It orients itself at the Firefox OS style.
+
+Play
+----
+Mines is available on the following sites:
+
+ * [Web (Release)](http://humanoids.be/mines)
+ * [Firefox Marketplace](https://marketplace.firefox.com/app/mines/)
+ * [Web (Testing)](http://lab.humanoids.be/mines.js)
 
 Translate
 ---------
