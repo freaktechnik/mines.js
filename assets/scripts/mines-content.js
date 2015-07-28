@@ -219,7 +219,7 @@ var Page = {
             }
             else {
                 if(mines.mode == Mines.MODE_FLAG) {
-                    this.Toolbar.flagtoggletoggle();
+                    this.Toolbar.flagtoggle.toggle();
                 }
                 return mines;
             }
