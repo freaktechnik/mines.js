@@ -2,6 +2,8 @@
  * Timer thing
  */
 
+var TIME_UNIT_STRING = "mines_time_unit";
+
 Timer.prototype.output = null;
 Timer.prototype.startTime = 0;
 Timer.prototype.offset = 0;
@@ -10,17 +12,37 @@ Timer.prototype.running = false;
 function Timer(offset, output) {
     this.offset = offset;
     this.output = output;
+
+    var time = "0.0";
+    if("Intl" in window) {
+        this._nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+        time = this._nf.format(0.0);
+    }
+
+    navigator.mozL10n.setAttributes(this.output, TIME_UNIT_STRING, { time: time });
+    navigator.mozL10n.translateFragment(this.output);
 }
 
 Timer.prototype.updateOutput = function(time) {
-    time = time || Date.now() - this.startTime;
-    this.output.value = (time/1000.0).toFixed(1);
+    if(typeof(time) !== "number")
+        time = Date.now() - this.startTime;
+
+    var timeStr;
+    if(this._nf) {
+        timeStr = this._nf.format(time / 1000.0);
+    }
+    else {
+        timeStr = (time/1000.0).toFixed(1);
+    }
+
+    navigator.mozL10n.setAttributes(this.output, TIME_UNIT_STRING, { time: timeStr });
+    navigator.mozL10n.translateFragment(this.output);
 };
 
 Timer.prototype.reset = function() {
     this.startTime = 0;
     this.offset = 0;
-    this.updateOutput(0.00001);
+    this.updateOutput(0.0);
     this.running = false;
     if(this.interval) {
         clearInterval(this.interval);

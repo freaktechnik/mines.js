@@ -1,3 +1,5 @@
+//TODO do some fancy queueing stuff for waiting until mozL10n.ready or when requesting translation of the same string
+
 /**
  * A StringBundle wraps around an HTML element containing nodes with strings used in JS.
  * @param container: The parent element of all strings.
@@ -40,6 +42,7 @@ StringBundle.prototype.getStringAsync = function(id, args) {
             accept(node.textContent);
         });
         navigator.mozL10n.setAttributes(node, id, args);
+        navigator.mozL10n.translateFragment(node);
     });
     return promised;
 };

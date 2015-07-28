@@ -3,15 +3,20 @@ var builtinOptions = ["8x8:10", "16x16:40", "30x16:99"];
 var list = document.getElementById("highscores");
 var noresults = document.getElementById("noresults");
 var strbundle = new StringBundle(document.getElementById("strings"));
+if(Intl)
+    var nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 
-function gameDescriptionFromValue(val, callback) {
+function gameDescriptionFromValue(element, val) {
     var mines = val.split(":");
     var size = mines[0].split("x");
     mines = mines[1];
-    strbundle.getStringAsync("highscores_custom_board", { width: size[0], height: size[1], mines: mines }).then(callback);
+    navigator.mozL10n.setAttributes(element, "highscores_custom_board", { width: size[0], height: size[1], mines: mines });
 }
 
 function highscoreListItem(name, time) {
+    if(nf)
+        time = nf.format(parseFloat(time));
+
     var li = document.createElement("li");
     var divA = document.createElement("div");
     var divB = document.createElement("div");
@@ -25,6 +30,8 @@ function highscoreListItem(name, time) {
 
     divA.appendChild(nameNode);
     divB.appendChild(timeNode);
+
+    navigator.mozL10n.setAttributes(divB, "mines_time_unit", { time: time });
 
     li.appendChild(divA);
     li.appendChild(divB);
@@ -45,6 +52,7 @@ function showHighscores(game) {
         if(tops.length) {
             noresults.classList.add("hidden");
             noresults.setAttribute("hidden", true);
+
             tops.forEach(function(top) {
                 list.appendChild(highscoreListItem(top.name, top.score));
             });
@@ -56,29 +64,19 @@ function showHighscores(game) {
     });
 }
 
-function addOption(game, gameDescription) {
-    var item = new Option(gameDescription, game);
+function addOption(game) {
+    var item = new Option("", game);
+    gameDescriptionFromValue(item, game);
     select.add(item);
 }
 
 function loadGames() {
     Highscores.getGames(function(games) {
-        function nextOption(games, i) {
-            if(i == games.length) {
-                showHighscores(select.value);
-            }
-            else if(builtinOptions.indexOf(games[i]) == -1) {
-                gameDescriptionFromValue(games[i], function(desc) {
-                    addOption(games[i], desc);
-                    nextOption(games, i+1);
-                });
-            }
-            else {
-                nextOption(games, i+1);
-            }
-        }
-
-        nextOption(games, 0);
+        games.forEach(function(game) {
+            if(builtinOptions.indexOf(game) == -1)
+                addOption(game);
+        });
+        showHighscores(select.value);
     });
 }
 

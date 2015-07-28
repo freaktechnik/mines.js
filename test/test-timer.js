@@ -7,11 +7,16 @@ module("timer.js", {
 });
 
 test("Setup", function(assert) {
-    assert.expect(3);
+    assert.expect(4);
+    var done = assert.async();
     var t = new Timer(10, this.output);
     assert.equal(t.offset, 10);
     assert.equal(t.output, this.output);
     assert.ok(!t.running);
+    navigator.mozL10n.once(function() {
+        assert.equal(t.output.value, "0.0s");
+        done();
+    });
 });
 
 test("start", function(assert) {
@@ -62,15 +67,17 @@ test("pause event", function(assert) {
 test("updateOutput", function(assert) {
     var done = assert.async();
     var t = new Timer(0, this.output);
-    t.start();
-    setTimeout(function() {
-        t.pause();
-        t.updateOutput();
-        assert.equal(t.output.value, "1.0");
+    t.startTime = Date.now() - 1000;
+    navigator.mozL10n.once(function() {
+        assert.equal(t.output.value, "1.0s");
+
         t.updateOutput(1100);
-        assert.equal(t.output.value, "1.1");
-        done();
-    }, 1000);
+        navigator.mozL10n.once(function(output) {
+            assert.equal(t.output.value, "1.1s");
+            done();
+        });
+    });
+    t.updateOutput();
 });
 
 test("stop", function(assert) {
@@ -80,7 +87,6 @@ test("stop", function(assert) {
     assert.ok(!t.running);
     assert.equal(t.startTime, 0);
     assert.equal(t.offset, 0);
-    assert.equal(this.output.value, "0.0");
 });
 
 test("stop event", function(assert) {
@@ -111,7 +117,6 @@ test("reset", function(assert) {
     assert.ok(!t.running);
     assert.equal(t.startTime, 0);
     assert.equal(t.offset, 0);
-    assert.equal(this.output.value, "0.0");
 });
 
 test("reset event", function(assert) {

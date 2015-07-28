@@ -203,7 +203,8 @@ module.exports = function(grunt) {
                         "CustomEvent": true,
                         "Date": true,
                         "IDBKeyRange": true,
-                        "unescape": true
+                        "unescape": true,
+                        "Intl": true
                     }
                 },
                 files: [
