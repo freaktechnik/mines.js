@@ -298,7 +298,7 @@ module.exports = function(grunt) {
             options: {
                 localeDir: '<%= localedir %>',
                 icons: 'assets/images/icon-*.png',
-                iconsTarget: 'images/icon-{size}.png'
+                iconsTarget: '/images/icon-{size}.png'
             },
             web: {
                 options: {
@@ -488,14 +488,15 @@ module.exports = function(grunt) {
             grunt.task.run('ffospush');
         }
         else {
-            grunt.util.spawn({
+            /*grunt.util.spawn({
                 grunt: true,
                 args: ['simulator:'+version]
             }, function(err) {
                 if(err) {
                     grunt.fail.warn(err);
                 }
-            });
+            });*/
+            grunt.task.run('simulator:'+version);
         }
     });
 
