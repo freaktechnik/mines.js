@@ -15,8 +15,8 @@ module.exports = function(grunt) {
             ' * This Source Code Form is subject to the terms of the Mozilla Public License,\n' +
             ' * v. 2.0. If a copy of the MPL was not distributed with this file, You can\n' +
             ' * obtain one at http://mozilla.org/MPL/2.0/.\n */\n',
-        locales: "<%= grunt.file.expand(grunt.config('localedir')+'/*').join(',').replace(new RegExp(grunt.config('localedir')+'/','g'), '') %>",
-        iconSizes: "<%= JSON.stringify(grunt.file.expand('assets/images/icon-*.png').map(function(filename) {return filename.match(/assets\\/images\\/icon-([0-9]+).png/)[1];})) %>",
+        locales: "<%= grunt.file.expand({cwd:grunt.config('localedir')},'*').join(',') %>",
+        iconSizes: "<%= JSON.stringify(grunt.file.expand({cwd:'assets/images'},'icon-*.png').map(function(filename) {return filename.match(/icon-([0-9]+).png/)[1];})) %>",
         uglify: {
             options: {
                 banner: '<%= banner %>'
