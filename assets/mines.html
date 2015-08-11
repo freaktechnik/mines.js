@@ -5,12 +5,12 @@
         <title data-l10n-id="title">Mines</title>
 
         <script src="mines.min.js" type="application/javascript"></script>
-        <link rel="help" href="help.html" type="text/html">
+        <link rel="help" href="<!-- @echo HTML_DIR -->help.html" type="text/html">
 
-        <link rel="stylesheet" type="text/css" href="styles/toolbars.css">
-        <script src="vendor/hammerjs/hammer.js"></script>
+        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->toolbars.css">
+        <script src="<!-- @echo VENDOR_DIR -->hammerjs/hammer.js"></script>
 
-        <link rel="stylesheet" type="text/css" href="styles/style.css">
+        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->style.css">
     </head>
     <body class="skin-comms skin-organic" role="application">
         <div id="strings" class="hidden" hidden>
@@ -43,7 +43,7 @@
                 <button id="flagtoggle" data-icon="brightness" data-l10n-id="mines_mode_uncover">Uncover</button>
             </footer>
         </section>
-        <script type="application/javascript" src="vendor/what-input/what-input.js"></script>
-        <script type="application/javascript" src="scripts/mines-content.min.js"></script>
+        <script type="application/javascript" src="<!-- @echo VENDOR_DIR -->what-input/what-input.js"></script>
+        <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->mines-content.min.js"></script>
     </body>
 </html>
