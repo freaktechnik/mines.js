@@ -1,0 +1,36 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
+
+<!-- @foreach $SIZE in ICON_SIZES -->
+<link rel="icon" sizes="$SIZEx$SIZE" type="image/png" href="images/icon-$SIZE.png">
+<!-- @endfor -->
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link type="image/PNG" sizes="128x128" rel="apple-touch-icon" href="images/icon-128.png" >
+<link type="image/PNG" sizes="256x256" rel="apple-touch-icon" href="images/icon-256.png" >
+
+<meta name="msapplication-TileImage" content="images/icon-144.png"/>
+<meta name="msapplication-TileColor" content="#4DB300"/>
+
+<script src="vendor/es6-promise/promise.js"></script>
+
+<meta name="defaultLanguage" content="en">
+<meta name="availableLanguages" content="<!-- @echo LOCALES -->">
+
+<link rel="localization" href="locales/{locale}/app.properties">
+<script src="scripts/l10n.min.js"></script>
+
+<script src="scripts/property-descriptor-fix.min.js"></script>
+<script src="scripts/object-assign-polyfill.min.js"></script>
+<script src="vendor/webcomponentsjs/webcomponents.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="vendor/gaia-fonts/style.css">
+<link rel="stylesheet" type="text/css" href="styles/layout.css">
+<link rel="stylesheet" type="text/css" href="vendor/gaia-icons/gaia-icons.css">
+<link rel="stylesheet" type="text/css" href="styles/gaia-header.css">
+<script src="vendor/font-fit/font-fit.js"></script>
+<script src="vendor/gaia-component/gaia-component.js"></script>
+<script src="vendor/gaia-header/gaia-header.js"></script>
+
+<link rel="stylesheet" type="text/css" href="styles/general.css">

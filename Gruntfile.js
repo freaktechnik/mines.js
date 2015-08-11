@@ -15,9 +15,8 @@ module.exports = function(grunt) {
             ' * This Source Code Form is subject to the terms of the Mozilla Public License,\n' +
             ' * v. 2.0. If a copy of the MPL was not distributed with this file, You can\n' +
             ' * obtain one at http://mozilla.org/MPL/2.0/.\n */\n',
-        locales: function() {
-            return grunt.file.expand(grunt.config('localedir')+"/*").join(",").replace(new RegExp(grunt.config('localedir')+"/", "g"), "");
-        },
+        locales: "<%= grunt.file.expand(grunt.config('localedir')+'/*').join(',').replace(new RegExp(grunt.config('localedir')+'/','g'), '') %>",
+        iconSizes: "<%= JSON.stringify(grunt.file.expand('assets/images/icon-*.png').map(function(filename) {return filename.match(/assets\\/images\\/icon-([0-9]+).png/)[1];})) %>",
         uglify: {
             options: {
                 banner: '<%= banner %>'
@@ -107,21 +106,6 @@ module.exports = function(grunt) {
                         src: ['*.css'],
                         dest: '<%= distdir %>/styles/',
                         ext: '.css'
-                    }
-                ]
-            },
-            html: {
-                options: {
-                    process: function(file) {
-                        return file.replace("{{locales}}", grunt.config('locales'));
-                    }
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'assets',
-                        src: ['*.html'],
-                        dest: '<%= distdir %>'
                     }
                 ]
             },
@@ -358,6 +342,21 @@ module.exports = function(grunt) {
                     src: ['<%= distdir %>/manifest.webapp']
                 }]
             }
+        },
+        preprocess: {
+            options: {
+                context: {
+                    LOCALES: '<%= locales %>',
+                    ICON_SIZES: '<%= iconSizes %>'
+                },
+                srcDir: 'assets/include'
+            },
+            html: {
+                expand: true,
+                cwd: 'assets',
+                src: ['*.html'],
+                dest: '<%= distdir %>'
+            },
         }
     });
 
@@ -380,6 +379,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-ftp-deploy');
     grunt.loadNpmTasks('grunt-firefoxos');
     grunt.loadNpmTasks('grunt-marketplace');
+    grunt.loadNpmTasks('grunt-preprocess');
 
     // Default task(s).
     grunt.registerTask('default', ['build:web']);
@@ -391,7 +391,7 @@ module.exports = function(grunt) {
         grunt.task.run('uglify');
         grunt.task.run('bower');
         grunt.task.run('cssmin');
-        grunt.task.run('copy:html');
+        grunt.task.run('preprocess:html');
         grunt.task.run('copy:build');
         grunt.task.run('webapp:'+env);
         grunt.task.run('es6transpiler:bowerlibs');
@@ -412,7 +412,7 @@ module.exports = function(grunt) {
         grunt.task.run('bower');
         grunt.task.run('concat:dev');
         grunt.task.run('copy:dev');
-        grunt.task.run('copy:html');
+        grunt.task.run('preprocess:html');
         grunt.task.run('copy:build');
         grunt.task.run('webapp:'+env);
         grunt.task.run('es6transpiler:bowerlibs');

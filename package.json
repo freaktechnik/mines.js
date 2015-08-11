@@ -23,6 +23,7 @@
     "grunt-firefoxos": "~0.1.2",
     "grunt-ftp-deploy": "^0.1.10",
     "grunt-marketplace": "^0.1.2",
+    "grunt-preprocess": "^5.0.1",
     "grunt-transifex": "^0.1.1",
     "grunt-validate-webapp": "^0.1.0",
     "grunt-webapp": "~0.3.1",
