@@ -15,7 +15,7 @@ module.exports = function(grunt) {
             bower: 'vendor/',
             style: 'styles/',
             font: 'font/',
-            icon: '/<%= dist.image %><%= iconFile %>'
+            icon: '<%= dist.image %><%= iconFile %>'
         },
         // Asset directory locations
         assetdir: 'assets',
@@ -310,7 +310,7 @@ module.exports = function(grunt) {
             options: {
                 localeDir: '<%= src.locale %>',
                 icons: '<%= src.icon %>',
-                iconsTarget: '<%= grunt.config("dist.icon").replace("*", "{size}") %>'
+                iconsTarget: '/<%= grunt.config("dist.icon").replace("*", "{size}") %>'
             },
             web: {
                 options: {
