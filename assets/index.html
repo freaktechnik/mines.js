@@ -31,6 +31,14 @@
                         <li><button class="icon icon-view" data-difficulty="custom" data-l10n-id="menu_difficulty_custom">Custom</button></li>
                     </ul>
                 </article>
+                <!-- @if TARGET_ENV='web' -->
+                <article hidden id="marketplacepromo">
+                    <header data-l10n-id="menu_marketplacepromo_title">Install packaged webapp</header>
+                    <ul>
+                        <li><a class="button" target="blank" rel="external" href="https://marketplace.firefox.com/app/mines" data-l10n-id="menu_marketplacepromo_button">Get from Firefox Marketplace</a></li>
+                    </ul>
+                </article>
+                <!-- @endif -->
             </section>
         </section>
         <script type="application/javascript" src="<!-- @echo VENDOR_DIR -->what-input/what-input.js"></script>

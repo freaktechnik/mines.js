@@ -3,6 +3,8 @@ var connectSim = require('fxos-connect');
 
 module.exports = function(grunt) {
     // Project configuration.
+    var TARGET_ENV = "web";
+
     grunt.initConfig({
         iconFile: 'icon-*.png',
         distdir: 'dist/',
@@ -43,6 +45,7 @@ module.exports = function(grunt) {
         locales: '<%= grunt.file.expand({cwd:grunt.config("src.locale")}, "*").join(",") %>',
         // This lists the sizes of the icon files for the head preprocessing.
         iconSizes: '<%= JSON.stringify(grunt.file.expand({cwd: grunt.config("src.image")}, grunt.config("iconFile")).map(function(fn) {return fn.match(new RegExp(grunt.config("iconFile").replace("*", "([0-9]+)")))[1];})) %>',
+        targetEnv: function() { return TARGET_ENV; },
         uglify: {
             options: {
                 banner: '<%= banner %>'
@@ -385,7 +388,8 @@ module.exports = function(grunt) {
                     ICON_SIZES: '<%= iconSizes %>',
                     ICON_NAME: function(size) {
                         return grunt.config('dist.icon').replace('*', size);
-                    }
+                    },
+                    TARGET_ENV: '<%= targetEnv() %>'
                 },
                 srcDir: '<%= src.include %>'
             },
@@ -424,6 +428,8 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', 'Build the webapp for the web or as a package (use :web or :packaged)', function(env) {
         env = env || 'web';
+        TARGET_ENV = env;
+
         grunt.task.run('transifex');
 
         grunt.task.run('uglify');
@@ -446,6 +452,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('dev', 'Build an unminified version of the app (use :web or :packaged)', function(env) {
         env = env || 'web';
+        TARGET_ENV = env;
 
         grunt.task.run('bower');
         grunt.task.run('concat:dev');
