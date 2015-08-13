@@ -53,7 +53,7 @@ module.exports = function(grunt) {
             build: {
                 files: [
                     {
-                        '<%= distdir %>/mines.min.js': 'src/*.js',
+                        '<%= distdir %>mines.min.js': 'src/*.js',
                     },
                     {
                         expand: true,
@@ -115,7 +115,7 @@ module.exports = function(grunt) {
                     banner: '<%= banner %>'
                 },
                 files: [{
-                    '<%= distdir %>/mines.min.js': 'src/*.js'
+                    '<%= distdir %>mines.min.js': 'src/*.js'
                 }]
             }
         },
@@ -144,7 +144,7 @@ module.exports = function(grunt) {
                         expand: true,
                         cwd: '<%= src.locale %>',
                         src: ['**'],
-                        dest: '<%= distdir %>/<%= dist.locale %>'
+                        dest: '<%= distdir %><%= dist.locale %>'
                     },
                     {
                         expand: true,
@@ -279,7 +279,7 @@ module.exports = function(grunt) {
                 listed: true,
                 packaged: true
             },
-            main: { src: '<%= distdir %>/manifest.webapp' }
+            main: { src: '<%= distdir %>manifest.webapp' }
         },
         accessibility: {
             options: {
@@ -305,8 +305,8 @@ module.exports = function(grunt) {
                 basePath: '<%= distdir %>'
             },
             web: {
-                dest: '<%= distdir %>/manifest.appcache',
-                cache: '<%= distdir %>/**/*'
+                dest: '<%= distdir %>manifest.appcache',
+                cache: '<%= distdir %>**/*'
             }
         },
         webapp: {
@@ -319,13 +319,13 @@ module.exports = function(grunt) {
                 options: {
                     target: 'web'
                 },
-                files: [{ '<%= distdir %>/manifest.webapp': 'manifest.webapp' }]
+                files: [{ '<%= distdir %>manifest.webapp': 'manifest.webapp' }]
             },
             packaged: {
                 options: {
                     target: 'packaged'
                 },
-                files: [{ '<%= distdir %>/manifest.webapp': 'manifest.webapp' }]
+                files: [{ '<%= distdir %>manifest.webapp': 'manifest.webapp' }]
             }
         },
         'ftp-deploy': {
@@ -370,7 +370,7 @@ module.exports = function(grunt) {
                     target: "manifest"
                 },
                 files: [{
-                    src: ['<%= distdir %>/manifest.webapp']
+                    src: ['<%= distdir %>manifest.webapp']
                 }]
             }
         },
@@ -541,11 +541,14 @@ module.exports = function(grunt) {
                     grunt.fail.warn(err);
                 }
             });*/
+            if((!version || version == "undefined") && target != "simulator")
+                version = target;
+
             grunt.task.run('simulator:'+version);
         }
     });
 
-    grunt.registerTask('launch', 'Launch a test version of the app on a FxOS Device or Simulator (use :device or :simulator)', function(target, version) {
+    grunt.registerTask('launch', 'Launch a test version of the app on a FxOS Device or Simulator (use :device or :simulator:version)', function(target, version) {
         target = target || 'simulator';
 
         grunt.task.run('dev:packaged');

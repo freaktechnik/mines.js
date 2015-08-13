@@ -17,6 +17,25 @@
             <span data-l10n-id="mines_restore_error">Saved game is corrupted. Returning to main menu.</span>
             <span data-l10n-id="mines_new_highscore">Highscore! Please enter your name:</span>
         </div>
+        <!-- @ifdef SHARE !>
+        <gaia-dialog>
+            <div>
+                <label data-l10n-id="mines_new_highscore">Highscore! Please enter your name:</label>
+                <gaia-text-input></gaia-text-input>
+            </div>
+            <div class="shareLinks">
+                <span>Share your highscore:</span>
+                <a href="https://twitter.com/intent/tweet/?text={shareTextWithURL}&soure=webclient#mines.js" data-icon="twitter" title="Share on Twitter" target="blank"></a>
+                <a href="https://facebook.com/dialog/feed?link=http://humanoids.be/mines" data-icon="facebook" title="Share on Facebook" target="blank"></a>
+                <a href="https://plus.google.com/share?url=http://humanoids.be/mines}" data-icon="add" title="Share on Google+" target="blank"></a>
+            </div>
+            <buddon class="share" data-icon="share" onclick="new MozActivity({name:'share', tyoe:'text/plain', text:'msg'})">Share</button>
+            <fieldset>
+                <button class="cancel">Cancel</button>
+                <button class="submit primary">Ok</button>
+            </fieldset>
+        </gaia-dialog>
+        <!-- @endif -->
         <section role="region" class="vbox fit">
             <gaia-header action="back" id="header">
                 <span class="l10n-action" aria-label="Back" data-l10n-id="action_back">Back</span>
