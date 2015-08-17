@@ -18,7 +18,14 @@ You can contribute translations to the application on [transifex](http://transif
 
 Build
 -----
-This project can be built using grunt. Run
+
+### Needed tools
+
+* [npm](https://www.npmjs.com/) of [Node.js](https://nodejs.org/) (available in [Debian](https://packages.debian.org/stable/npm))
+* [Bower](http://bower.io/) (you install it with `npm install -g bower`)
+* [Grunt](http://gruntjs.com/) (you install it with `npm install -g grunt-cli`)
+
+### Go
 ```
 npm install
 bower install
@@ -26,4 +33,3 @@ grunt
 ```
 
 To clean the project directory, run `grunt clean`.
-
