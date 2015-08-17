@@ -14,7 +14,7 @@ Mines is available on the following sites:
 
 Translate
 ---------
-You can contribute translations to the application on [transifex](http://transifex.com/projects/p/mines).
+You can contribute translations to the application on [transifex](http://transifex.com/projects/p/mines) or by pull request, if that's your thing.
 
 Build
 -----
