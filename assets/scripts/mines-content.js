@@ -35,7 +35,7 @@ var Page = {
                     var user = window.prompt(self.strbundle.getString('mines_new_highscore'), lastUser);
                     if(user) {
                         localStorage.setItem(HIGHSCORE_USER, user);
-                        Highscores.save(game, time.toFixed(2), user);
+                        Highscores.save(game, time, user);
                     }
                 }
             });

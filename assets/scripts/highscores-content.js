@@ -15,7 +15,9 @@ function gameDescriptionFromValue(element, val) {
 
 function highscoreListItem(name, time) {
     if(nf)
-        time = nf.format(parseFloat(time));
+        time = nf.format(time);
+    else
+        time = time.toFixed(2);
 
     var li = document.createElement("li");
     var divA = document.createElement("div");

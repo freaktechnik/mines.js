@@ -55,6 +55,7 @@ var Highscores = {
                     cont();
                 }
             };
+            //TODO next upgrade: convert all the scores to floats.
         }
         else {
             cont();
@@ -71,7 +72,7 @@ var Highscores = {
     },
     isNewTop: function(gameDescription, score, cbk) {
         this.getTop(gameDescription, 1, function(top) {
-            cbk(!top.length || score < parseFloat(top[0].score));
+            cbk(!top.length || score < top[0].score);
         });
     },
     save: function(gameDescription, score, name) {
@@ -88,14 +89,17 @@ var Highscores = {
         var top = [];
         request.onsuccess = function(e) {
             var cursor = e.target.result;
+            var entry;
 
             if(cursor) {
-                top.push(cursor.value);
+                entry = cursor.value;
+                entry.score = parseFloat(entry.score);
+                top.push(entry);
                 cursor.continue();
             }
             else if(cbk) {
                 cbk(top.sort(function(a, b) {
-                    return parseFloat(a.score)-parseFloat(b.score);
+                    return a.score-b.score;
                 }).slice(0, num));
             }
         };
