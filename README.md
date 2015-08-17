@@ -23,8 +23,8 @@ Build
 You'll have to install these tools in order to build the app.
 
 * [npm](https://www.npmjs.com/) (available as package for most Linux distros)
-* [Bower](http://bower.io/) (install by running `npm install -g bower` in the command line)
-* [Grunt](http://gruntjs.com/) (install by running `npm install -g grunt-cli` in the command line)
+* [Bower](http://bower.io/) (installed by running `npm install -g bower` in the command line)
+* [Grunt](http://gruntjs.com/) (installed by running `npm install -g grunt-cli` in the command line)
 
 ### Prepare the Build
 There are some third party resources the app uses. Install them by running these commands in the command line:
