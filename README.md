@@ -37,3 +37,10 @@ bower install
 To build just run `grunt` in the root folder of the repository. This will build a development grade version of the application in the dist/ folder.
 
 Grunt can do a plethora of things, like cleaning the project directory with `grunt clean`. To see a full list of its targets, run `grunt --help`.
+
+License
+-------
+Copyright (c) 2015 Martin Giger
+Licensed under the MPL-2.0.
+
+See the [LICENSE](LICENSE) file for the full license text.
