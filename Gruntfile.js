@@ -37,7 +37,7 @@ module.exports = function(grunt) {
         banner:
             '/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
             '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
-            ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;\n' +
+            ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name || pkg.author %>;\n' +
             ' * This Source Code Form is subject to the terms of the Mozilla Public License,\n' +
             ' * v. 2.0. If a copy of the MPL was not distributed with this file, You can\n' +
             ' * obtain one at http://mozilla.org/MPL/2.0/.\n */\n',
@@ -157,6 +157,11 @@ module.exports = function(grunt) {
                         cwd: '<%= src.image %>',
                         src: ['**/*.png', '**/*.svg', '**/*.jpg'],
                         dest: '<%= distdir %><%= dist.image %>'
+                    },
+                    {
+                        cwd: '.',
+                        src: ['LICENSE'],
+                        dest: '<%= distdir %>'
                     }
                 ]
             }
