@@ -4,6 +4,8 @@ var connectSim = require('fxos-connect');
 module.exports = function(grunt) {
     // Project configuration.
     var TARGET_ENV = "web";
+    var bowerDevDeps = Object.keys(grunt.file.readJSON('bower.json').devDependencies);
+    bowerDevDeps.push("WeakMap");
 
     grunt.initConfig({
         iconFile: 'icon-*.png',
@@ -94,7 +96,7 @@ module.exports = function(grunt) {
                 dest: '<%= distdir %><%= dist.bower %>',
                 options: {
                     expand: true,
-                    ignorePackages: ['WeakMap', 'MutationObserver', 'es6-collections'],
+                    ignorePackages: bowerDevDeps,
                     packageSpecific: {
                         'gaia-fonts': {
                             files: [
