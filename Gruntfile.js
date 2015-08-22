@@ -320,7 +320,7 @@ module.exports = function(grunt) {
             options: {
                 localeDir: '<%= src.locale %>',
                 icons: '<%= src.icon %>',
-                iconsTarget: '/<%= grunt.config("dist.icon").replace("*", "{size}") %>'
+                iconsTarget: '<%= targetEnv() != "web" ? "/":"" %><%= grunt.config("dist.icon").replace("*", "{size}") %>'
             },
             web: {
                 options: {
