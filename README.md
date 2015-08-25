@@ -2,7 +2,7 @@ Mines
 =====
 [![Build Status](https://travis-ci.org/freaktechnik/mines.js.svg)](https://travis-ci.org/freaktechnik/mines.js)
 
-Mines is a webapp minesweeper clone. It orients itself at the Firefox OS style.
+Mines is a web app minesweeper clone. It orients itself at the Firefox OS style.
 
 Play
 ----
@@ -27,7 +27,7 @@ You'll have to install these tools in order to build the app.
 * [Grunt](http://gruntjs.com/) (installed by running `npm install -g grunt-cli` in the command line)
 
 ### Prepare the Build
-There are some third party resources the app uses. Install them by running these commands in the command line:
+There are some third-party resources the app uses. Install them by running these commands in the command line:
 ```
 npm install
 bower install
