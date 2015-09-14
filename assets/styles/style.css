@@ -53,7 +53,7 @@ table {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    font-family: FiraSans;
+    font-family: 'Fira Sans';
     transition-property: box-shadow;
     transition-duration: .5s;
     margin: 1px auto;
