@@ -9,7 +9,7 @@ input[type="search"],
 input[type="url"],
 input[type="number"],
 textarea {
-  font-family: sans-serif;
+  font-family: 'Fira Sans';
   box-sizing: border-box;
   display: block;
   width: 100%;
@@ -127,7 +127,7 @@ input[type="datetime-local"] {
   border: 0.1rem solid #c7c7c7;
   width: 100%;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: 'Fira Sans';
   font-style: italic;
   font-size: 1.6rem;
   margin: 0 0 1.5rem;
