@@ -13,6 +13,7 @@ button,
 [role="button"],
 .button {
   font-style: italic;
+  font-family: 'Fira Sans';
   width: 100%;
   height: 4rem;
   margin: 0 0 1rem;
