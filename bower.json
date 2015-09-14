@@ -26,12 +26,12 @@
     "dist"
   ],
   "dependencies": {
-    "gaia-fonts": "gaia-components/gaia-fonts#~0.2.1",
     "gaia-header": "gaia-components/gaia-header#~0.8.1",
     "webcomponentsjs": "~0.6.0",
     "what-input": "*",
     "es6-promise": "~2.1.0",
-    "hammerjs": "~2.0.4"
+    "hammerjs": "~2.0.4",
+    "fira": "~0.1.0"
   },
   "devDependencies": {
     "MutationObserver": "~0.2.0",

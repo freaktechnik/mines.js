@@ -157,7 +157,7 @@
 /* actual styles */
 
 body {
-    font-family: FiraSans;
+    font-family: 'Fira Sans';
     overflow: auto;
     background: var(--background);
     color: var(--text-color);

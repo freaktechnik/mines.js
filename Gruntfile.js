@@ -104,6 +104,14 @@ module.exports = function(grunt) {
                                 'style.css'
                             ]
                         },
+                        'fira': {
+                            files: [
+                                'eot/*',
+                                'woff/*',
+                                'ttf/*',
+                                'fira.css'
+                            ]
+                        },
                         'webcomponentsjs': {
                             files: [ 'webcomponents.min.js' ]
                         }
@@ -396,7 +404,8 @@ module.exports = function(grunt) {
                     ICON_NAME: function(size) {
                         return grunt.config('dist.icon').replace('*', size);
                     },
-                    TARGET_ENV: '<%= targetEnv() %>'
+                    TARGET_ENV: '<%= targetEnv() %>',
+                    VERSION: '<%= pkg.version %>'
                 },
                 srcDir: '<%= src.include %>'
             },
