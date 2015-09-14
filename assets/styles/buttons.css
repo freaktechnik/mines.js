@@ -34,6 +34,7 @@ button,
   text-align: center;
   text-decoration: none;
   outline: none;
+  cursor: default;
 }
 
 /* Recommend */
