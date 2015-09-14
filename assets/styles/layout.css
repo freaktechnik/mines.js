@@ -271,16 +271,6 @@ p {
   margin-top: 10px;
 }
 
-.gaia-list table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.gaia-list table tr td {
-    text-align: left;
-    word-wrap: break-word;
-}
-
 /* Footer */
 .gaia-footer {
   border-top: 1px solid #e7e7e7;

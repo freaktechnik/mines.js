@@ -205,3 +205,15 @@ gaia-header {
     outline: 1px dotted !important;
 }
 
+/* jslicense table */
+
+#jslicense-labels1 {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#jslicense-labels1 tr td {
+    text-align: left;
+    word-wrap: break-word;
+}
+
