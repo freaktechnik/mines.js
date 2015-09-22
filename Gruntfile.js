@@ -45,6 +45,7 @@ module.exports = function(grunt) {
             ' * obtain one at http://mozilla.org/MPL/2.0/.\n */\n',
         // These JS statements are expanded after the config was set, so the used config values are defined.
         locales: '<%= grunt.file.expand({cwd:grunt.config("src.locale")}, "*").join(",") %>',
+        sourceLocale: 'en',
         // This lists the sizes of the icon files for the head preprocessing.
         iconSizes: '<%= JSON.stringify(grunt.file.expand({cwd: grunt.config("src.image")}, grunt.config("iconFile")).map(function(fn) {return fn.match(new RegExp(grunt.config("iconFile").replace("*", "([0-9]+)")))[1];})) %>',
         targetEnv: function() { return TARGET_ENV; },
@@ -306,7 +307,8 @@ module.exports = function(grunt) {
                 force: false,
                 ignore: [
                     'WCAG2A.Principle1.Guideline1_3.1_3_1.H44.NotFormControl',
-                    'WCAG2A.Principle1.Guideline1_3.1_3_1.H85.2'
+                    'WCAG2A.Principle1.Guideline1_3.1_3_1.H85.2',
+                    'WCAG2A.Principle1.Guideline1_3.1_3_1.H73.3.NoSummary'
                 ]
             },
             main: {
@@ -400,6 +402,7 @@ module.exports = function(grunt) {
                     HTML_DIR: '<%= dist.html %>',
                     VENDOR_DIR: '<%= dist.bower %>',
                     LOCALES: '<%= locales %>',
+                    DEFAULT_LOCALE: '<%= sourceLocale %>',
                     ICON_SIZES: '<%= iconSizes %>',
                     ICON_NAME: function(size) {
                         return grunt.config('dist.icon').replace('*', size);
@@ -415,6 +418,22 @@ module.exports = function(grunt) {
                 src: ['*.html'],
                 dest: '<%= distdir %><%= dist.html %>'
             },
+        },
+        htmllint: {
+            test: {
+                options: {
+                    ignore: [
+                        /Bad value “(localization|jslicense)” for attribute “rel” on element “link”/,
+                        'Bad value ”<%= dist.locale %>{locale}/app.properties” for attribute “href” on element “link”: Illegal character in path segment: not a URL code point.',
+                        /gaia-header/,
+                        /(Article|Section) lacks heading. Consider using “h2”-“h6” elements to add identifying headings to all (sections|articles)./,
+                        /The “(details|menu)” element is not supported( properly)? by browsers yet./
+                    ]
+                },
+                files: {
+                    src: [ '<%= distdir %><%= dist.html %>*.html' ]
+                }
+            }
         }
     });
 
@@ -438,6 +457,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-firefoxos');
     grunt.loadNpmTasks('grunt-marketplace');
     grunt.loadNpmTasks('grunt-preprocess');
+    grunt.loadNpmTasks('grunt-html');
 
     // Default task(s).
     grunt.registerTask('default', ['build:web']);
@@ -485,7 +505,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'copy:build', 'jshint', 'validatewebapp', 'preprocess:html', 'accessibility', 'es6transpiler:test', 'qunit', 'clean']);
+    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'copy:build', 'jshint', 'validatewebapp', 'preprocess:html', 'accessibility', 'htmllint', 'es6transpiler:test', 'qunit', 'clean']);
 
     grunt.registerTask('deploy', 'Deoply the app, targets are :web or :packaged', function(env) {
         env = env || 'web';

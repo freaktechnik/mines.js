@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html manifest="manifest.appcache" lang="en">
+<html manifest="manifest.appcache" lang="<!-- @echo DEFAULT_LOCALE -->">
     <head>
         <!-- @include head.html -->
         <title data-l10n-id="highscores_title">High Scores</title>
 
         <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->buttons.css">
         <script src="mines.min.js" type="application/javascript"></script>
-
-        <link rel="help" href="<!-- @echo HTML_DIR -->help.html" type="text/html">
     </head>
     <body class="skin-comms skin-organic" role="application">
         <div id="strings" class="hidden" hidden>
@@ -20,8 +18,8 @@
                 <a id="delete-highscores" data-icon="delete" data-l1on-id="action_delete" title="Reset all high scores" href="#"></a>
             </gaia-header>
             <section class="gaia-list fit scroll sticky" id="fieldcontainer">
-                <article>
-                    <ul id="highscores" role="main">
+                <article role="main">
+                    <ul id="highscores">
                         <li>
                             <div class="button icon icon-dialog">
                                 <label class="visuallyhidden" for="gametype" data-l10n-id="highscores_select_label">Board Type:</label>

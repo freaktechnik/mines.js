@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="manifest.appcache" lang="en">
+<html manifest="manifest.appcache" lang="<!-- @echo DEFAULT_LOCALE -->">
     <head>
         <!-- @include head.html -->
         <title data-l10n-id="title">Mines</title>
@@ -49,18 +49,18 @@
                 </article>
                 <article class="spacer"></article>
             </section>
-            <footer role="toolbar">
+            <menu role="toolbar">
                 <button id="reset" data-icon="reload" data-l10n-id="mines_reset">Reset</button>
                 <span>
                     <label class="mine" id="countlabel" aria-label="Remaining mines:" data-l10n-id="mines_remaining" for="minecount">9</label>
-                    <output id="minecount" label="countlabel" for="field" aria-live="polite"></output>
+                    <output id="minecount" for="field" aria-live="polite"></output>
                 </span>
                 <span>
                     <label id="timelabel" for="time" data-l10n-id="mines_time_label" class="visuallyhidden">Time:</label>
-                    <output id="time" label="timelabel" rel="timer" data-l10n-id="mines_time_unit" data-l10n-args='{"time": "0.0"}'>0.0s</output>
+                    <output id="time" data-l10n-id="mines_time_unit" data-l10n-args='{"time": "0.0"}'>0.0s</output>
                 </span>
                 <button id="flagtoggle" data-icon="brightness" data-l10n-id="mines_mode_uncover">Uncover</button>
-            </footer>
+            </menu>
         </section>
         <script type="application/javascript" src="<!-- @echo VENDOR_DIR -->what-input/what-input.js"></script>
         <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->mines-content.min.js"></script>

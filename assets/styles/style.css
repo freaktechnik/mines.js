@@ -4,14 +4,19 @@
  * obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-footer {
+menu {
+    padding: 0;
+    margin: 0;
+}
+
+[role="toolbar"] {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
 }
 
-footer span {
+[role="toolbar"] span {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;

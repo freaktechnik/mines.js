@@ -1,7 +1,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
 
-<link rel="license" href="http://mozilla.org/MPL/2.0/">
+<link rel="license" href="http://mozilla.org/MPL/2.0/" hreflang="en">
+<link rel="help" href="help.html" type="text/html">
+<link rel="jslicense" href="licenses.html">
 
 <!-- @foreach $SIZE in ICON_SIZES -->
 <link rel="icon" sizes="$SIZEx$SIZE" type="image/png" href="<!-- @exec ICON_NAME('$SIZE') -->">
@@ -17,12 +19,9 @@
 
 <meta property="og:image" content="<!-- @exec ICON_NAME('512') -->">
 
-<link rel="help" href="help.html">
-<link rel="jslicense" href="licenses.html">
-
 <script src="<!-- @echo VENDOR_DIR -->es6-promise/promise.js"></script>
 
-<meta name="defaultLanguage" content="en">
+<meta name="defaultLanguage" content="<!-- @echo DEFAULT_LOCALE -->">
 <meta name="availableLanguages" content="<!-- @echo LOCALES -->">
 
 <link rel="localization" href="<!-- @echo LOCALE_DIR -->{locale}/app.properties">

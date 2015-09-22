@@ -163,6 +163,10 @@ body {
     color: var(--text-color);
 }
 
+details:not([open]) > *:not(summary) {
+    visibility: collapse;
+}
+
 gaia-header {
     position: fixed;
     top: 0;
