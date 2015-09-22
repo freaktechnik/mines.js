@@ -1,4 +1,4 @@
-Mines
+![](assets/images/icon-32.png) Mines
 =====
 [![Build Status](https://travis-ci.org/freaktechnik/mines.js.svg)](https://travis-ci.org/freaktechnik/mines.js)
 
