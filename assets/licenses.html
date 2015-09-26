@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!--
+    target="blank" is bugged on Firefox OS 2.1 and upwards, where there is no browser chrome for the overlay window.
+    target="_blank" is bugged on older Firefox OS versions with displaying local files from the app (nothing happens).
+
+    I prefere the presentation form of blank, but there are valid points to use _blank. Ultimately both have drawbacks.
+-->
 <html manifest="manifest.appcache" lang="<!-- @echo DEFAULT_LOCALE -->">
     <head>
         <!-- @include head.html -->
@@ -31,135 +37,135 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->custom.min.js" target="blank">script/<wbr>custom<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->custom.min.js" target="_blank">script/<wbr>custom<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" hreflang="en">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/custom.js" target="blank">custom<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/custom.js" target="_blank">custom<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->help.min.js" target="blank">script/<wbr>help<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->help.min.js" target="_blank">script/<wbr>help<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="blank" hreflang="en">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/help.js" target="blank">help<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/help.js" target="_blank">help<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->highscores-content.min.js" target="blank">script/<wbr>highscores-<wbr>content<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->highscores-content.min.js" target="_blank">script/<wbr>highscores-<wbr>content<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" hreflang="en" target="blank">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" hreflang="en" target="_blank">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/highscores-content.js" target="blank">highscores-<wbr>content<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/highscores-content.js" target="_blank">highscores-<wbr>content<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->index.min.js" target="blank">script/<wbr>index<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->index.min.js" target="_blank">script/<wbr>index<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" hreflang="en" target="blank">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" hreflang="en" target="_blank">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/index.js" target="blank">index<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/index.js" target="_blank">index<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->l10n.min.js" target="blank">script/<wbr>l10n<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->l10n.min.js" target="_blank">script/<wbr>l10n<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://raw.githubusercontent.com/mozilla-b2g/gaia/master/LICENSE" target="blank" hreflang="en">Apache-2.0</a>
+                                    <a href="https://raw.githubusercontent.com/mozilla-b2g/gaia/master/LICENSE" target="_blank" hreflang="en">Apache-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/l10n.js" target="blank">l10n<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/l10n.js" target="_blank">l10n<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->licenses-content.min.js" target="blank">script/<wbr>licenses-<wbr>content<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->licenses-content.min.js" target="_blank">script/<wbr>licenses-<wbr>content<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="blank" hreflang="en">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/licenses-content.js" target="blank">licenses-<wbr>content<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/licenses-content.js" target="_blank">licenses-<wbr>content<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->mines-content.min.js" target="blank">script/<wbr>mines-<wbr>content<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->mines-content.min.js" target="_blank">script/<wbr>mines-<wbr>content<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="blank" hreflang="en">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/mines-content.js" target="blank">mines-<wbr>content<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/mines-content.js" target="_blank">mines-<wbr>content<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->object-assign-polyfill.min.js" target="blank">script/<wbr>object-<wbr>assign-<wbr>polyfill<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->object-assign-polyfill.min.js" target="_blank">script/<wbr>object-<wbr>assign-<wbr>polyfill<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="blank" hreflang="en">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/object-assign-polyfill.js" target="blank">object-<wbr>assign-<wbr>polyfill<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/object-assign-polyfill.js" target="_blank">object-<wbr>assign-<wbr>polyfill<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->proprty-descriptor-fix.min.js" target="blank">script/<wbr>property-<wbr>descriptor-<wbr>fix<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->proprty-descriptor-fix.min.js" target="_blank">script/<wbr>property-<wbr>descriptor-<wbr>fix<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="blank" hreflang="en">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/property-descriptor-fix.js" target="blank">property-descriptor-fix<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/property-descriptor-fix.js" target="_blank">property-descriptor-fix<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo SCRIPT_DIR -->settings-content.min.js" target="blank">script/<wbr>settings-<wbr>content<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo SCRIPT_DIR -->settings-content.min.js" target="_blank">script/<wbr>settings-<wbr>content<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="blank" hreflang="en">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/settings-content.js" target="blank">settings-<wbr>content<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/assets/scripts/settings-content.js" target="_blank">settings-<wbr>content<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="mines.min.js" target="blank">mines<wbr>.min.js</a></td>
+                                <td><a href="mines.min.js" target="_blank">mines<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="blank" hreflang="en">MPL-2.0</a>
+                                    <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a>
                                 </td>
                                 <td>
-                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/highscores.js" target="blank">high&shy;scores<wbr>.js</a><br>
-                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/mines.js" target="blank">mines<wbr>.js</a><br>
-                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/settings.js" target="blank">settings<wbr>.js</a><br>
-                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/stringbundle.js" target="blank">string&shy;bundle<wbr>.js</a><br>
-                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/timer.js" target="blank">timer<wbr>.js</a></td>
+                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/highscores.js" target="_blank">high&shy;scores<wbr>.js</a><br>
+                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/mines.js" target="_blank">mines<wbr>.js</a><br>
+                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/settings.js" target="_blank">settings<wbr>.js</a><br>
+                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/stringbundle.js" target="_blank">string&shy;bundle<wbr>.js</a><br>
+                                    <a href="https://raw.githubusercontent.com/freaktechnik/mines.js/<!-- @echo VERSION -->/src/timer.js" target="_blank">timer<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo VENDOR_DIR -->es6-promise/promise.js" target="blank">vendor/<wbr>es6-<wbr>promise/<wbr>promise<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->es6-promise/promise.js" target="_blank">vendor/<wbr>es6-<wbr>promise/<wbr>promise<wbr>.js</a></td>
                                 <td>
-                                    <a href="http://opensource.org/licenses/MIT" target="blank" hreflang="en">MIT</a>
+                                    <a href="http://opensource.org/licenses/MIT" target="_blank" hreflang="en">MIT</a>
                                 </td>
-                                <td><a href="<!-- @echo VENDOR_DIR -->es6-promise/promise.js" target="blank">promise<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->es6-promise/promise.js" target="_blank">promise<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo VENDOR_DIR -->font-fit/font-fit.js" target="blank">vendor/<wbr>font-<wbr>fit/<wbr>font-<wbr>fit<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->font-fit/font-fit.js" target="_blank">vendor/<wbr>font-<wbr>fit/<wbr>font-<wbr>fit<wbr>.js</a></td>
                                 <td>
-                                    <a href="http://opensource.org/licenses/MIT" target="blank" hreflang="en">MIT</a>
+                                    <a href="http://opensource.org/licenses/MIT" target="_blank" hreflang="en">MIT</a>
                                 </td>
-                                <td><a href="<!-- @echo VENDOR_DIR -->font-fit/font-fit.js" target="blank">font-<wbr>fit<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->font-fit/font-fit.js" target="_blank">font-<wbr>fit<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo VENDOR_DIR -->gaia-component/gaia-component.js" target="blank">vendor/<wbr>gaia-<wbr>component/<wbr>gaia-<wbr>component<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->gaia-component/gaia-component.js" target="_blank">vendor/<wbr>gaia-<wbr>component/<wbr>gaia-<wbr>component<wbr>.js</a></td>
                                 <td>
-                                    <a href="http://opensource.org/licenses/MIT" target="blank" hreflang="en">MIT</a>
+                                    <a href="http://opensource.org/licenses/MIT" target="_blank" hreflang="en">MIT</a>
                                 </td>
-                                <td><a href="<!-- @echo VENDOR_DIR -->gaia-component/gaia-component.js" target="blank">gaia-<wbr>component<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->gaia-component/gaia-component.js" target="_blank">gaia-<wbr>component<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo VENDOR_DIR -->gaia-header/gaia-header.js" target="blank">vendor/<wbr>gaia-<wbr>header/<wbr>gaia-header<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->gaia-header/gaia-header.js" target="_blank">vendor/<wbr>gaia-<wbr>header/<wbr>gaia-header<wbr>.js</a></td>
                                 <td>
-                                    <a href="http://opensource.org/licenses/MIT" target="blank" hreflang="en">MIT</a>
+                                    <a href="http://opensource.org/licenses/MIT" target="_blank" hreflang="en">MIT</a>
                                 </td>
-                                <td><a href="<!-- @echo VENDOR_DIR -->gaia-header/gaia-header.js" target="blank">gaia-<wbr>header<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->gaia-header/gaia-header.js" target="_blank">gaia-<wbr>header<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo VENDOR_DIR -->hammerjs/hammer.js" target="blank">vendor/<wbr>hammerjs/<wbr>hammer<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->hammerjs/hammer.js" target="_blank">vendor/<wbr>hammerjs/<wbr>hammer<wbr>.js</a></td>
                                 <td>
-                                    <a href="https://raw.githubusercontent.com/hammerjs/hammer.js/master/LICENSE.md" target="blank" hreflang="en">MIT</a>
+                                    <a href="https://raw.githubusercontent.com/hammerjs/hammer.js/master/LICENSE.md" target="_blank" hreflang="en">MIT</a>
                                 </td>
-                                <td><a href="<!-- @echo VENDOR_DIR -->hammerjs/hammer.js" target="blank">hammer<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->hammerjs/hammer.js" target="_blank">hammer<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo VENDOR_DIR -->webcomponentsjs/webcomponents.min.js" target="blank">vendor/<wbr>web&shy;com&shy;po&shy;nents&shy;js/<wbr>web&shy;com&shy;po&shy;nents<wbr>.min.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->webcomponentsjs/webcomponents.min.js" target="_blank">vendor/<wbr>web&shy;com&shy;po&shy;nents&shy;js/<wbr>web&shy;com&shy;po&shy;nents<wbr>.min.js</a></td>
                                 <td>
-                                    <a href="https://raw.githubusercontent.com/webcomponents/webcomponentsjs/master/LICENSE.md" target="blank" hreflang="en">BSD</a>
+                                    <a href="https://raw.githubusercontent.com/webcomponents/webcomponentsjs/master/LICENSE.md" target="_blank" hreflang="en">BSD</a>
                                 </td>
-                                <td><a href="https://raw.githubusercontent.com/webcomponents/webcomponentsjs/master/webcomponents.js" target="blank">web&shy;com&shy;po&shy;nents<wbr>.js</a></td>
+                                <td><a href="https://raw.githubusercontent.com/webcomponents/webcomponentsjs/master/webcomponents.js" target="_blank">web&shy;com&shy;po&shy;nents<wbr>.js</a></td>
                             </tr>
                             <tr>
-                                <td><a href="<!-- @echo VENDOR_DIR -->what-input/what-input.js" target="blank">vendor/<wbr>what-<wbr>input/<wbr>what-<wbr>input<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->what-input/what-input.js" target="_blank">vendor/<wbr>what-<wbr>input/<wbr>what-<wbr>input<wbr>.js</a></td>
                                 <td>
-                                    <a href="https://raw.githubusercontent.com/ten1seven/what-input/master/LICENSE" target="blank" hreflang="en">MIT</a>
+                                    <a href="https://raw.githubusercontent.com/ten1seven/what-input/master/LICENSE" target="_blank" hreflang="en">MIT</a>
                                 </td>
-                                <td><a href="<!-- @echo VENDOR_DIR -->what-input/what-input.js" target="blank">what-<wbr>input<wbr>.js</a></td>
+                                <td><a href="<!-- @echo VENDOR_DIR -->what-input/what-input.js" target="_blank">what-<wbr>input<wbr>.js</a></td>
                             </tr>
                         </tbody>
                     </table></li></ul>
@@ -167,22 +173,22 @@
                 <article>
                     <header data-l10n-id="license_font_title">Font Licenses</header>
                     <ul>
-                        <li><p><span data-l10n-args='{"font":"Fira Sans"}' data-l10n-id="license_font_content">Fira Sans licensed under the</span> <a href="https://raw.githubusercontent.com/mozilla/Fira/master/LICENSE" target="blank" hreflang="en">SIL OFL 1.1</a></p></li>
-                        <li><p><span data-l10n-args='{"font":"Gaia Icons Font"}' data-l10n-id="license_font_content">Gaia Icons Font licensed under the</span> <a href="http://opensource.org/licenses/MIT" target="blank" hreflang="en">MIT</a></p></li>
-                        <li><p><span data-l10n-args='{"font":"Font Awesome"}' data-l10n-id="license_font_content">Font Awesome licensed under the</span> <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=OFL" target="blank" hreflang="en">SIL OFL 1.1</a></p></li>
+                        <li><p><span data-l10n-args='{"font":"Fira Sans"}' data-l10n-id="license_font_content">Fira Sans licensed under the</span> <a href="https://raw.githubusercontent.com/mozilla/Fira/master/LICENSE" target="_blank" hreflang="en">SIL OFL 1.1</a></p></li>
+                        <li><p><span data-l10n-args='{"font":"Gaia Icons Font"}' data-l10n-id="license_font_content">Gaia Icons Font licensed under the</span> <a href="http://opensource.org/licenses/MIT" target="_blank" hreflang="en">MIT</a></p></li>
+                        <li><p><span data-l10n-args='{"font":"Font Awesome"}' data-l10n-id="license_font_content">Font Awesome licensed under the</span> <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=OFL" target="_blank" hreflang="en">SIL OFL 1.1</a></p></li>
                     </ul>
                 </article>
                 <article>
                     <header data-l10n-id="license_about_title">Everything Else</header>
                     <ul>
                         <li>
-                            <p><span data-l10n-id="license_about_license_before">Everything not listed previously (HTML pages, most style sheets) is licensed under the</span> <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="blank" hreflang="en">MPL-2.0</a><span data-l10n-id="license_about_license_after">.</span></p>
+                            <p><span data-l10n-id="license_about_license_before">Everything not listed previously (HTML pages, most style sheets) is licensed under the</span> <a href="https://www.mozilla.org/en-US/MPL/2.0/" target="_blank" hreflang="en">MPL-2.0</a><span data-l10n-id="license_about_license_after">.</span></p>
                         </li>
                         <li>
                             <p data-l10n-id="license_about_content">This application was written by Martin Giger. A big thank you to all translators that helped localizing this application!</p>
                         </li>
                         <li>
-                            <a class="button" data-l10n-id="license_about_source" href="https://github.com/freaktechnik/mines.js" hreflang="en" rel="external" target="blank">Source Code on Github</a>
+                            <a class="button" data-l10n-id="license_about_source" href="https://github.com/freaktechnik/mines.js" hreflang="en" rel="external" target="_blank">Source Code on Github</a>
                         </li>
                     </ul>
                 </article>
