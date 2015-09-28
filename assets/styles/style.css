@@ -153,7 +153,10 @@ table:not(.done) .covered:active {
     color: red;
     font-size: 1.2em;
     position: absolute;
-    left: .4em;
+    left: 0;
+    width: 1.1em;
+    width: calc(1.5em - 6px);
+    text-align: center;
     font-weight: 500;
     font-family: "gaia-icons";
     font-style: normal;
