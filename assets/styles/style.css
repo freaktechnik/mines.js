@@ -70,7 +70,7 @@ td {
     display: inline-block;
     min-width: 1.5em;
     min-height: 1.5em;
-    background: lightgray;
+    background-color: lightgray;
     outline: 1px solid gray;
     border: 3px solid transparent;
     padding: 0;
@@ -81,8 +81,13 @@ td {
     position: relative;
 }
 
+body:not([data-whatinput='keyboard']) td {
+    transition-property: background-color;
+    transition-duration: 0.2s;
+}
+
 [data-whatinput='keyboard'] td:focus {
-    background: white;
+    background-color: white;
 }
 
 .high-contrast td {
@@ -129,6 +134,12 @@ td {
 .covered {
     border: 3px outset lightgray;
     color: transparent;
+}
+
+.invalid {
+    background-color: red !important; /* Keyboard styles on td overwrite this else */
+    transition-property: background-color;
+    transition-duration: 0.2s;
 }
 
 .high-contrast .covered {

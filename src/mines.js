@@ -46,6 +46,7 @@ Mines.defaultBoards = {
 
 const COVERED_CLASS = "covered";
 const FLAGGED_CLASS = "flagged";
+const FLASH_CLASS = "invalid";
 
 function Mines(cfx, dimensions, mineCount) {
     this.dimensions = dimensions || [8, 8];
@@ -252,7 +253,7 @@ Mines.prototype.uncoverCell = function(x, y) {
         cell.setAttribute("aria-pressed", "true");
         this.markedMines[y][x] = Mines.MINE_KNOWN;
 
-        if(Mines.MINE == this.board[y][x]) {
+        if(Mines.MINE === this.board[y][x]) {
             this.gameOver();
         }
         else if(!this.nonMinesCovered()) {
@@ -323,6 +324,9 @@ Mines.prototype.uncoverCompleteCells = function(x, y) {
         if(right)
             this.uncoverCell(x+1, y);
     }
+    else {
+       this.getCell(x, y).classList.add(FLASH_CLASS);
+   }
 };
 
 Mines.prototype.cellIsFlagged = function(x, y) {
@@ -433,6 +437,9 @@ Mines.prototype.createCell = function(x, y) {
                 }
             }
         }
+    }, false);
+    cell.addEventListener("transitionend", function(e) {
+        cell.classList.remove(FLASH_CLASS);
     }, false);
 
     return cell;
