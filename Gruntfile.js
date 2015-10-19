@@ -107,8 +107,10 @@ module.exports = function(grunt) {
                         },
                         'fira': {
                             files: [
-                                'eot/*',
-                                'woff/*',
+                                'eot/FiraSans-*',
+                                'eot/FiraMono-*',
+                                'woff/FiraSans-*',
+                                'woff/FiraMono-*',
                                 'ttf/*',
                                 'fira.css'
                             ]
