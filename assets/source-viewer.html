@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html manifest="manifest.appcache" lang="<!-- @echo DEFAULT_LOCALE -->">
+    <head>
+        <!-- @include head.html -->
+        <title>Source Viewer</title>
+
+        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->buttons.css">
+    </head>
+    <body class="skin-comms skin-organic" role="application">
+        <section role="region" class="vbox fit">
+            <gaia-header action="back" id="header">
+                <span class="l10n-action" aria-label="Back" data-l10n-id="action_back">Back</span>
+                <h1>Source Viewer</h1>
+            </gaia-header>
+            <section class="gaia-list fit vbox scroll sticky" role="main">
+                <iframe title="source-browser" class="fit" sandbox></iframe>
+                <article>
+                    <ul><li><a target="_blank" class="button" data-l10n-id="source_open" id="link" href="">Open in Browser</a></li></ul>
+                </article>
+            </section>
+        </section>
+        <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->source-viewer.min.js"></script>
+    </body>
+</html>

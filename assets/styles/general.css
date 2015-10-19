@@ -167,6 +167,10 @@ details:not([open]) > *:not(summary) {
     visibility: collapse;
 }
 
+iframe {
+    border: none;
+}
+
 gaia-header {
     position: fixed;
     top: 0;
