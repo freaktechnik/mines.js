@@ -156,7 +156,7 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: '<%= src.locale %>',
-                        src: ['**'],
+                        src: ['*/app.properties'],
                         dest: '<%= distdir %><%= dist.locale %>'
                     },
                     {
