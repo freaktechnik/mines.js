@@ -419,7 +419,7 @@ module.exports = function(grunt) {
                 cwd: '<%= src.html %>',
                 src: ['*.html'],
                 dest: '<%= distdir %><%= dist.html %>'
-            },
+            }
         },
         htmllint: {
             test: {
