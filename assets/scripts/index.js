@@ -5,5 +5,10 @@ if(Mines.hasSavedState()) {
 
 // Show marketplace promo if we're in a Firefox that supports webapps
 if(document.getElementById("marketplacepromo") && "mozApps" in navigator) {
-    document.getElementById("marketplacepromo").removeAttribute("hidden");
+    navigator.mozApps.getSelf().then(function(res) {
+        // make sure we're not an installed hosted webapp
+        if(res === null) {
+            document.getElementById("marketplacepromo").removeAttribute("hidden");
+        }
+    });
 }
