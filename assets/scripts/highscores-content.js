@@ -9,8 +9,7 @@ if(Intl)
 function gameDescriptionFromValue(element, val) {
     var mines = val.split(":");
     var size = mines[0].split("x");
-    mines = mines[1];
-    navigator.mozL10n.setAttributes(element, "highscores_custom_board", { width: size[0], height: size[1], mines: mines });
+    navigator.mozL10n.setAttributes(element, "highscores_custom_board", { width: size[0], height: size[1], mines: mines[1] });
 }
 
 function highscoreListItem(name, time) {
