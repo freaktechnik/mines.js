@@ -42,7 +42,7 @@ module.exports = function(grunt) {
             ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name || pkg.author %>;\n' +
             ' * This Source Code Form is subject to the terms of the Mozilla Public License,\n' +
             ' * v. 2.0. If a copy of the MPL was not distributed with this file, You can\n' +
-            ' * obtain one at http://mozilla.org/MPL/2.0/.\n */\n',
+            ' * obtain one at https://mozilla.org/MPL/2.0/.\n */\n',
         // These JS statements are expanded after the config was set, so the used config values are defined.
         locales: '<%= grunt.file.expand({cwd:grunt.config("src.locale")}, "*").join(",") %>',
         sourceLocale: 'en',
