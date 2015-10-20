@@ -137,3 +137,79 @@ test("saving", function(assert) {
     Mines.removeSavedState();
     assert.ok(!Mines.hasSavedState());
 });
+
+test("reset without mods", function(assert) {
+    var done = assert.async();
+    var self = this;
+    this.ctx.addEventListener("reset", function() {
+        self.ctx.removeEventListener("reset", this);
+
+        assert.ok(!self.mines.done);
+        assert.equal(self.mines.countFlags(), 0);
+        assert.ok(!Mines.hasSavedState());
+        assert.equal(self.mines.mode, Mines.MODE_UNCOVER);
+
+        done();
+    }, false);
+    this.mines.reset();
+});
+
+test("reset in progress", function(assert) {
+    var done = assert.async();
+    var self = this;
+    this.ctx.addEventListener("reset", function() {
+        self.ctx.removeEventListener("reset", this);
+
+        assert.ok(!self.mines.done);
+        assert.equal(self.mines.countFlags(), 0);
+        assert.ok(!Mines.hasSavedState());
+        assert.equal(self.mines.mode, Mines.MODE_UNCOVER);
+
+        done();
+    }, false);
+    this.mines.generate([1, 1]);
+    this.mines.toggleMode();
+    this.mines.saveState();
+    this.mines.flagCell(5, 4);
+    this.mines.reset();
+});
+
+test("reset loss", function(assert) {
+    var done = assert.async();
+    var self = this;
+    self.ctx.addEventListener("loose", function() {
+        self.ctx.removeEventListener("loose", this);
+        self.ctx.addEventListener("reset", function() {
+            self.ctx.removeEventListener("reset", this);
+
+            assert.ok(!self.mines.done);
+            assert.equal(self.mines.countFlags(), 0);
+            assert.ok(!Mines.hasSavedState());
+            assert.equal(self.mines.mode, Mines.MODE_UNCOVER);
+
+            done();
+        }, false);
+        self.mines.reset();
+    });
+    this.mines.gameOver();
+});
+
+test("reset win", function(assert) {
+    var done = assert.async();
+    var self = this;
+    this.ctx.addEventListener("win", function() {
+        self.ctx.removeEventListener("win", this);
+        self.ctx.addEventListener("reset", function() {
+            self.ctx.removeEventListener("reset", this);
+
+            assert.ok(!self.mines.done);
+            assert.equal(self.mines.countFlags(), 0);
+            assert.ok(!Mines.hasSavedState());
+            assert.equal(self.mines.mode, Mines.MODE_UNCOVER);
+
+            done();
+        }, false);
+        self.mines.reset();
+    });
+    this.mines.win();
+});
