@@ -3,7 +3,6 @@ var connectSim = require('fxos-connect');
 
 module.exports = function(grunt) {
     // Project configuration.
-    var TARGET_ENV = "web";
     var bowerDevDeps = Object.keys(grunt.file.readJSON('bower.json').devDependencies);
     bowerDevDeps.push("WeakMap");
 
@@ -48,7 +47,8 @@ module.exports = function(grunt) {
         sourceLocale: 'en',
         // This lists the sizes of the icon files for the head preprocessing.
         iconSizes: '<%= JSON.stringify(grunt.file.expand({cwd: grunt.config("src.image")}, grunt.config("iconFile")).map(function(fn) {return fn.match(new RegExp(grunt.config("iconFile").replace("*", "([0-9]+)")))[1];})) %>',
-        targetEnv: function() { return TARGET_ENV; },
+        targetEnv: "web",
+        dev: false,
         uglify: {
             options: {
                 banner: '<%= banner %>'
@@ -332,7 +332,8 @@ module.exports = function(grunt) {
             options: {
                 localeDir: '<%= src.locale %>',
                 icons: '<%= src.icon %>',
-                iconsTarget: '<%= targetEnv() != "web" ? "/":"" %><%= grunt.config("dist.icon").replace("*", "{size}") %>'
+                version: '<%= pkg.version %>',
+                iconsTarget: '<%= targetEnv != "web" ? "/":"" %><%= grunt.config("dist.icon").replace("*", "{size}") %>'
             },
             web: {
                 options: {
@@ -409,7 +410,8 @@ module.exports = function(grunt) {
                     ICON_NAME: function(size) {
                         return grunt.config('dist.icon').replace('*', size);
                     },
-                    TARGET_ENV: '<%= targetEnv() %>',
+                    TARGET_ENV: '<%= targetEnv %>',
+                    TAG: '<%= githash.main.tag %>',
                     VERSION: '<%= pkg.version %>'
                 },
                 srcDir: '<%= src.include %>'
@@ -436,6 +438,11 @@ module.exports = function(grunt) {
                     src: [ '<%= distdir %><%= dist.html %>*.html' ]
                 }
             }
+        },
+        githash : {
+            main: {
+                options: {}
+            }
         }
     });
 
@@ -460,13 +467,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-marketplace');
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-html');
+    grunt.loadNpmTasks('grunt-githash');
 
     // Default task(s).
     grunt.registerTask('default', ['build:web']);
 
     grunt.registerTask('build', 'Build the webapp for the web or as a package (use :web or :packaged)', function(env) {
         env = env || 'web';
-        TARGET_ENV = env;
+        grunt.config.set('targetEnv', env);
 
         grunt.task.run('transifex');
 
@@ -488,9 +496,15 @@ module.exports = function(grunt) {
 
     grunt.registerTask('travis', ['build:packaged', 'compress:travis']);
 
+    grunt.registerTask('set-version', 'Set the deversion with git hashes and all that', function(env) {
+        grunt.config.set('dev', true);
+        grunt.config.set('pkg.version', grunt.config('pkg.version') + "-pre+" + grunt.config('githash.main.short'));
+    });
+
     grunt.registerTask('dev', 'Build an unminified version of the app (use :web or :packaged)', function(env) {
         env = env || 'web';
-        TARGET_ENV = env;
+        grunt.task.run('githash');
+        grunt.task.run('set-version');
 
         grunt.task.run('bower');
         grunt.task.run('concat:dev');
