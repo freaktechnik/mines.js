@@ -1,0 +1,4 @@
+{
+    "marketplace_description": "Yet another Minesweeper clone with custom boards and mine-flagging. You can choose to play either one of three difficulty presets or a custom minefield. The fastest times to solve a field difficutly are saved in a local high scores list.\n\nPlayable with a keyboard, a mouse or a touchscreen.\n\nContains no ads, in-app transactions or similar. The app only uses your internet connection to download the source code of files or licneses if you explicitly want to look at them under Settings → Show License Information. There are no analytics or other forms of tracking in the app.\nTested on Firefox OS 1.3 and newer.",
+    "privacy_policy": "Highscore information is only saved locally on your device and never sent to an external service. External pages embedden inside an iframe cannot execute any JavaScript and get no Referer information but can use server-side tracking mechanics."
+}

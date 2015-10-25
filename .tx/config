@@ -12,3 +12,9 @@ file_filter = locales/<lang>/manifest.json
 source_file = locales/en/manifest.json
 source_lang = en
 type = KEYVALUEJSON
+
+[mines.marketplacejson]
+file_filter = locales/<lang>/marketplace.json
+source_file = locales/en/marketplace.json
+source_lang = en
+type = KEYVALUEJSON

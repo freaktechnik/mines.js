@@ -1,6 +1,8 @@
 var deploySim = require('fxos-deploy');
 var connectSim = require('fxos-connect');
 
+//TODO don't include source-viewer in web version
+
 module.exports = function(grunt) {
     // Project configuration.
     var bowerDevDeps = Object.keys(grunt.file.readJSON('bower.json').devDependencies);
