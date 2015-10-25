@@ -3,7 +3,7 @@ var builtinOptions = ["8x8:10", "16x16:40", "30x16:99"];
 var list = document.getElementById("highscores");
 var noresults = document.getElementById("noresults");
 var strbundle = new StringBundle(document.getElementById("strings"));
-if(Intl)
+if("Intl" in window)
     var nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 
 function gameDescriptionFromValue(element, val) {
