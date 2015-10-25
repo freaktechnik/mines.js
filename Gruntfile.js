@@ -433,7 +433,8 @@ module.exports = function(grunt) {
                         'Bad value ”<%= dist.locale %>{locale}/app.properties” for attribute “href” on element “link”: Illegal character in path segment: not a URL code point.',
                         /gaia-header/,
                         /(Article|Section) lacks heading. Consider using “h2”-“h6” elements to add identifying headings to all (sections|articles)./,
-                        /The “(details|menu)” element is not supported( properly)? by browsers yet./
+                        /The “(details|menu)” element is not supported( properly)? by browsers yet./,
+                        "Attribute “referrer” not allowed on element “iframe” at this point."
                     ]
                 },
                 files: {
