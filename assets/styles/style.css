@@ -43,13 +43,6 @@ menu {
 
 #fieldcontainer {
     margin-bottom: 45px;
-    display:flex;
-    justify-content:space-between;
-    flex-flow:column wrap
-}
-
-.spacer {
-    flex: 2;
 }
 
 table {
