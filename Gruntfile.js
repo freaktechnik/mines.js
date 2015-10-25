@@ -411,7 +411,7 @@ module.exports = function(grunt) {
                         return grunt.config('dist.icon').replace('*', size);
                     },
                     TARGET_ENV: '<%= targetEnv %>',
-                    TAG: '<%= githash.main.tag %>',
+                    TAG: '<%= githash.main.hash %>',
                     VERSION: '<%= pkg.version %>'
                 },
                 srcDir: '<%= src.include %>'
@@ -476,6 +476,8 @@ module.exports = function(grunt) {
         env = env || 'web';
         grunt.config.set('targetEnv', env);
 
+        grunt.task.run('githash');
+
         grunt.task.run('transifex');
 
         grunt.task.run('uglify');
@@ -497,6 +499,7 @@ module.exports = function(grunt) {
     grunt.registerTask('travis', ['build:packaged', 'compress:travis']);
 
     grunt.registerTask('set-version', 'Set the deversion with git hashes and all that', function(env) {
+        grunt.task.requires('githash');
         grunt.config.set('dev', true);
         grunt.config.set('pkg.version', grunt.config('pkg.version') + "-pre+" + grunt.config('githash.main.short'));
     });
