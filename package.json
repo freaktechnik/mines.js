@@ -2,7 +2,7 @@
   "name": "mines",
   "title": "Mines",
   "description": "Yet another Minesweeeper clone with custom boards and mine-flagging",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "devDependencies": {
     "fxos-connect": "~0.3.0",
     "fxos-deploy": "~0.3.2",
