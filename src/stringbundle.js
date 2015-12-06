@@ -34,6 +34,7 @@ StringBundle.prototype.getString = function(id) {
  * @param id: ID of the translated string
  * @param args: Arguments for variables within the string, should be an object.
  * @return A Promise, resolving with the translation.
+ * @todo make a queue for this so they don't interfere. Or use a document fragment.
  */
 StringBundle.prototype.getStringAsync = function(id, args) {
     var node = this.getStringContainer(id);

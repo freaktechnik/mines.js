@@ -9,7 +9,9 @@ if("Intl" in window)
 function gameDescriptionFromValue(element, val) {
     var mines = val.split(":");
     var size = mines[0].split("x");
-    navigator.mozL10n.setAttributes(element, "highscores_custom_board", { width: size[0], height: size[1], mines: mines[1] });
+    navigator.mozL10n.setAttributes(element, "highscores_custom_board", { width: parseInt(size[0], 10), height: parseInt(size[1], 10), mines: parseInt(mines[1], 10) });
+    // Need to explicitly translate it in case it's not inserted into the document yet.
+    navigator.mozL10n.translateFragment(element);
 }
 
 function highscoreListItem(name, time) {
@@ -66,7 +68,7 @@ function showHighscores(game) {
 }
 
 function addOption(game) {
-    var item = new Option("", game);
+    var item = new Option(game, game);
     gameDescriptionFromValue(item, game);
     select.add(item);
 }
