@@ -13,6 +13,7 @@
     <body class="skin-comms skin-organic" role="application">
         <div id="strings" class="hidden" hidden>
             <span data-l10n-id="custom_form_error">There has to be at least one mine and one empty cell in the Minefield.</span>
+            <span data-l10n-id="custom_percentage_unit">{{percentage}}%</span>
         </div>
         <section role="region" class="vbox fit">
             <gaia-header action="back" id="header">
@@ -47,6 +48,12 @@
                                     <input type="number" id="mines" min="1" value="10" required step="1">
                                 </div>
                             </li>
+                            <li>
+                                <div class="fit">
+                                    <label for="percentage" data-l10n-id="custom_percentage_label">Mines percentage:</label>
+                                </div>
+                                <div class="fit">
+                                    <output for="height,width,mines" id="percentage">15.6%</output>
                             <li><button type="submit" id="submit" data-l10n-id="custom_done">Start Game</button></li>
                         </ul>
                     </form>
