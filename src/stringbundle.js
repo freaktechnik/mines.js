@@ -1,5 +1,3 @@
-//TODO do some fancy queueing stuff for waiting until mozL10n.ready or when requesting translation of the same string
-
 /**
  * A StringBundle wraps around an HTML element containing nodes with strings used in JS.
  * @param container: The parent element of all strings.
@@ -34,16 +32,16 @@ StringBundle.prototype.getString = function(id) {
  * @param id: ID of the translated string
  * @param args: Arguments for variables within the string, should be an object.
  * @return A Promise, resolving with the translation.
- * @todo make a queue for this so they don't interfere. Or use a document fragment.
  */
 StringBundle.prototype.getStringAsync = function(id, args) {
     var node = this.getStringContainer(id);
     var promised = new Promise(function(accept, reject) {
-        navigator.mozL10n.once(function() {
-            accept(node.textContent);
+        var tempNode = node.cloneNode();
+        navigator.mozL10n.ready(function() {
+            navigator.mozL10n.setAttributes(tempNode, id, args);
+            navigator.mozL10n.translateFragment(tempNode);
+            accept(tempNode.textContent);
         });
-        navigator.mozL10n.setAttributes(node, id, args);
-        navigator.mozL10n.translateFragment(node);
     });
     return promised;
 };

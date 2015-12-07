@@ -43,17 +43,10 @@ test("async same string", function(assert) {
         { arg: "0.1", val: "0.1s" },
         { arg: "abc", val: "abcs" }
     ];
-    var generator = function(stringargs, i) {
-        if(stringargs.length == i) {
-            done();
-        }
-        else {
-            self.strbundle.getStringAsync("mines_time_unit", { time: stringargs[i].arg })
-                .then(function(val) {
-                    assert.equal(val, stringargs[i].val);
-                    generator(stringargs, i+1);
-                });
-        }
-    };
-    generator(args, 0);
+    Promise.all(args.map(function(argument) {
+        return self.strbundle.getStringAsync("mines_time_unit", { time: argument.arg })
+            .then(function(val) {
+                assert.equal(val, argument.val);
+            });
+    })).then(done);
 });
