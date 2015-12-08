@@ -120,7 +120,6 @@ body:not([data-whatinput='keyboard']) td {
 .mine:not(.covered)::after,
 .gameover .mine::after {
     content: "9";
-    color: black;
     font-family: mine;
     font-weight: initial;
 }
