@@ -128,6 +128,10 @@ body:not([data-whatinput='keyboard']) td {
     color: transparent;
 }
 
+.gameover .covered {
+    color: black;
+}
+
 .invalid {
     background-color: red !important; /* Keyboard styles on td overwrite this else */
     transition-property: background-color;
