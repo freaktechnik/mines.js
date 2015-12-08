@@ -200,6 +200,13 @@ gaia-header {
     visibility: hidden;
 }
 
+/* Only visible for high-contrast and screenreaders. Text content only,
+ * still uses up space.
+ */
+.normallyhidden {
+    color: transparent;
+}
+
 .custom_icon {
     font-family: mine;
     font-style: normal !important;

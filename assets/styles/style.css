@@ -61,8 +61,8 @@ table {
 
 td {
     display: inline-block;
-    min-width: 1.5em;
-    min-height: 1.5em;
+    width: 1.5em;
+    height: 1.5em;
     background-color: lightgray;
     outline: 1px solid gray;
     border: 3px solid transparent;
@@ -81,46 +81,46 @@ body:not([data-whatinput='keyboard']) td {
 
 [data-whatinput='keyboard'] td:focus {
     background-color: white;
+    border: 3px inset lightgray;
 }
 
-.high-contrast td {
-    outline: 2px black;
-    background: white;
-}
-
-.air {
-    color: transparent;
-}
-.one {
+.one:not(.covered)::after {
+    content: "1";
     color: blue;
 }
-.two {
+.two:not(.covered)::after {
+    content: "2";
     color: green;
 }
-.three {
+.three:not(.covered)::after {
+    content: "3";
     color: red;
 }
-.four {
+.four:not(.covered)::after {
+    content: "4";
     color: navy;
 }
-.five {
+.five:not(.covered)::after {
+    content: "5";
     color: maroon;
 }
-.six {
+.six:not(.covered)::after {
+    content: "6";
     color: teal;
 }
-.seven {
+.seven:not(.covered)::after {
+    content: "7";
     color: purple;
 }
-.eight {
+.eight:not(.covered)::after {
+    content: "8";
     color: black;
 }
 
-.high-contrast td:not(.air) {
-    color: black !important;
-}
-
-.mine {
+.mine:not(.covered)::after,
+.gameover .mine::after {
+    content: "9";
+    color: black;
     font-family: mine;
     font-weight: initial;
 }
@@ -135,21 +135,8 @@ body:not([data-whatinput='keyboard']) td {
     transition-duration: 0.2s;
 }
 
-.high-contrast .covered {
-    border: 3px solid white;
-    background: black;
-}
-
 table:not(.done) .covered:active {
     border: 3px inset gray;
-}
-
-.gameover .covered.mine {
-    color: initial;
-}
-
-.high-contrast .gameover .covered.mine {
-    color: white !important;
 }
 
 .flagged::before {
@@ -165,15 +152,6 @@ table:not(.done) .covered:active {
     font-family: "gaia-icons";
     font-style: normal;
     text-rendering: optimizelegibility;
-}
-
-.high-contrast td.flagged {
-    background-color: red;
-    color: red !important;
-}
-
-.high-contrast .flagged::before {
-    color: transparent;
 }
 
 .done:not(.gameover) {

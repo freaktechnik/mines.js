@@ -2,9 +2,6 @@
  * Mines thing
  */
 
-//TODO Find a way for aria to not describe contents of cell while covered and to label mines
-//TODO maybe have an output area giving the current coordinates to screenreaders?
-
 Mines.AIR = 0;
 Mines.MINE_1 = 1;
 Mines.MINE_2 = 2;
@@ -16,20 +13,22 @@ Mines.MINE_7 = 7;
 Mines.MINE_8 = 8;
 Mines.MINE = 9;
 
-function getClassForContent(c) {
-    switch(c) {
-        case Mines.MINE_1: return "one";
-        case Mines.MINE_2: return "two";
-        case Mines.MINE_3: return "three";
-        case Mines.MINE_4: return "four";
-        case Mines.MINE_5: return "five";
-        case Mines.MINE_6: return "six";
-        case Mines.MINE_7: return "seven";
-        case Mines.MINE_8: return "eight";
-        case Mines.MINE: return "mine";
-        default: return "air";
-    }
-}
+Mines.CLASSES = [
+    "air",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "mine"
+];
+
+Mines.getClassForContent = function(c) {
+    return this.CLASSES[c];
+};
 
 Mines.MODE_UNCOVER = false;
 Mines.MODE_FLAG = true;
@@ -48,10 +47,11 @@ const COVERED_CLASS = "covered";
 const FLAGGED_CLASS = "flagged";
 const FLASH_CLASS = "invalid";
 
-function Mines(cfx, dimensions, mineCount) {
+function Mines(cfx, coordinates, dimensions, mineCount) {
     this.dimensions = dimensions || [8, 8];
     this.mineCount = mineCount || 10;
     this.context = cfx;
+    this.coordinates = coordinates;
 
     var board = [], marked = [];
     for(var y = 0; y < dimensions[1]; ++y) {
@@ -92,6 +92,11 @@ Mines.prototype.boardGenerated = false;
 Mines.prototype.done = false;
 Mines.prototype.mode = Mines.MODE_UNCOVER;
 Mines.prototype.size = 1;
+
+Mines.prototype.getReadableValue = function(className) {
+    //TODO make static? Also, l10n.
+    return className;
+};
 
 Mines.prototype.setSize = function(size) {
     this.size = size;
@@ -251,6 +256,7 @@ Mines.prototype.uncoverCell = function(x, y) {
         var cell = this.getCell(x, y);
         cell.classList.remove(COVERED_CLASS);
         cell.setAttribute("aria-pressed", "true");
+        cell.setAttribute("aria-label", this.getReadableValue(cell.className));
         this.markedMines[y][x] = Mines.MINE_KNOWN;
 
         if(Mines.MINE === this.board[y][x]) {
@@ -441,6 +447,9 @@ Mines.prototype.createCell = function(x, y) {
     cell.addEventListener("transitionend", function(e) {
         cell.classList.remove(FLASH_CLASS);
     }, false);
+    cell.addEventListener("focus", function(e) {
+        self.coordinates.value = (1+x)+", "+(1+y);
+    });
 
     return cell;
 };
@@ -509,13 +518,11 @@ Mines.prototype.printBoard = function() {
             this.printEmptyBoard();
         }
         else {
-            var tr, td;
+            var tr;
             for(var y = 0; y < this.dimensions[1]; ++y) {
                 tr = this.context.rows[y];
                 for(var x = 0; x < this.dimensions[0]; ++x) {
-                    td = tr.cells[x];
-                    td.textContent = this.board[y][x];
-                    td.classList.add(getClassForContent(this.board[y][x]));
+                    tr.cells[x].classList.add(Mines.getClassForContent(this.board[y][x]));
                 }
             }
         }
@@ -558,10 +565,10 @@ Mines.prototype.saveState = function() {
     localStorage.setItem("savedGame", "true");
 };
 
-Mines.restoreSavedState = function(cfx) {
+Mines.restoreSavedState = function(cfx, coordinates) {
     if(Mines.hasSavedState()) {
         var settings = JSON.parse(localStorage.getItem("gameSettings")),
-            mines = new Mines(cfx, [settings.board[0].length, settings.board.length], settings.mineCount);
+            mines = new Mines(cfx, coordinates, [settings.board[0].length, settings.board.length], settings.mineCount);
         mines.board = settings.board;
         mines.markedMines = settings.markedMines;
         mines.boardGenerated = true;

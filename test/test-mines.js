@@ -1,7 +1,7 @@
 module("mines.js", {
     beforeEach: function() {
         this.ctx = document.getElementById("field");
-        this.mines = new Mines(this.ctx, [8, 8], 10);
+        this.mines = new Mines(this.ctx, document.getElementById("coordinates"), [8, 8], 10);
     }
 });
 
@@ -125,14 +125,14 @@ test("saving", function(assert) {
     this.mines.saveState();
     assert.ok(Mines.hasSavedState());
 
-    var restored = Mines.restoreSavedState(this.ctx);
-    assert.equal(this.mines.mineCount, restored.mineCount);
-    assert.equal(this.mines.dimensions[0], restored.dimensions[0]);
-    assert.equal(this.mines.dimensions[1], restored.dimensions[1]);
-    assert.equal(this.mines.mode, restored.mode);
-    assert.equal(this.mines.board.length, restored.board.length);
-    assert.equal(this.mines.countFlags(), restored.countFlags());
-    assert.equal(this.mines.nonMinesCovered(), restored.nonMinesCovered());
+    var restored = Mines.restoreSavedState(this.ctx, document.getElementById("coordinates"));
+    assert.equal(this.mines.mineCount, restored.mineCount, "Restored mine count matches");
+    assert.equal(this.mines.dimensions[0], restored.dimensions[0], "Restored dimension 1 matches");
+    assert.equal(this.mines.dimensions[1], restored.dimensions[1], "Restored dimension 2 matches");
+    assert.equal(this.mines.mode, restored.mode, "Restored mode matches");
+    assert.equal(this.mines.board.length, restored.board.length, "Restored board size matches");
+    assert.equal(this.mines.countFlags(), restored.countFlags(), "Restored flag count matches");
+    assert.equal(this.mines.nonMinesCovered(), restored.nonMinesCovered(), "Restored mine coverage matches");
 
     Mines.removeSavedState();
     assert.ok(!Mines.hasSavedState());
