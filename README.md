@@ -8,7 +8,7 @@ Play
 ----
 Mines is available on the following sites:
 
- * [Web (Release)](http://humanoids.be/mines)
+ * [Web (Release)](https://humanoids.be/mines)
  * [Firefox Marketplace](https://marketplace.firefox.com/app/mines/)
  * [Web (Testing)](http://lab.humanoids.be/mines.js)
 
