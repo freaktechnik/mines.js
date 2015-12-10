@@ -494,6 +494,7 @@ Mines.prototype.printEmptyBoard = function() {
             for(var l = 0; l < start; ++l) {
                 row.cells[l].textContent = "";
                 row.cells[l].className = COVERED_CLASS;
+                row.cells[l].removeAttribute("aria-label");
             }
             if(start < this.dimensions[0]) {
                 var cellsToAdd = this.dimensions[0] - start;
