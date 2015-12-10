@@ -27,7 +27,7 @@ Mines.CLASSES = [
 ];
 
 Mines.getClassForContent = function(c) {
-    return this.CLASSES[c];
+    return c in this.CLASSES ? this.CLASSES[c] : c;
 };
 
 Mines.MODE_UNCOVER = false;
@@ -494,7 +494,7 @@ Mines.prototype.printEmptyBoard = function() {
             for(var l = 0; l < start; ++l) {
                 row.cells[l].textContent = "";
                 row.cells[l].className = COVERED_CLASS;
-                row.cells[l].removeAttribute("aria-label");
+                row.cells[l].setAttribute("aria-label", this.getReadableValue(COVERED_CLASS));
             }
             if(start < this.dimensions[0]) {
                 var cellsToAdd = this.dimensions[0] - start;
