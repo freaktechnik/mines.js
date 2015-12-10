@@ -27,7 +27,7 @@ Mines.CLASSES = [
 ];
 
 Mines.getClassForContent = function(c) {
-    return c in this.CLASSES ? this.CLASSES[c] : c;
+    return this.CLASSES[c];
 };
 
 Mines.MODE_UNCOVER = false;
