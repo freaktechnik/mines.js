@@ -93,12 +93,12 @@ Mines.prototype.mode = Mines.MODE_UNCOVER;
 Mines.prototype.size = 1;
 
 
-Mines.prototype.translateCell = function(x, y) {
+Mines.prototype.translateCell = function(x, y, deferTranslation) {
     var node = this.getCell(x, y);
-    this.translateCellNode(x, y, node);
+    this.translateCellNode(x, y, node, deferTranslation);
 };
 
-Mines.prototype.translateCellNode = function(x, y, node) {
+Mines.prototype.translateCellNode = function(x, y, node, deferTranslation) {
     var l10nId = "mines_cell_covered";
     if(this.markedMines[y][x] == Mines.MINE_KNOWN)
         l10nId = "mines_cell_" + (this.board[y][x] == Mines.MINE ? "mine": "known");
@@ -109,7 +109,8 @@ Mines.prototype.translateCellNode = function(x, y, node) {
         y: y + 1,
         val: this.board[y][x]
     });
-    navigator.mozL10n.translateFragment(node);
+    if(!deferTranslation)
+        navigator.mozL10n.translateFragment(node);
 };
 
 Mines.prototype.setSize = function(size) {
@@ -512,7 +513,7 @@ Mines.prototype.printEmptyBoard = function() {
             for(var l = 0; l < start; ++l) {
                 row.cells[l].textContent = "";
                 row.cells[l].className = COVERED_CLASS;
-                this.translateCellNode(l, j, row.cells[l]);
+                this.translateCellNode(l, j, row.cells[l], true);
             }
             if(start < this.dimensions[0]) {
                 var cellsToAdd = this.dimensions[0] - start;
@@ -528,6 +529,8 @@ Mines.prototype.printEmptyBoard = function() {
                 this.context.appendChild(this.createRow(start+n));
             }
         }
+
+        navigator.mozL10n.translateFragment(this.context);
     }
 };
 
@@ -553,7 +556,7 @@ Mines.prototype.restoreBoard = function() {
     var tr, td, mineState;
     for(var y = 0; y < this.dimensions[1]; ++y) {
         for(var x = 0; x < this.dimensions[0]; ++x) {
-            this.translateCell(x, y);
+            this.translateCell(x, y, true);
             mineState = this.markedMines[y][x];
             if(Mines.MINE_KNOWN === mineState)
                 this.getCell(x, y).classList.remove(COVERED_CLASS);
@@ -561,6 +564,7 @@ Mines.prototype.restoreBoard = function() {
                 this.getCell(x, y).classList.add(FLAGGED_CLASS);
         }
     }
+    navigator.mozL10n.translateFragment(this.context);
 };
 
 Mines.hasSavedState = function() {
