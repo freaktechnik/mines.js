@@ -75,6 +75,11 @@ function Mines(cfx, dimensions, mineCount) {
         }
         else if(e.key == "CapsLock" || e.keyCode == 20) {
             self.toggleMode();
+            e.preventDefault();
+        }
+        //TODO add keyCodes
+        else if(e.key == "Backspace" || e.key == "Pause") {
+            self.context.dispatchEvent(new Event("pause"));
         }
     }, false);
 
@@ -466,9 +471,6 @@ Mines.prototype.createCell = function(x, y) {
     cell.addEventListener("transitionend", function(e) {
         cell.classList.remove(FLASH_CLASS);
     }, false);
-    cell.addEventListener("focus", function(e) {
-        self.coordinates.value = (1+x)+", "+(1+y);
-    });
 
     return cell;
 };

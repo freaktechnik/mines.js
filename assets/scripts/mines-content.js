@@ -180,6 +180,9 @@ var Page = {
                 mines.context.addEventListener("loose", this.model.pause.bind(this.model), false);
                 mines.context.addEventListener("win", this.model.pause.bind(this.model), false);
                 mines.context.addEventListener("reset", this.model.reset.bind(this.model), false);
+                mines.context.addEventListener("pause", function() {
+                    window.history.back();
+                });
 
                 var self = this;
                 window.addEventListener("beforeunload", function() {
