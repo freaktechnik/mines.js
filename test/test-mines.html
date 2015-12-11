@@ -8,6 +8,17 @@
 
         <!-- Polyfills for PhantomJS -->
         <script src="event-polyfill.js"></script>
+        <script src="bind-polyfill.js"></script>
+        <script src="../bower_components/es6-collections/es6-collections.js"></script>
+        <script src="../bower_components/es6-promise/promise.js"></script>
+        <script src="../bower_components/MutationObserver/MutationObserver.js"></script>
+
+        <meta name="defaultLanguage" content="en">
+        <meta name="availableLanguages" content="en">
+
+        <link rel="localization" href="fixtures/{locale}.properties">
+
+        <script src="dist/l10n.js"></script>
 
         <script src="dist/mines.js"></script>
         <script src="test-mines.js"></script>
@@ -15,7 +26,6 @@
     <body>
         <div id="qunit"></div>
         <div id='qunit-fixture' aria-busy="true">
-            <output id="coordinates">1, 1</output>
             <table id="field" role="grid">
             </table>
         </div>

@@ -1,7 +1,7 @@
 module("mines.js", {
     beforeEach: function() {
         this.ctx = document.getElementById("field");
-        this.mines = new Mines(this.ctx, document.getElementById("coordinates"), [8, 8], 10);
+        this.mines = new Mines(this.ctx, [8, 8], 10);
     }
 });
 
@@ -125,7 +125,7 @@ test("saving", function(assert) {
     this.mines.saveState();
     assert.ok(Mines.hasSavedState());
 
-    var restored = Mines.restoreSavedState(this.ctx, document.getElementById("coordinates"));
+    var restored = Mines.restoreSavedState(this.ctx);
     assert.equal(this.mines.mineCount, restored.mineCount, "Restored mine count matches");
     assert.equal(this.mines.dimensions[0], restored.dimensions[0], "Restored dimension 1 matches");
     assert.equal(this.mines.dimensions[1], restored.dimensions[1], "Restored dimension 2 matches");

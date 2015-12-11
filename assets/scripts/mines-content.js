@@ -86,9 +86,6 @@ var Page = {
     get field() {
         return document.getElementById("field");
     },
-    get coordinates() {
-        return document.getElementById("coordinates");
-    },
     mines: null,
     strbundle: null,
     Toolbar: {
@@ -214,7 +211,7 @@ var Page = {
     },
     getMinesFromHash: function Page_getMinesFromHash(hash) {
         if(hash.charAt(0) == "r") {
-            var mines = Mines.restoreSavedState(this.field, this.coordinates);
+            var mines = Mines.restoreSavedState(this.field);
             if(!mines) {
                 window.alert(this.strbundle.getString('mines_restore_error'));
                 Mines.removeSavedState();
@@ -237,7 +234,7 @@ var Page = {
             else {
                 preset = Mines.defaultBoards[hash];
             }
-            return new Mines(this.field, this.coordinates, preset.size, preset.mines);
+            return new Mines(this.field, preset.size, preset.mines);
         }
     }
 };
