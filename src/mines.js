@@ -77,8 +77,8 @@ function Mines(cfx, dimensions, mineCount) {
             self.toggleMode();
             e.preventDefault();
         }
-        //TODO add keyCodes
-        else if(e.key == "Backspace" || e.key == "Pause") {
+        else if(e.key == "Backspace" || e.key == "Pause" || e.keyCode == 8 ||
+                e.keyCode == 19) {
             self.context.dispatchEvent(new Event("pause"));
         }
     }, false);
