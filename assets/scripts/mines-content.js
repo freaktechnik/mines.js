@@ -43,13 +43,13 @@ var Page = {
 
         this.field.addEventListener("flagged", function() {
             if(self.Toolbar.flagtoggle.mode == self.Toolbar.flagtoggle.UNCOVER) {
-                self.vibrate(20);
+                self.vibrate(50);
             }
         }, false);
 
         this.field.addEventListener("unflagged", function() {
             if(self.Toolbar.flagtoggle.mode == self.Toolbar.flagtoggle.UNCOVER) {
-                self.vibrate(20);
+                self.vibrate(50);
             }
         }, false);
 
