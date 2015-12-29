@@ -90,7 +90,7 @@ module.exports = function(grunt) {
                     esnext: true
                 },
                 files: {
-                    src: ['Gruntfile.js', '<%= src.script %>/**/*.js', 'src/**/*.js', 'test/**/*.js']
+                    src: ['Gruntfile.js', '<%= src.script %>/**/*.js', 'src/**/*.js', 'test/**/*.js', '!test/dist/**']
                 }
             }
         },
@@ -179,6 +179,16 @@ module.exports = function(grunt) {
                         dest: '<%= distdir %>'
                     }
                 ]
+            },
+            packages: {
+                files: [
+                    {
+                        expand: true,
+                        cwd: 'node_modules',
+                        src: ['babel-polyfill/dist/polyfill.min.js'],
+                        dest: '<%= distdir %><%= dist.bower %>'
+                    }
+                ]
             }
         },
         transifex: {
@@ -211,14 +221,30 @@ module.exports = function(grunt) {
             build: [ '<%= distdir %>', '*.zip' ],
             test: 'test/dist'
         },
-        es6transpiler: {
+        babel: {
+            options: {
+                plugins: [
+                    'transform-es2015-arrow-functions',
+                    'transform-es2015-block-scoped-functions',
+                    'transform-es2015-block-scoping',
+                    'transform-es2015-classes',
+                    'transform-es2015-computed-properties',
+                    'transform-es2015-destructuring',
+                    'transform-es2015-for-of',
+                    'transform-es2015-function-name',
+                    'transform-es2015-literals',
+                    'transform-es2015-object-super',
+                    'transform-es2015-parameters',
+                    'transform-es2015-shorthand-properties',
+                    'transform-es2015-spread',
+                    'transform-es2015-sticky-regex',
+                    'transform-es2015-template-literals',
+                    'transform-es2015-typeof-symbol',
+                    'transform-es2015-unicode-regex',
+                    'transform-regenerator'
+                ]
+            },
             bowerlibs: {
-                options: {
-                    globals: {
-                        "Event": true,
-                        "define": true
-                    }
-                },
                 files: [
                     {
                         expand: true,
@@ -229,17 +255,6 @@ module.exports = function(grunt) {
                 ]
             },
             test: {
-                options: {
-                    globals: {
-                        "Event": true,
-                        "Math": true,
-                        "CustomEvent": true,
-                        "Date": true,
-                        "IDBKeyRange": true,
-                        "unescape": true,
-                        "Intl": true
-                    }
-                },
                 files: [
                     {
                         expand: true,
@@ -278,15 +293,6 @@ module.exports = function(grunt) {
             build: {
                 options: {
                     archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
-                },
-                expand: true,
-                cwd: '<%= distdir %>/',
-                src: ['**/*'],
-                dest: '/'
-            },
-            travis: {
-                options: {
-                    archive: '<%= pkg.name %>.zip'
                 },
                 expand: true,
                 cwd: '<%= distdir %>/',
@@ -455,7 +461,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-es6-transpiler');
+    grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-transifex');
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -488,8 +494,9 @@ module.exports = function(grunt) {
         grunt.task.run('cssmin');
         grunt.task.run('preprocess:html');
         grunt.task.run('copy:build');
+        grunt.task.run('copy:packages');
         grunt.task.run('webapp:'+env);
-        grunt.task.run('es6transpiler:bowerlibs');
+        grunt.task.run('babel:bowerlibs');
 
         if(env == 'packaged') {
             grunt.task.run('compress:build');
@@ -499,9 +506,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('travis', ['build:packaged', 'compress:travis']);
-
-    grunt.registerTask('set-version', 'Set the deversion with git hashes and all that', function(env) {
+    grunt.registerTask('set-pre-version', 'Set the deversion with git hashes and all that', function(env) {
         grunt.task.requires('githash');
         grunt.config.set('dev', true);
         grunt.config.set('pkg.version', grunt.config('pkg.version') + "-pre+" + grunt.config('githash.main.short'));
@@ -509,16 +514,19 @@ module.exports = function(grunt) {
 
     grunt.registerTask('dev', 'Build an unminified version of the app (use :web or :packaged)', function(env) {
         env = env || 'web';
+        grunt.config.set('targetEnv', env);
+
         grunt.task.run('githash');
-        grunt.task.run('set-version');
+        grunt.task.run('set-pre-version');
 
         grunt.task.run('bower');
         grunt.task.run('concat:dev');
         grunt.task.run('copy:dev');
         grunt.task.run('preprocess:html');
         grunt.task.run('copy:build');
+        grunt.task.run('copy:packages');
         grunt.task.run('webapp:'+env);
-        grunt.task.run('es6transpiler:bowerlibs');
+        grunt.task.run('babel:bowerlibs');
         if(env == 'packaged') {
             grunt.task.run('compress:build');
         }
@@ -527,11 +535,12 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'copy:build', 'jshint', 'validatewebapp', 'preprocess:html', 'accessibility', 'htmllint', 'es6transpiler:test', 'qunit', 'clean']);
+    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'copy:build', 'jshint', 'validatewebapp', 'preprocess:html', 'accessibility', 'htmllint', 'babel:test', 'qunit', 'clean']);
 
     grunt.registerTask('deploy', 'Deoply the app, targets are :web or :packaged', function(env) {
         env = env || 'web';
 
+        grunt.task.run('clean');
         grunt.task.run('build:'+env);
 
         if(env == 'packaged') {
@@ -545,6 +554,7 @@ module.exports = function(grunt) {
     grunt.registerTask('stage', 'Publish the app to staging with unminified sources (only :web for now)', function(env) {
         env = env || 'web';
 
+        grunt.task.run('clean');
         grunt.task.run('transifex');
         grunt.task.run('dev:'+env);
 

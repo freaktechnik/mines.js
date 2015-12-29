@@ -2,6 +2,6 @@
   "launch_path": "/index.html",
   "default_locale": "en",
   "appcache_path": "/manifest.appcache",
-  "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self' https://rawgit.com http://scripts.sil.org https://opensource.org https://polymer.github.io https://raw.githubusercontent.com;referrer no-referrer",
+  "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; frame-src 'self' https://rawgit.com http://scripts.sil.org https://opensource.org https://polymer.github.io https://raw.githubusercontent.com https://npmcdn.com;referrer no-referrer",
   "fullscreen": "true"
 }

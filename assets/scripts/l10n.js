@@ -1630,7 +1630,7 @@
 
     switch (node.getAttribute('name')) {
       case 'availableLanguages':
-        meta.availableLanguages = 
+        meta.availableLanguages =
           splitAvailableLanguagesString(node.getAttribute('content'));
         break;
       case 'defaultLanguage':

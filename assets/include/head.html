@@ -19,7 +19,7 @@
 
 <meta property="og:image" content="<!-- @exec ICON_NAME('512') -->">
 
-<script src="<!-- @echo VENDOR_DIR -->es6-promise/promise.js"></script>
+<script src="<!-- @echo VENDOR_DIR -->babel-polyfill/dist/polyfill.min.js"></script>
 
 <meta name="defaultLanguage" content="<!-- @echo DEFAULT_LOCALE -->">
 <meta name="availableLanguages" content="<!-- @echo LOCALES -->">
@@ -28,7 +28,6 @@
 <script src="<!-- @echo SCRIPT_DIR -->l10n.min.js"></script>
 
 <script src="<!-- @echo SCRIPT_DIR -->property-descriptor-fix.min.js"></script>
-<script src="<!-- @echo SCRIPT_DIR -->object-assign-polyfill.min.js"></script>
 <script src="<!-- @echo VENDOR_DIR -->webcomponentsjs/webcomponents.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="<!-- @echo VENDOR_DIR -->fira/fira.css">
