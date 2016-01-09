@@ -6,7 +6,7 @@
 
         <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->buttons.css">
 
-        <script src="mines.min.js"></script>
+        <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->mines.min.js"></script>
     </head>
     <body class="skin-comms skin-organic" role="application">
         <section role="region" class="vbox fit">
@@ -31,14 +31,6 @@
                         <li><a role="button" class="button icon icon-view" href="custom.html" data-l10n-id="menu_difficulty_custom">Custom</a></li>
                     </ul>
                 </article>
-                <!-- @if TARGET_ENV='web' -->
-                <article hidden id="marketplacepromo">
-                    <header data-l10n-id="menu_marketplacepromo_title">Install Packaged App</header>
-                    <ul>
-                        <li><a class="button" target="blank" rel="external" href="https://marketplace.firefox.com/app/mines" data-l10n-id="menu_marketplacepromo_button"><!-- data-icon="rocket">-->Get from Firefox Marketplace</a></li>
-                    </ul>
-                </article>
-                <!-- @endif -->
             </section>
         </section>
         <script type="application/javascript" src="<!-- @echo VENDOR_DIR -->what-input/what-input.js"></script>

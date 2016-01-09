@@ -58,7 +58,11 @@ module.exports = function(grunt) {
             build: {
                 files: [
                     {
-                        '<%= distdir %>mines.min.js': 'src/*.js',
+                        expand: true,
+                        cwd: 'src',
+                        src: '**/*.js',
+                        dest: '<%= distdir %><%= dist.script %>',
+                        ext: '.min.js'
                     },
                     {
                         expand: true,
@@ -124,16 +128,6 @@ module.exports = function(grunt) {
                 }
             }
         },
-        concat: {
-            dev: {
-                options: {
-                    banner: '<%= banner %>'
-                },
-                files: [{
-                    '<%= distdir %>mines.min.js': 'src/*.js'
-                }]
-            }
-        },
         copy: {
             dev: {
                 files: [
@@ -150,6 +144,13 @@ module.exports = function(grunt) {
                         src: ['*.css'],
                         dest: '<%= distdir %><%= dist.style %>',
                         ext: '.css'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'src',
+                        src: '**/*.js',
+                        dest: '<%= distdir %><%= dist.script %>',
+                        ext: '.min.js'
                     }
                 ]
             },
@@ -466,7 +467,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-transifex');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-compress');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-validate-webapp');
     grunt.loadNpmTasks('grunt-accessibility');
     grunt.loadNpmTasks('grunt-appcache');
@@ -520,7 +520,6 @@ module.exports = function(grunt) {
         grunt.task.run('set-pre-version');
 
         grunt.task.run('bower');
-        grunt.task.run('concat:dev');
         grunt.task.run('copy:dev');
         grunt.task.run('preprocess:html');
         grunt.task.run('copy:build');
