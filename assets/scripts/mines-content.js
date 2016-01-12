@@ -13,16 +13,19 @@ var Page = {
 
         var self = this;
         this.field.addEventListener("generated", function() {
+            globalState.setGameState(true);
             if(Preferences.autotoggle.value) {
                 self.mines.toggleMode();
             }
         }, false);
 
         this.field.addEventListener("loose", function() {
+            globalState.setGameState(false);
             self.vibrate(500);
         }, false);
 
         this.field.addEventListener("win", function() {
+            globalState.setGameState(false);
             var game = gameDescriptionFromMines(self.mines);
             var time = self.Toolbar.timer.model.getTime()/1000.0;
             var HIGHSCORE_USER = "highscoreUser";
@@ -55,6 +58,7 @@ var Page = {
 
         window.addEventListener("beforeunload", function() {
             if(!self.mines.done && self.mines.boardGenerated) {
+                globalState.setGameState(false);
                 self.mines.saveState();
             }
         }, false);

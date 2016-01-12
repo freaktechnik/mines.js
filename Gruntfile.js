@@ -464,7 +464,8 @@ module.exports = function(grunt) {
             build: {
                 staticFileGlobs: [
                     '**/*'
-                ]
+                ],
+                importScripts: [ '<%= dist.script %>sw-global-events.min.js' ]
             }
         }
     });
