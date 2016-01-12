@@ -55,5 +55,5 @@ else {
         document.dispatchEvent(eventName);
     };
     globalState.setGameState = function(state) {};
-    globalState.getGameState = function() { return Promise.resolve(false) };
+    globalState.getGameState = function() { return Promise.resolve(false); };
 }
