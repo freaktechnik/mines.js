@@ -453,6 +453,19 @@ module.exports = function(grunt) {
             main: {
                 options: {}
             }
+        },
+        'sw-precache': {
+            options: {
+                cacheId: '<%= pkg.name %>',
+                workerFileName: 'service-worker.js',
+                baseDir: '<%= distdir %>',
+                stripPrefix: '<%= distdir %>'
+            },
+            build: {
+                staticFileGlobs: [
+                    '**/*'
+                ]
+            }
         }
     });
 
@@ -477,6 +490,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-html');
     grunt.loadNpmTasks('grunt-githash');
+    grunt.loadNpmTasks('grunt-sw-precache');
 
     // Default task(s).
     grunt.registerTask('default', ['build:web']);
@@ -502,6 +516,7 @@ module.exports = function(grunt) {
             grunt.task.run('compress:build');
         }
         else {
+            grunt.task.run('sw-precache');
             grunt.task.run('appcache');
         }
     });
@@ -526,10 +541,12 @@ module.exports = function(grunt) {
         grunt.task.run('copy:packages');
         grunt.task.run('webapp:'+env);
         grunt.task.run('babel:bowerlibs');
+
         if(env == 'packaged') {
             grunt.task.run('compress:build');
         }
         else {
+            grunt.task.run('sw-precache');
             grunt.task.run('appcache');
         }
     });
