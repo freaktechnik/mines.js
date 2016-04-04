@@ -203,8 +203,8 @@ var Page = {
                 localStorage.setItem(this.TIME, "0");
             },
             unload: function() {
-                localStorage.setItem(self.TIME, self.model.stop());
-                localStorage.setItem(self.SAVED_TIME, self.HAS_SAVED_TIME);
+                localStorage.setItem(this.TIME, this.model.stop());
+                localStorage.setItem(this.SAVED_TIME, this.HAS_SAVED_TIME);
             }
         }
     },
