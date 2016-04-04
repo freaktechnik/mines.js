@@ -56,10 +56,15 @@ var Page = {
             }
         }, false);
 
+        this.field.addEventListener("pause", function() {
+            window.location = "index.html";
+        });
+
         window.addEventListener("beforeunload", function() {
             if(!self.mines.done && self.mines.boardGenerated) {
                 globalState.setGameState(false);
                 self.mines.saveState();
+                self.Toolbar.unload();
             }
         }, false);
 
@@ -115,6 +120,9 @@ var Page = {
             mines.context.addEventListener("unflagged", function() {
                 self.output.value = parseInt(self.output.value, 10) + 1;
             }, false);
+        },
+        unload: function() {
+            this.timer.unload();
         },
         get output() {
             return document.getElementById("minecount");
@@ -184,17 +192,7 @@ var Page = {
                 mines.context.addEventListener("loose", this.model.pause.bind(this.model), false);
                 mines.context.addEventListener("win", this.model.pause.bind(this.model), false);
                 mines.context.addEventListener("reset", this.model.reset.bind(this.model), false);
-                mines.context.addEventListener("pause", function() {
-                    window.location = "index.html";
-                });
 
-                var self = this;
-                window.addEventListener("beforeunload", function() {
-                    if(!mines.done && mines.boardGenerated) {
-                        localStorage.setItem(self.TIME, self.model.stop());
-                        localStorage.setItem(self.SAVED_TIME, self.HAS_SAVED_TIME);
-                    }
-                }, false);
             },
             model: null,
             get output() {
@@ -203,6 +201,10 @@ var Page = {
             deleteSave: function() {
                 localStorage.setItem(this.SAVED_TIME, this.NOT_HAS_SAVED_TIME);
                 localStorage.setItem(this.TIME, "0");
+            },
+            unload: function() {
+                localStorage.setItem(self.TIME, self.model.stop());
+                localStorage.setItem(self.SAVED_TIME, self.HAS_SAVED_TIME);
             }
         }
     },
