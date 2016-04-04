@@ -334,7 +334,9 @@ module.exports = function(grunt) {
             },
             web: {
                 dest: '<%= distdir %>manifest.appcache',
-                cache: '<%= distdir %>**/*'
+                cache: {
+                    patterns: ['<%= distdir %>**/*', '!<%= distdir %>/service-worker.js']
+                },
             }
         },
         webapp: {
