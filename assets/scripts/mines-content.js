@@ -58,7 +58,7 @@ var Page = {
 
         this.field.addEventListener("pause", function() {
             window.location = "index.html";
-        });
+        }, false);
 
         window.addEventListener("beforeunload", function() {
             if(!self.mines.done && self.mines.boardGenerated) {
