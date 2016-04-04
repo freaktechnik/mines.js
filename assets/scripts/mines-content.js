@@ -185,7 +185,7 @@ var Page = {
                 mines.context.addEventListener("win", this.model.pause.bind(this.model), false);
                 mines.context.addEventListener("reset", this.model.reset.bind(this.model), false);
                 mines.context.addEventListener("pause", function() {
-                    window.history.back();
+                    window.location = "index.html";
                 });
 
                 var self = this;
