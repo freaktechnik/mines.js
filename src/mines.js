@@ -81,6 +81,9 @@ function Mines(cfx, dimensions, mineCount) {
                 e.keyCode == 19) {
             self.context.dispatchEvent(new Event("pause"));
         }
+        else if(e.key == "F1" || e.keyCode == 112) {
+            self.context.dispatchEvent(new Event("help"));
+        }
     }, false);
 
     if(Mines.hasSavedState())

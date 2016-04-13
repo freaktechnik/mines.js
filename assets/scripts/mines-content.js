@@ -60,6 +60,10 @@ var Page = {
             window.location = "index.html";
         }, false);
 
+        this.field.addEventListener("help", function() {
+            window.location = document.querySelector('link[rel="help"]').href;
+        });
+
         window.addEventListener("beforeunload", function() {
             if(!self.mines.done && self.mines.boardGenerated) {
                 globalState.setGameState(false);
