@@ -1,6 +1,3 @@
-BoolPreference.TRUE = "enabled";
-BoolPreference.FALSE = "disabled";
-
 function BoolPreference(name, defaultValue) {
     this.title = name;
     this.defaultValue = defaultValue;
@@ -8,6 +5,9 @@ function BoolPreference(name, defaultValue) {
         this.value = this.defaultValue;
     }
 }
+BoolPreference.TRUE = "enabled";
+BoolPreference.FALSE = "disabled";
+
 BoolPreference.prototype = {
     type: "bool",
     title: "",
@@ -39,8 +39,9 @@ NumberPreference.prototype = {
     },
     set value(val) {
         var num = parseFloat(val, 10);
-        if(typeof num == "number" && !isNaN(num))
+        if(typeof num == "number" && !isNaN(num)) {
             localStorage.setItem(this.title, val);
+        }
     },
     reset: function() {
         this.value = this.defaultValue;
@@ -49,19 +50,22 @@ NumberPreference.prototype = {
 
 // Defaults
 var Defaults = {
-    autotoggle: {
-        type: "bool",
-        value: false
+        autotoggle: {
+            type: "bool",
+            value: false
+        },
+        fieldsize: {
+            type: "number",
+            value: 1
+        },
+        vibration: {
+            type: "bool",
+            value: "vibrate" in navigator
+        }
     },
-    fieldsize: {
-        type: "number",
-        value: 1
-    },
-    vibration: {
-        type: "bool",
-        value: "vibrate" in navigator
-    }
-};
+    // init prefs
+    Preferences = {},
+    n;
 
 function getPreference(name) {
     var def = Defaults[name];
@@ -74,11 +78,9 @@ function getPreference(name) {
     }
 }
 
-// init prefs
-var Preferences = {};
 
-for(var name in Defaults) {
-    Preferences[name] = getPreference(name);
+for(n in Defaults) {
+    Preferences[n] = getPreference(n);
 }
 
 Object.defineProperty(Preferences, "reset", {

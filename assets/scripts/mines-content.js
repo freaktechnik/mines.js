@@ -3,7 +3,7 @@ function gameDescriptionFromMines(mines) {
 }
 
 var Page = {
-    init: function Page_init() {
+    init: function PageInit() {
         this.strbundle = new StringBundle(document.getElementById("strings"));
 
         this.mines = this.getMinesFromHash(document.location.hash.substr(1));
@@ -11,7 +11,11 @@ var Page = {
 
         this.Toolbar.init(this.mines);
 
-        var self = this;
+        var self = this,
+            hammer = new Hammer.Manager(this.field),
+            pinch = new Hammer.Pinch({ threshold: 0 }),
+            initialSize = Preferences.fieldsize.value;
+
         this.field.addEventListener("generated", function() {
             globalState.setGameState(true);
             if(Preferences.autotoggle.value) {
@@ -26,16 +30,15 @@ var Page = {
 
         this.field.addEventListener("win", function() {
             globalState.setGameState(false);
-            var game = gameDescriptionFromMines(self.mines);
-            var time = self.Toolbar.timer.model.getTime()/1000.0;
-            var HIGHSCORE_USER = "highscoreUser";
+            var game = gameDescriptionFromMines(self.mines),
+                time = self.Toolbar.timer.model.getTime()/1000.0,
+                HIGHSCORE_USER = "highscoreUser";
 
             Highscores.isNewTop(game, time, function(newTop) {
                 if(newTop) {
-                    var lastUser = localStorage.getItem(HIGHSCORE_USER);
-                    if(lastUser === null)
-                        lastUser = "";
-                    var user = window.prompt(self.strbundle.getString('mines_new_highscore'), lastUser);
+                    var lastUser = localStorage.getItem(HIGHSCORE_USER) || "",
+                        user = window.prompt(self.strbundle.getString('mines_new_highscore'), lastUser);
+
                     if(user) {
                         localStorage.setItem(HIGHSCORE_USER, user);
                         Highscores.save(game, time, user);
@@ -77,16 +80,9 @@ var Page = {
         }, false);
 
         // Scaling on mobile (since desktop browsers don't let us override it anyways, so nobody complain, k?)
-
-        var hammer = new Hammer.Manager(this.field);
         // enable all touch actions so we still get scrolling and the click events
         hammer.set({ touchAction: "auto" });
-
-        var pinch = new Hammer.Pinch({ threshold: 0 });
-
         hammer.add(pinch);
-
-        var initialSize = Preferences.fieldsize.value;
 
         hammer.on("pinchstart", function() {
             initialSize = self.mines.size;
@@ -161,7 +157,7 @@ var Page = {
             get mode() {
                 return navigator.mozL10n.getAttributes(this.button).id;
             },
-            toggle: function Toolbar_toggleMode() {
+            toggle: function ToolbarToggleMode() {
                 var button = this.button;
 
                 if(this.mode == this.UNCOVER) {
@@ -213,18 +209,24 @@ var Page = {
         }
     },
     // Execute an asynchonous vibration if it's enabled
-    vibrate: function Page_vibrate(time) {
-        if("vibrate" in navigator && Preferences.vibration.value)
-            setTimeout(function() { navigator.vibrate(time); }, 0);
+    vibrate: function PageVibrate(time) {
+        if("vibrate" in navigator && Preferences.vibration.value) {
+            setTimeout(function() {
+                navigator.vibrate(time);
+            }, 0);
+        }
     },
-    deleteSave: function Page_deleteSave() {
+    deleteSave: function PageDeleteSave() {
         Mines.removeSavedState();
 
         this.Toolbar.timer.deleteSave();
     },
-    getMinesFromHash: function Page_getMinesFromHash(hash) {
+    getMinesFromHash: function PageGetMinesFromHash(hash) {
+        var mines,
+            preset,
+            vals;
         if(hash.charAt(0) == "r") {
-            var mines = Mines.restoreSavedState(this.field);
+            mines = Mines.restoreSavedState(this.field);
             if(!mines) {
                 window.alert(this.strbundle.getString('mines_restore_error'));
                 Mines.removeSavedState();
@@ -239,10 +241,9 @@ var Page = {
         }
         else {
             this.deleteSave();
-            var preset;
             if(hash.charAt(0) == "c") {
-                var vals = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/);
-                preset = { size: [parseInt(vals[1], 10), parseInt(vals[2], 10)], mines: parseInt(vals[3], 10) };
+                vals = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/);
+                preset = { size: [ parseInt(vals[1], 10), parseInt(vals[2], 10) ], mines: parseInt(vals[3], 10) };
             }
             else {
                 preset = Mines.defaultBoards[hash];

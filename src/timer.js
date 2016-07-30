@@ -4,11 +4,6 @@
 
 var TIME_UNIT_STRING = "mines_time_unit";
 
-Timer.prototype.output = null;
-Timer.prototype.startTime = 0;
-Timer.prototype.offset = 0;
-Timer.prototype.interval = 0;
-Timer.prototype.running = false;
 function Timer(offset, output) {
     this.offset = offset;
     this.output = output;
@@ -23,9 +18,16 @@ function Timer(offset, output) {
     navigator.mozL10n.translateFragment(this.output);
 }
 
+Timer.prototype.output = null;
+Timer.prototype.startTime = 0;
+Timer.prototype.offset = 0;
+Timer.prototype.interval = 0;
+Timer.prototype.running = false;
+
 Timer.prototype.updateOutput = function(time) {
-    if(typeof(time) !== "number")
+    if(typeof(time) !== "number") {
         time = Date.now() - this.startTime;
+    }
 
     var timeStr;
     if(this._nf) {
@@ -52,10 +54,12 @@ Timer.prototype.reset = function() {
 };
 
 Timer.prototype.getTime = function() {
-    if(!this.running)
+    if(!this.running) {
         return this.offset;
-    else
+    }
+    else {
         return Date.now() - this.startTime;
+    }
 };
 
 Timer.prototype.start = function() {
@@ -63,9 +67,9 @@ Timer.prototype.start = function() {
         this.startTime = Date.now() - this.offset;
         this.running = true;
         if(this.output) {
-            var that = this;
+            var self = this;
             this.interval = setInterval(function() {
-                that.updateOutput();
+                self.updateOutput();
             }, 100);
             this.output.dispatchEvent(new Event("start"));
         }
@@ -97,4 +101,5 @@ Timer.prototype.stop = function() {
         this.reset();
         return time;
     }
+    return false;
 };

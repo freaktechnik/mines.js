@@ -1,0 +1,11 @@
+{
+    "globals": {
+        "StringBundle": true,
+        "Highscores": true,
+        "Mines": true,
+        "Preferences": true,
+        "Timer":  true,
+        "Hammer": true,
+        "globalState": true
+    }
+}

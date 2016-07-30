@@ -1,30 +1,34 @@
-var select = document.getElementById("gametype");
-var builtinOptions = ["8x8:10", "16x16:40", "30x16:99"];
-var list = document.getElementById("highscores");
-var noresults = document.getElementById("noresults");
-var strbundle = new StringBundle(document.getElementById("strings"));
-if("Intl" in window)
-    var nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+var select = document.getElementById("gametype"),
+    builtinOptions = [ "8x8:10", "16x16:40", "30x16:99" ],
+    list = document.getElementById("highscores"),
+    noresults = document.getElementById("noresults"),
+    strbundle = new StringBundle(document.getElementById("strings")),
+    nf;
+if("Intl" in window) {
+    nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+}
 
 function gameDescriptionFromValue(element, val) {
-    var mines = val.split(":");
-    var size = mines[0].split("x");
+    var mines = val.split(":"),
+        size = mines[0].split("x");
     navigator.mozL10n.setAttributes(element, "highscores_custom_board", { width: parseInt(size[0], 10), height: parseInt(size[1], 10), mines: parseInt(mines[1], 10) });
     // Need to explicitly translate it in case it's not inserted into the document yet.
     navigator.mozL10n.translateFragment(element);
 }
 
 function highscoreListItem(name, time) {
-    if(nf)
+    if(nf) {
         time = nf.format(time);
-    else
+    }
+    else {
         time = time.toFixed(2);
+    }
 
-    var li = document.createElement("li");
-    var divA = document.createElement("div");
-    var divB = document.createElement("div");
-    var nameNode = document.createTextNode(name);
-    var timeNode = document.createTextNode(time+"s");
+    var li = document.createElement("li"),
+        divA = document.createElement("div"),
+        divB = document.createElement("div"),
+        nameNode = document.createTextNode(name),
+        timeNode = document.createTextNode(time+"s");
 
     li.classList.add("dynamic");
     divA.classList.add("fit");
@@ -43,8 +47,9 @@ function highscoreListItem(name, time) {
 }
 
 function removeDynamicItems() {
-    var items = document.querySelectorAll(".dynamic");
-    for(var i = 0; i < items.length; ++i) {
+    var items = document.querySelectorAll(".dynamic"),
+        i;
+    for(i = 0; i < items.length; ++i) {
         items[i].remove();
     }
 }
@@ -76,8 +81,9 @@ function addOption(game) {
 function loadGames() {
     Highscores.getGames(function(games) {
         games.forEach(function(game) {
-            if(builtinOptions.indexOf(game) == -1)
+            if(builtinOptions.indexOf(game) == -1) {
                 addOption(game);
+            }
         });
         showHighscores(select.value);
     });

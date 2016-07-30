@@ -1,10 +1,12 @@
 //TODO some way to ensure there's only one game at a time.
-var globalState = {};
+var globalState = {},
+    swPostMessage,
+    resolveWith = null;
 
 if('serviceWorker' in navigator) {
-    var postMessage = function(cmd, msg) {
+    swPostMessage = function(cmd, msg) {
         if(navigator.serviceWorker.controller) {
-            navigator.serviceWorker.controller.postMessage({
+            navigator.serviceWorker.controller.swPostMessage({
                 command: cmd,
                 message: msg
             });
@@ -12,8 +14,6 @@ if('serviceWorker' in navigator) {
         }
         return false;
     };
-    // ugly way to do promises, but meh.
-    var resolveWith = null;
 
     navigator.serviceWorker.register('service-worker.js');
 
@@ -30,19 +30,19 @@ if('serviceWorker' in navigator) {
         }
     });
     globalState.dispatchEvent = function(eventName) {
-        if(!postMessage('global-event', eventName)) {
+        if(!swPostMessage('global-event', eventName)) {
             var e = new Event(eventName);
             document.dispatchEvent(e);
         }
     };
     globalState.setGameState = function(state) {
-        postMessage('game-state-change', state);
+        swPostMessage('game-state-change', state);
         this.dispatchEvent('gamestate');
     };
     globalState.getGameState = function() {
         return new Promise(function(resolve) {
             resolveWith = resolve;
-            if(!postMessage('game-state')) {
+            if(!swPostMessage('game-state')) {
                 resolveWith = null;
                 resolve(false);
             }
@@ -54,6 +54,10 @@ else {
         var e = new Event(eventName);
         document.dispatchEvent(e);
     };
-    globalState.setGameState = function(state) { return state; };
-    globalState.getGameState = function() { return Promise.resolve(false); };
+    globalState.setGameState = function(state) {
+        return state;
+    };
+    globalState.getGameState = function() {
+        return Promise.resolve(false);
+    };
 }

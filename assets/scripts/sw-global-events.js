@@ -9,8 +9,9 @@ self.addEventListener("message", function(event) {
         });
 
         // For chrome compatibility
-        if(event.waitUntil)
+        if(event.waitUntil) {
             event.waitUntil(promise);
+        }
     }
     else if(event.data.command == 'game-state-change') {
         gameState = event.data.message;

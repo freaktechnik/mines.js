@@ -14,20 +14,21 @@ function setupNumberPreference(name) {
     });
 }
 
-for(var name in Preferences) {
-    if(Preferences[name].type == "bool") {
-        setupBoolPreference(name);
+var strbundle = new StringBundle(document.getElementById("strings")),
+    n;
+
+for(n in Preferences) {
+    if(Preferences[n].type == "bool") {
+        setupBoolPreference(n);
     }
     else {
-        setupNumberPreference(name);
+        setupNumberPreference(n);
     }
 }
 
 if(!navigator.vibrate) {
     document.getElementById("vibration").setAttribute("disabled", true);
 }
-
-var strbundle = new StringBundle(document.getElementById("strings"));
 
 document.querySelector("[data-l10n-id='settings_highscores_clear']").addEventListener("click", function() {
     if(window.confirm(strbundle.getString("highscores_confirm_clear"))) {

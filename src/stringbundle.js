@@ -2,6 +2,8 @@
  * A StringBundle wraps around an HTML element containing nodes with strings used in JS.
  *
  * @param {Element} container - The parent element of all strings.
+ * @throws If the L10n infrastructure is not loaded.
+ * @class
  */
 function StringBundle(container) {
     this.container = container;
@@ -13,6 +15,10 @@ function StringBundle(container) {
 }
 StringBundle.prototype.container = null;
 
+/**
+ * @param {string} id - ID of the string.
+ * @returns {Element} Container element of the string.
+ */
 StringBundle.prototype.getStringContainer = function(id) {
     return this.container.querySelector("[data-l10n-id='"+id+"']");
 };
@@ -38,14 +44,14 @@ StringBundle.prototype.getString = function(id) {
  * @returns {string}
  */
 StringBundle.prototype.getStringAsync = function(id, args) {
-    var node = this.getStringContainer(id);
-    var promised = new Promise(function(accept) {
-        var tempNode = node.cloneNode();
-        navigator.mozL10n.ready(function() {
-            navigator.mozL10n.setAttributes(tempNode, id, args);
-            navigator.mozL10n.translateFragment(tempNode);
-            accept(tempNode.textContent);
+    var node = this.getStringContainer(id),
+        promised = new Promise(function(accept) {
+            var tempNode = node.cloneNode();
+            navigator.mozL10n.ready(function() {
+                navigator.mozL10n.setAttributes(tempNode, id, args);
+                navigator.mozL10n.translateFragment(tempNode);
+                accept(tempNode.textContent);
+            });
         });
-    });
     return promised;
 };

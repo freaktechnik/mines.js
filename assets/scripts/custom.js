@@ -12,11 +12,14 @@ var mines = document.getElementById("mines"),
             mines.setCustomValidity("");
         }
     },
+    nf,
     toFixed = function(number) {
-        if(nf)
+        if(nf) {
             return nf.format(number);
-        else
+        }
+        else {
             return number.toFixed(1);
+        }
     },
     updateOutput = function() {
         if(mines.value.length && height.value.length && width.value.length) {
@@ -35,8 +38,9 @@ var mines = document.getElementById("mines"),
         updateOutput();
     };
 
-if("Intl" in window)
-    var nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 0 });
+if("Intl" in window) {
+    nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 0 });
+}
 
 mines.addEventListener("change", listener, false);
 mines.addEventListener("input", listener, false);
@@ -49,14 +53,16 @@ mines.addEventListener("invalid", minesValidator, false);
 document.getElementById("form").addEventListener("submit", function(e) {
     e.preventDefault();
     minesValidator();
-    if(mines.validity.valid)
+    if(mines.validity.valid) {
         document.location = "mines.html#c"+width.value+"x"+height.value+":"+mines.value;
+    }
 }, false);
 document.getElementById("submit").addEventListener("click", function(e) {
     e.preventDefault();
     minesValidator();
-    if(mines.validity.valid)
+    if(mines.validity.valid) {
         document.location = "mines.html#c"+width.value+"x"+height.value+":"+mines.value;
+    }
 }, false);
 
 document.getElementById("header").addEventListener("action", function() {

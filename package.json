@@ -38,7 +38,7 @@
   },
   "license": "MPL-2.0",
   "scripts": {
-    "test": "grunt test",
+    "test": "npm run lint && grunt test",
     "lint": "eslint src/ assets/"
   },
   "dependencies": {}

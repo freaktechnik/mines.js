@@ -1,11 +1,11 @@
-var ELEMENT_TAG = 'div';
-var nativeDescriptor = Object.getOwnPropertyDescriptor;
-var polyfill = function(obj, prop) {
-    return {
-        get: obj.__lookupGetter__(prop),
-        set: obj.__lookupSetter__(prop)
+var ELEMENT_TAG = 'div',
+    nativeDescriptor = Object.getOwnPropertyDescriptor,
+    polyfill = function(obj, prop) {
+        return {
+            get: obj.__lookupGetter__(prop),
+            set: obj.__lookupSetter__(prop)
+        };
     };
-};
 
 Object.getOwnPropertyDescriptor = function(obj, prop) {
     var ret = nativeDescriptor(obj, prop);

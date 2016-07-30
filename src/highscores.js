@@ -25,24 +25,26 @@ var Highscores = {
     setupDB: function(e) {
         this.db = e.target.result;
 
-        var self = this;
-        var oldData = [];
-        var cont = function() {
-            var scores = self.db.createObjectStore(self.TABLE, { keyPath: ["score", "game"] });
-            scores.createIndex("game", "game", { unique: false });
+        var self = this,
+            oldData = [],
+            cont = function() {
+                var scores = self.db.createObjectStore(self.TABLE, { keyPath: [ "score", "game" ] });
+                scores.createIndex("game", "game", { unique: false });
 
-            if(oldData.length) {
-                oldData.forEach(function(score) {
-                    scores.add(score);
-                });
-            }
+                if(oldData.length) {
+                    oldData.forEach(function(score) {
+                        scores.add(score);
+                    });
+                }
 
-            self.setReady();
-        };
+                self.setReady();
+            },
+            store,
+            request;
 
         if(e.oldVersion > 0) {
-            var store = e.target.transaction.objectStore(this.TABLE);
-            var request = store.openCursor();
+            store = e.target.transaction.objectStore(this.TABLE);
+            request = store.openCursor();
 
             request.onsuccess = function(e) {
                 var cursor = e.target.result;
@@ -66,8 +68,8 @@ var Highscores = {
         document.dispatchEvent(new Event("dbready"));
     },
     clear: function() {
-        var transaction = this.db.transaction(this.TABLE, "readwrite");
-        var store = transaction.objectStore(this.TABLE);
+        var transaction = this.db.transaction(this.TABLE, "readwrite"),
+            store = transaction.objectStore(this.TABLE);
         store.clear();
     },
     isNewTop: function(gameDescription, score, cbk) {
@@ -76,20 +78,20 @@ var Highscores = {
         });
     },
     save: function(gameDescription, score, name) {
-        var transaction = this.db.transaction(this.TABLE, "readwrite");
-        var store = transaction.objectStore(this.TABLE);
-        var object = { game: gameDescription, score: score, name: name };
+        var transaction = this.db.transaction(this.TABLE, "readwrite"),
+            store = transaction.objectStore(this.TABLE),
+            object = { game: gameDescription, score: score, name: name };
         store.add(object);
     },
     getTop: function(gameDescription, num, cbk) {
-        var transaction = this.db.transaction(this.TABLE, "readonly");
-        var store = transaction.objectStore(this.TABLE);
-        var request = store.index("game").openCursor(gameDescription);
+        var transaction = this.db.transaction(this.TABLE, "readonly"),
+            store = transaction.objectStore(this.TABLE),
+            request = store.index("game").openCursor(gameDescription),
+            top = [];
 
-        var top = [];
         request.onsuccess = function(e) {
-            var cursor = e.target.result;
-            var entry;
+            var cursor = e.target.result,
+                entry;
 
             if(cursor) {
                 entry = cursor.value;
@@ -105,11 +107,11 @@ var Highscores = {
         };
     },
     getGames: function(cbk) {
-        var transaction = this.db.transaction(this.TABLE, "readonly");
-        var store = transaction.objectStore(this.TABLE);
-        var request = store.index("game").openKeyCursor();
+        var transaction = this.db.transaction(this.TABLE, "readonly"),
+            store = transaction.objectStore(this.TABLE),
+            request = store.index("game").openKeyCursor(),
+            games = [];
 
-        var games = [];
         request.onsuccess = function(e) {
             var cursor = e.target.result;
 
