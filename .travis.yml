@@ -11,14 +11,3 @@ after_success:
 - grunt stage:web
 before_deploy:
 - grunt deploy:web
-- grunt clean
-#- grunt deploy:packaged
-#- grunt clean
-- grunt build:packaged
-deploy:
-  provider: releases
-  api_key:
-    secure: WD1D5Msv6LDpmEebU+OkyIh+hhLTeOXQtK7DcdVIOnd781iPJYKyUeCkHcf6B8hC9GgfRcXm4DE5ThUGLgO8vwXEZ1Ayu3DtE10ezcQDXfh3gFZVplXrQALg03JpMhgPlTJud6sRzb/rPmXPLCn/R6vsI6o5cGZvT5NNERgjqb0=
-  file: "mines-${TRAVIS_TAG}.zip"
-  on:
-    tags: true
