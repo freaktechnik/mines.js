@@ -32,8 +32,6 @@ var strbundle = new StringBundle(document.getElementById("strings"));
 document.querySelector("[data-l10n-id='settings_highscores_clear']").addEventListener("click", function() {
     if(window.confirm(strbundle.getString("highscores_confirm_clear"))) {
         Highscores.clear();
-        removeDynamicItems();
-        noresults.classList.remove("hidden");
     }
 });
 

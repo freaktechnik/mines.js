@@ -1,6 +1,7 @@
 /**
  * A StringBundle wraps around an HTML element containing nodes with strings used in JS.
- * @param container: The parent element of all strings.
+ *
+ * @param {Element} container - The parent element of all strings.
  */
 function StringBundle(container) {
     this.container = container;
@@ -18,8 +19,9 @@ StringBundle.prototype.getStringContainer = function(id) {
 
 /**
  * Get the value of a string with a certain ID.
- * @param id: ID of the string to return
- * @return Translation of string with the supplied ID
+ *
+ * @param {string} id - ID of the string to return.
+ * @returns {string} Translation of string with the supplied ID.
  */
 StringBundle.prototype.getString = function(id) {
     var node = this.getStringContainer(id);
@@ -29,13 +31,15 @@ StringBundle.prototype.getString = function(id) {
 
 /**
  * Get the value of a string with a certain ID asynchronously.
- * @param id: ID of the translated string
- * @param args: Arguments for variables within the string, should be an object.
- * @return A Promise, resolving with the translation.
+ *
+ * @param {string} id - ID of the translated string.
+ * @param {Object} args - Arguments for variables within the string.
+ * @async
+ * @returns {string}
  */
 StringBundle.prototype.getStringAsync = function(id, args) {
     var node = this.getStringContainer(id);
-    var promised = new Promise(function(accept, reject) {
+    var promised = new Promise(function(accept) {
         var tempNode = node.cloneNode();
         navigator.mozL10n.ready(function() {
             navigator.mozL10n.setAttributes(tempNode, id, args);

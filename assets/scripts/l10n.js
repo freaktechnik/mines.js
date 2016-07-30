@@ -1,3 +1,4 @@
+/* eslint no-cond-assign: "off", indent: "off" */
 (function(window, undefined) {
   'use strict';
 

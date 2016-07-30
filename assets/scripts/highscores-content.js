@@ -99,7 +99,7 @@ document.getElementById("delete-highscores").addEventListener("click", function(
     }
 });
 
-select.addEventListener("change", function(e) {
+select.addEventListener("change", function() {
     showHighscores(select.value);
 });
 

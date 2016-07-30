@@ -6,26 +6,21 @@
   "devDependencies": {
     "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "~6.0.15",
-    "fxos-connect": "~0.3.0",
-    "fxos-deploy": "~0.3.2",
+    "eslint": "^3.2.0",
+    "eslint-plugin-jsdoc": "^2.3.1",
     "grunt": "*",
     "grunt-accessibility": "^3.0.1",
     "grunt-appcache": "^0.1.8",
     "grunt-babel": "~6.0.0",
     "grunt-bower": "^0.18.0",
     "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-compress": "^0.13.0",
     "grunt-contrib-copy": "^0.8.0",
     "grunt-contrib-cssmin": "^0.12.2",
-    "grunt-contrib-jshint": "*",
     "grunt-contrib-qunit": "*",
     "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-firefoxos": "^0.1.2",
     "grunt-ftp-deploy": "^0.1.10",
     "grunt-githash": "^0.1.1",
     "grunt-html": "^5.0.0",
-    "grunt-marketplace": "^0.1.2",
     "grunt-preprocess": "^5.0.1",
     "grunt-sw-precache": "^1.0.3",
     "grunt-transifex": "^0.1.1",
@@ -43,7 +38,8 @@
   },
   "license": "MPL-2.0",
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "lint": "eslint src/ assets/"
   },
   "dependencies": {}
 }

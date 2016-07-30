@@ -1,8 +1,3 @@
-var deploySim = require('fxos-deploy');
-var connectSim = require('fxos-connect');
-
-//TODO don't include source-viewer in web version
-
 module.exports = function(grunt) {
     // Project configuration.
     var bowerDevDeps = Object.keys(grunt.file.readJSON('bower.json').devDependencies);
@@ -87,16 +82,6 @@ module.exports = function(grunt) {
         },
         qunit: {
             test: ['test/**/*.html']
-        },
-        jshint: {
-            test: {
-                options: {
-                    esnext: true
-                },
-                files: {
-                    src: ['Gruntfile.js', '<%= src.script %>/**/*.js', 'src/**/*.js', 'test/**/*.js', '!test/dist/**']
-                }
-            }
         },
         bower: {
             build: {
@@ -272,35 +257,6 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        watch: {
-            options: {
-                interrupt: true,
-                debounceDelay: 1000,
-                atBegin: true
-            },
-            web: {
-                options: {
-                    //livereload: true
-                },
-                files: ['<%= assetdir %>/**/*', 'src/*', 'manifest.webapp', '<%= src.locale %>/en/*', '!**/*~'],
-                tasks: 'dev'
-            },
-            packaged: {
-                files: ['<%= assetdir %>/**/*', 'src/*', 'manifest.webapp', '<% src.locale %>/en/*', '!**/*~'],
-                tasks: 'launch:simulator'
-            }
-        },
-        compress: {
-            build: {
-                options: {
-                    archive: '<%= pkg.name %>-<%= pkg.version %>.zip'
-                },
-                expand: true,
-                cwd: '<%= distdir %>/',
-                src: ['**/*'],
-                dest: '/'
-            }
-        },
         validatewebapp: {
             options: {
                 listed: true,
@@ -377,34 +333,6 @@ module.exports = function(grunt) {
                 dest: 'public_html/lab/mines.js'
             }
         },
-        ffospush: {
-            launch: {
-                appId: '<%= pkg.name %>',
-                zip: '<%= pkg.name %>-<%= pkg.version %>.zip'
-            }
-        },
-        marketplace: {
-            options: {
-                consumerKey: '<%= mpAPICreds.consumerKey %>',
-                consumerSecret: '<%= mpAPICreds.consumerSecret %>'
-            },
-            packaged: {
-                options: {
-                    target: "packaged"
-                },
-                files: [{
-                    src: ['<%= pkg.name %>-<%= pkg.version %>.zip']
-                }]
-            },
-            web: {
-                options: {
-                    target: "manifest"
-                },
-                files: [{
-                    src: ['<%= distdir %>manifest.webapp']
-                }]
-            }
-        },
         preprocess: {
             options: {
                 context: {
@@ -473,7 +401,6 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-qunit');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
@@ -481,15 +408,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-bower');
     grunt.loadNpmTasks('grunt-transifex');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-validate-webapp');
     grunt.loadNpmTasks('grunt-accessibility');
     grunt.loadNpmTasks('grunt-appcache');
     grunt.loadNpmTasks('grunt-webapp');
     grunt.loadNpmTasks('grunt-ftp-deploy');
-    grunt.loadNpmTasks('grunt-firefoxos');
-    grunt.loadNpmTasks('grunt-marketplace');
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-html');
     grunt.loadNpmTasks('grunt-githash');
@@ -498,7 +421,7 @@ module.exports = function(grunt) {
     // Default task(s).
     grunt.registerTask('default', ['build:web']);
 
-    grunt.registerTask('build', 'Build the webapp for the web or as a package (use :web or :packaged)', function(env) {
+    grunt.registerTask('build', 'Build the webapp for the web', function(env) {
         env = env || 'web';
         grunt.config.set('targetEnv', env);
 
@@ -516,7 +439,7 @@ module.exports = function(grunt) {
         grunt.task.run('babel:bowerlibs');
 
         if(env == 'packaged') {
-            grunt.task.run('compress:build');
+            grunt.task.fail("No longer supported");
         }
         else {
             grunt.task.run('sw-precache');
@@ -530,7 +453,7 @@ module.exports = function(grunt) {
         grunt.config.set('pkg.version', grunt.config('pkg.version') + "-pre+" + grunt.config('githash.main.short'));
     });
 
-    grunt.registerTask('dev', 'Build an unminified version of the app (use :web or :packaged)', function(env) {
+    grunt.registerTask('dev', 'Build an unminified version of the app', function(env) {
         env = env || 'web';
         grunt.config.set('targetEnv', env);
 
@@ -546,7 +469,7 @@ module.exports = function(grunt) {
         grunt.task.run('babel:bowerlibs');
 
         if(env == 'packaged') {
-            grunt.task.run('compress:build');
+            grunt.task.fail("No longer supported");
         }
         else {
             grunt.task.run('sw-precache');
@@ -554,7 +477,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'copy:build', 'jshint', 'validatewebapp', 'preprocess:html', 'accessibility', 'htmllint', 'babel:test', 'qunit', 'clean']);
+    grunt.registerTask('test', 'Run tests and validations', ['webapp:packaged', 'copy:build', 'validatewebapp', 'preprocess:html', 'accessibility', 'htmllint', 'babel:test', 'qunit', 'clean']);
 
     grunt.registerTask('deploy', 'Deoply the app, targets are :web or :packaged', function(env) {
         env = env || 'web';
@@ -563,7 +486,7 @@ module.exports = function(grunt) {
         grunt.task.run('build:'+env);
 
         if(env == 'packaged') {
-            grunt.task.run('marketplace:packaged');
+            grunt.fail.warn("No more deployment tactic");
         }
         else {
             grunt.task.run('ftp-deploy:production');
@@ -583,63 +506,5 @@ module.exports = function(grunt) {
         else {
             grunt.fail.warn("Can't deploy anywhere else than web.");
         }
-    });
-
-    grunt.registerTask('simulator', function(version) {
-        var done = this.async();
-        var opts = {
-            connect: true
-        };
-
-        if(version && version != "undefined") {
-            opts.release = [version];
-        }
-
-        connectSim(opts).then(function(sim) {
-            return deploySim({
-                manifestURL: 'dist/manifest.webapp',
-                zip: grunt.config('pkg.name')+"-"+grunt.config('pkg.version')+".zip",
-                client: sim.client
-            }).then(function(appId) {
-                grunt.log.ok("Started simulator with app "+appId);
-                sim.client.addEventListener("end", done);
-            }, function(err) {
-                grunt.fail.warn(err);
-                done(false);
-            });
-        }, function(err) {
-            grunt.fail.warn(err);
-            done(false);
-        });
-    });
-
-    grunt.registerTask('open', function(target, version) {
-        grunt.task.requires('dev:packaged');
-
-        if(target == 'device') {
-            grunt.task.run('ffospush');
-        }
-        else {
-            /*grunt.util.spawn({
-                grunt: true,
-                args: ['simulator:'+version]
-            }, function(err) {
-                if(err) {
-                    grunt.fail.warn(err);
-                }
-            });*/
-            if((!version || version == "undefined") && target != "simulator")
-                version = target;
-
-            grunt.task.run('simulator:'+version);
-        }
-    });
-
-    grunt.registerTask('launch', 'Launch a test version of the app on a FxOS Device or Simulator (use :device or :simulator:version)', function(target, version) {
-        target = target || 'simulator';
-
-        grunt.task.run('dev:packaged');
-
-        grunt.task.run('open:'+target+":"+version);
     });
 };

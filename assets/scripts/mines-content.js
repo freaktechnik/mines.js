@@ -88,7 +88,7 @@ var Page = {
 
         var initialSize = Preferences.fieldsize.value;
 
-        hammer.on("pinchstart", function(e) {
+        hammer.on("pinchstart", function() {
             initialSize = self.mines.size;
         });
 
@@ -151,7 +151,7 @@ var Page = {
                     flagtoggle.dataset.icon = self.UNCOVER_ICON;
                 }, false);
 
-                this.button.addEventListener("click", function(e) {
+                this.button.addEventListener("click", function() {
                     mines.toggleMode();
                 }, false);
             },

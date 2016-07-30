@@ -59,7 +59,7 @@ document.getElementById("submit").addEventListener("click", function(e) {
         document.location = "mines.html#c"+width.value+"x"+height.value+":"+mines.value;
 }, false);
 
-document.getElementById("header").addEventListener("action", function(e) {
+document.getElementById("header").addEventListener("action", function() {
     document.location = "index.html";
 }, false);
 

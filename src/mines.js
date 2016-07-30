@@ -237,8 +237,8 @@ Mines.prototype.addNeighbouringMine = function(x, y) {
 Mines.prototype.countFlags = function() {
     if(!this.boardGenerated)
         return 0;
-    return this.markedMines.reduce(function(p, row, y) {
-        return row.reduce(function(p, cell, x) {
+    return this.markedMines.reduce(function(p, row) {
+        return row.reduce(function(p, cell) {
             if(Mines.MINE_FLAG === cell)
                 return p + 1;
             else
@@ -252,7 +252,7 @@ Mines.prototype.nonMinesCovered = function() {
         return true;
     var count = 0;
     // Flatten array
-    return this.markedMines.reduce(function(p, row, y) {
+    return this.markedMines.reduce(function(p, row) {
         return p.concat(row);
     }, []).some(function(mine) {
         if(Mines.MINE_KNOWN === mine)
@@ -357,8 +357,8 @@ Mines.prototype.uncoverCompleteCells = function(x, y) {
             this.uncoverCell(x+1, y);
     }
     else {
-       this.getCell(x, y).classList.add(FLASH_CLASS);
-   }
+        this.getCell(x, y).classList.add(FLASH_CLASS);
+    }
 };
 
 Mines.prototype.cellIsFlagged = function(x, y) {
@@ -471,7 +471,7 @@ Mines.prototype.createCell = function(x, y) {
             }
         }
     }, false);
-    cell.addEventListener("transitionend", function(e) {
+    cell.addEventListener("transitionend", function() {
         cell.classList.remove(FLASH_CLASS);
     }, false);
 
@@ -558,7 +558,7 @@ Mines.prototype.printBoard = function() {
 
 Mines.prototype.restoreBoard = function() {
     this.printBoard();
-    var tr, td, mineState;
+    var mineState;
     for(var y = 0; y < this.dimensions[1]; ++y) {
         for(var x = 0; x < this.dimensions[0]; ++x) {
             this.translateCell(x, y, true);

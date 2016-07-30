@@ -3,7 +3,9 @@ var gameState = false;
 self.addEventListener("message", function(event) {
     if(event.data.command == 'global-event') {
         var promise = self.clientList.matchAll().then(function(clients) {
-            client.postMessage(event.data);
+            clients.forEach(function(client) {
+                client.postMessage(event.data);
+            });
         });
 
         // For chrome compatibility

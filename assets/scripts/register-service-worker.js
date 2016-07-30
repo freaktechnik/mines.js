@@ -40,7 +40,7 @@ if('serviceWorker' in navigator) {
         this.dispatchEvent('gamestate');
     };
     globalState.getGameState = function() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function(resolve) {
             resolveWith = resolve;
             if(!postMessage('game-state')) {
                 resolveWith = null;
@@ -52,8 +52,8 @@ if('serviceWorker' in navigator) {
 else {
     globalState.dispatchEvent = function(eventName) {
         var e = new Event(eventName);
-        document.dispatchEvent(eventName);
+        document.dispatchEvent(e);
     };
-    globalState.setGameState = function(state) {};
+    globalState.setGameState = function(state) { return state; };
     globalState.getGameState = function() { return Promise.resolve(false); };
 }

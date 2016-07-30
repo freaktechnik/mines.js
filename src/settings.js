@@ -66,11 +66,11 @@ var Defaults = {
 function getPreference(name) {
     var def = Defaults[name];
     switch(def.type) {
-        case "bool":
-            return new BoolPreference(name, def.value);
-        //case "number":
-        default:
-            return new NumberPreference(name, def.value);
+    case "bool":
+        return new BoolPreference(name, def.value);
+    //case "number":
+    default:
+        return new NumberPreference(name, def.value);
     }
 }
 

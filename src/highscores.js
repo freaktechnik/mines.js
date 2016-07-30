@@ -18,7 +18,7 @@ var Highscores = {
             this.setReady();
         }).bind(this);
 
-        request.onerror = function(e) {
+        request.onerror = function() {
             console.error(request.error);
         };
     },
@@ -79,7 +79,7 @@ var Highscores = {
         var transaction = this.db.transaction(this.TABLE, "readwrite");
         var store = transaction.objectStore(this.TABLE);
         var object = { game: gameDescription, score: score, name: name };
-        var request = store.add(object);
+        store.add(object);
     },
     getTop: function(gameDescription, num, cbk) {
         var transaction = this.db.transaction(this.TABLE, "readonly");
