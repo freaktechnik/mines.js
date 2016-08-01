@@ -103,3 +103,5 @@ Timer.prototype.stop = function() {
     }
     return false;
 };
+
+export default Timer;

@@ -1,3 +1,5 @@
+import StringBundle from '../../src/stringbundle';
+
 var mines = document.getElementById("mines"),
     height = document.getElementById("height"),
     width = document.getElementById("width"),
@@ -50,23 +52,15 @@ width.addEventListener("change", listener, false);
 width.addEventListener("input", listener, false);
 mines.addEventListener("invalid", minesValidator, false);
 
-document.getElementById("form").addEventListener("submit", function(e) {
+function submitListener(e) {
     e.preventDefault();
     minesValidator();
     if(mines.validity.valid) {
-        document.location = "mines.html#c"+width.value+"x"+height.value+":"+mines.value;
+        window.location = `index.html#c${width.value}x${height.value}:${mines.value}`;
     }
-}, false);
-document.getElementById("submit").addEventListener("click", function(e) {
-    e.preventDefault();
-    minesValidator();
-    if(mines.validity.valid) {
-        document.location = "mines.html#c"+width.value+"x"+height.value+":"+mines.value;
-    }
-}, false);
+}
 
-document.getElementById("header").addEventListener("action", function() {
-    document.location = "index.html";
-}, false);
+document.getElementById("form").addEventListener("submit", submitListener, false);
+document.getElementById("submit").addEventListener("click", submitListener, false);
 
 updateOutput();

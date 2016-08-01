@@ -61,3 +61,5 @@ else {
         return Promise.resolve(false);
     };
 }
+
+export default globalState;

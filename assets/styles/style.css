@@ -4,45 +4,13 @@
  * obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-menu {
-    padding: 0;
-    margin: 0;
-}
-
-[role="toolbar"] {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-[role="toolbar"] span {
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    position: relative;
-    flex: 1;
-    border: none;
-    background-color: transparent;
-    background-repeat: no-repeat;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    font-size: 1.667em;
-    color: #919191;
-    border-radius: 0;
-    height: 100%;
-    line-height: 45px;
-    vertical-align: middle;
-}
-
-[role="toolbar"] button {
-    background-image: none;
-}
-
 #fieldcontainer {
     margin-bottom: 45px;
+}
+
+article {
+    width: 100%;
+    font-size: initial;
 }
 
 table {
@@ -51,12 +19,16 @@ table {
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    font-family: 'Fira Sans';
     transition-property: box-shadow;
     transition-duration: .5s;
     margin: 1px auto;
     color: black;
     white-space: nowrap;
+    width: initial !important;
+}
+
+tr {
+    box-sizing: content-box !important;
 }
 
 td {
@@ -151,10 +123,11 @@ table:not(.done) .covered:active {
     width: 1.1em;
     width: calc(1.5em - 6px);
     text-align: center;
-    font-weight: 500;
-    font-family: "gaia-icons";
+    font-weight: normal;
+    font-family: "Material Icons";
     font-style: normal;
-    text-rendering: optimizelegibility;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: 'liga';
 }
 
 .done:not(.gameover) {

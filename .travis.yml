@@ -1,13 +1,3 @@
 sudo: false
 language: node_js
 node_js: stable
-install:
-- npm install
-- npm install grunt-cli bower -g
-- bower install
-- openssl aes-256-cbc -K $encrypted_a298b6b30e99_key -iv $encrypted_a298b6b30e99_iv -in secrets.tar.enc -out secrets.tar -d
-- tar xvf secrets.tar
-after_success:
-- grunt stage:web
-before_deploy:
-- grunt deploy:web

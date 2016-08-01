@@ -3,6 +3,10 @@
         "browser": true,
         "es6": true
     },
+    "parserOptions": {
+        "ecmaVersion": 7,
+        "sourceType": "module"
+    },
     "plugins": [
         "jsdoc"
     ],
@@ -66,7 +70,8 @@
                 "else": { "after": true },
                 "case": { "after": true },
                 "throw": { "after": true },
-                "return": { "after": true }
+                "return": { "after": true },
+                "from": { "after": true }
             }
         }],
         "linebreak-style": 2,

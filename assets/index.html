@@ -1,40 +1,63 @@
-<!DOCTYPE html>
-<html manifest="manifest.appcache" lang="<!-- @echo DEFAULT_LOCALE -->">
-    <head>
-        <!-- @include head.html -->
-        <title data-l10n-id="title">Mines</title>
-
-        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->buttons.css">
-
-        <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->mines.min.js"></script>
-    </head>
-    <body class="skin-comms skin-organic" role="application">
-        <section role="region" class="vbox fit">
-            <gaia-header>
-                <h1 data-l10n-id="title">Mines</h1>
-                <a href="highscores.html" data-l10n-id="action_highscores" title="High Scores" class="icon custom_icon">t</a>
-                <a href="help.html" rel="help" data-icon="help" data-l10n-id="action_help" title="Help"></a>
-                <a href="settings.html" data-icon="settings" data-l10n-id="action_settings" title="Settings"></a>
-            </gaia-header>
-            <section class="gaia-list fit scroll sticky" role="main">
-                <article id="resumeSection" class="hidden" hidden>
-                    <ul>
-                        <li><a role="button" class="button" href="mines.html#restore" data-l10n-id="menu_continue">Continue</a></li>
-                    </ul>
-                </article>
-                <article>
-                    <header data-l10n-id="menu_difficulty_title">Choose Difficulty</header>
-                    <ul>
-                        <li><a role="button" class="button" href="mines.html#beginner" data-l10n-id="menu_difficulty_beginner">Beginner</a></li>
-                        <li><a role="button" class="button" href="mines.html#advanced" data-l10n-id="menu_difficulty_advanced">Advanced</a></li>
-                        <li><a role="button" class="button" href="mines.html#expert" data-l10n-id="menu_difficulty_expert">Expert</a></li>
-                        <li><a role="button" class="button icon icon-view" href="custom.html" data-l10n-id="menu_difficulty_custom">Custom</a></li>
-                    </ul>
-                </article>
-            </section>
-        </section>
-        <script type="application/javascript" src="<!-- @echo VENDOR_DIR -->what-input/what-input.js"></script>
-        <script src="<!-- @echo SCRIPT_DIR -->index.min.js"></script>
-    </body>
-</html>
-
+<!--
+<gaia-dialog>
+    <div>
+        <label data-l10n-id="mines_new_highscore">Highscore! Please enter your name:</label>
+        <gaia-text-input></gaia-text-input>
+    </div>
+    <div class="shareLinks">
+        <span>Share your highscore:</span>
+        <a href="https://twitter.com/intent/tweet/?text={shareTextWithURL}&soure=webclient#mines.js" data-icon="twitter" title="Share on Twitter" target="blank"></a>
+        <a href="https://facebook.com/dialog/feed?link=https://humanoids.be/mines" data-icon="facebook" title="Share on Facebook" target="blank"></a>
+        <a href="https://plus.google.com/share?url=https://humanoids.be/mines}" data-icon="add" title="Share on Google+" target="blank"></a>
+    </div>
+    <buddon class="share" data-icon="share" onclick="new MozActivity({name:'share', tyoe:'text/plain', text:'msg'})">Share</button>
+    <fieldset>
+        <button class="cancel">Cancel</button>
+        <button class="submit primary">Ok</button>
+    </fieldset>
+</gaia-dialog>
+-->
+    <header class="nav-wrapper row">
+        <div class="col s12">
+            <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <span data-l10n-id="title" class="brand-logo">Mines</span>
+            <ul class="right">
+                <li><a id="reset"><i class="material-icons">loop</i></a></li>
+            </ul>
+        </div>
+    </header>
+</nav>
+<div id="strings" class="hidden" hidden>
+    <span data-l10n-id="mines_restore_error">Saved game is corrupted. Returning to main menu.</span>
+    <span data-l10n-id="mines_new_highscore">Highscore! Please enter your name:</span>
+</div>
+<main>
+    <section id="fieldcontainer">
+        <div class="row container">
+            <div class="col s2 m4 left-align">
+                <label class="mine" id="countlabel" aria-label="Remaining mines:" data-l10n-id="mines_remaining" for="minecount"></label>
+                <output id="minecount" for="field" aria-live="polite"></output>
+            </div>
+            <div class="col s8 m4 switch center-align">
+                <!-- TODO figure out why this doesn't work properly -->
+                <label>
+                    <i class="material-icons">visibility</i>
+                    <input type="checkbox" id="flagtoggle">
+                    <span class="lever"></span>
+                    <i class="material-icons">flag</i>
+                </label>
+            </div>
+            <div class="col s2 m4 right-align">
+                <label id="timelabel" for="time" data-l10n-id="mines_time_label" class="visuallyhidden">Time:</label>
+                <output id="time" data-l10n-id="mines_time_unit" data-l10n-args='{"time": "0.0"}'>0.0s</output>
+            </div>
+        </div>
+        <article aria-busy="true" class="row">
+            <table id="field" role="grid" class="browser-default">
+            </table>
+        </article>
+    </section>
+</main>
+<div class="fixed-action-btn">
+    <button id="pause" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons" id="pauseicon">pause</i></button>
+</div>

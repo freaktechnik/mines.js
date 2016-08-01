@@ -1,3 +1,10 @@
+import Highscores from '../../src/highscores';
+import StringBundle from '../../src/stringbundle';
+
+$(document).ready(() => {
+    $('select').material_select();
+});
+
 var select = document.getElementById("gametype"),
     builtinOptions = [ "8x8:10", "16x16:40", "30x16:99" ],
     list = document.getElementById("highscores"),
@@ -25,15 +32,14 @@ function highscoreListItem(name, time) {
     }
 
     var li = document.createElement("li"),
-        divA = document.createElement("div"),
-        divB = document.createElement("div"),
+        divA = document.createElement("span"),
+        divB = document.createElement("span"),
         nameNode = document.createTextNode(name),
         timeNode = document.createTextNode(time+"s");
 
     li.classList.add("dynamic");
-    divA.classList.add("fit");
-    divA.classList.add("three");
-    divB.classList.add("fit");
+    li.classList.add("collection-item");
+    divB.classList.add("badge");
 
     divA.appendChild(nameNode);
     divB.appendChild(timeNode);
@@ -85,6 +91,7 @@ function loadGames() {
                 addOption(game);
             }
         });
+        $('select').material_select();
         showHighscores(select.value);
     });
 }
@@ -105,11 +112,7 @@ document.getElementById("delete-highscores").addEventListener("click", function(
     }
 });
 
-select.addEventListener("change", function() {
+$('select').on('change', function() {
     showHighscores(select.value);
 });
-
-document.getElementById("header").addEventListener("action", function() {
-    window.location = "index.html";
-}, false);
 

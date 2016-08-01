@@ -128,3 +128,5 @@ var Highscores = {
     }
 };
 Highscores.init();
+
+export default Highscores;

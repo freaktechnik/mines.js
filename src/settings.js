@@ -91,3 +91,4 @@ Object.defineProperty(Preferences, "reset", {
     }
 });
 
+export default Preferences;

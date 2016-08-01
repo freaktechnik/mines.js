@@ -1824,4 +1824,4 @@
     element.textContent = text;
   }
 
-})(this);
+})(window);

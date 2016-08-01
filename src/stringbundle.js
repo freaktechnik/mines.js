@@ -55,3 +55,5 @@ StringBundle.prototype.getStringAsync = function(id, args) {
         });
     return promised;
 };
+
+export default StringBundle;

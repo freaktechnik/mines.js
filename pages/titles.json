@@ -1,0 +1,9 @@
+{
+    "index": "title",
+    "custom": "custom_title",
+    "help": "help_title",
+    "highscores": "highscores_title",
+    "licenses": "license_title",
+    "settings": "settings_title"
+}
+

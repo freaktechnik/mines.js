@@ -1,3 +1,14 @@
+import Hammer from 'hammerjs';
+import Mines from '../../src/mines';
+import Preferences from '../../src/settings';
+import StringBundle from '../../src/stringbundle';
+import Timer from '../../src/timer';
+import Highscores from '../../src/highscores';
+import globalState from './register-service-worker';
+
+// TODO disable all input to the playing field while paused/cover it up
+// TODO mark correct nav item as active
+
 function gameDescriptionFromMines(mines) {
     return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
 }
@@ -75,8 +86,8 @@ var Page = {
             }
         }, false);
 
-        document.getElementById("header").addEventListener("action", function() {
-            window.location = "index.html";
+        window.addEventListener("hashchange", function() {
+            window.location.reload();
         }, false);
 
         // Scaling on mobile (since desktop browsers don't let us override it anyways, so nobody complain, k?)
@@ -131,43 +142,28 @@ var Page = {
             return document.getElementById("reset");
         },
         flagtoggle: {
-            UNCOVER: "mines_mode_uncover",
-            FLAG: "mines_mode_flag",
-            UNCOVER_ICON: "brightness",
-            FLAG_ICON: "flag",
             init: function(mines) {
                 var self = this;
+
                 mines.context.addEventListener("modetoggle", function() {
                     self.toggle();
                 }, false);
 
                 mines.context.addEventListener("reset", function() {
-                    var flagtoggle = self.button;
-                    navigator.mozL10n.setAttributes(flagtoggle, self.UNCOVER);
-                    flagtoggle.dataset.icon = self.UNCOVER_ICON;
+                    if(self.button.checked) {
+                        self.toggle();
+                    }
                 }, false);
 
-                this.button.addEventListener("click", function() {
+                this.button.addEventListener("change", function() {
                     mines.toggleMode();
                 }, false);
             },
             get button() {
                 return document.getElementById("flagtoggle");
             },
-            get mode() {
-                return navigator.mozL10n.getAttributes(this.button).id;
-            },
-            toggle: function ToolbarToggleMode() {
-                var button = this.button;
-
-                if(this.mode == this.UNCOVER) {
-                    navigator.mozL10n.setAttributes(button, this.FLAG);
-                    button.dataset.icon = this.FLAG_ICON;
-                }
-                else {
-                    navigator.mozL10n.setAttributes(button, this.UNCOVER);
-                    button.dataset.icon = this.UNCOVER_ICON;
-                }
+            toggle() {
+                this.button.checked = !this.button.checked;
             }
         },
         timer: {
@@ -184,17 +180,47 @@ var Page = {
                 }
 
                 this.model = new Timer(time, this.output);
-                if(time !== 0) {
+                this.button = document.getElementById("pause");
+                if(time !== 0 && !mines.startPaused) {
                     this.model.start();
                 }
 
+                const buttonIcon = document.getElementById("pauseicon"),
+                    gameOver = () => {
+                        this.model.pause();
+                        buttonIcon.textContent = "loop";
+                    };
+
                 mines.context.addEventListener("generated", this.model.start.bind(this.model), false);
-                mines.context.addEventListener("loose", this.model.pause.bind(this.model), false);
-                mines.context.addEventListener("win", this.model.pause.bind(this.model), false);
+                mines.context.addEventListener("loose", gameOver, false);
+                mines.context.addEventListener("win", gameOver, false);
                 mines.context.addEventListener("reset", this.model.reset.bind(this.model), false);
 
+                this.output.addEventListener("start", () => {
+                    buttonIcon.textContent = "pause";
+                }, false);
+                this.output.addEventListener("pause", () => {
+                    if(!mines.done) {
+                        buttonIcon.textContent = "play_arrow";
+                    }
+                }, false);
+
+                this.button.addEventListener("click", () => {
+                    if(mines.boardGenerated && !mines.done) {
+                        if(this.model.running) {
+                            this.model.pause();
+                        }
+                        else {
+                            this.model.start();
+                        }
+                    }
+                    else if(mines.done) {
+                        mines.reset();
+                    }
+                }, false);
             },
             model: null,
+            button: null,
             get output() {
                 return document.getElementById("time");
             },
@@ -225,7 +251,7 @@ var Page = {
         var mines,
             preset,
             vals;
-        if(hash.charAt(0) == "r") {
+        if(hash.charAt(0) == "r" || (!hash && Mines.hasSavedState())) {
             mines = Mines.restoreSavedState(this.field);
             if(!mines) {
                 window.alert(this.strbundle.getString('mines_restore_error'));
@@ -236,6 +262,7 @@ var Page = {
                 if(mines.mode == Mines.MODE_FLAG) {
                     this.Toolbar.flagtoggle.toggle();
                 }
+                mines.startPaused = hash.charAt(0) != "r";
                 return mines;
             }
         }
@@ -246,7 +273,7 @@ var Page = {
                 preset = { size: [ parseInt(vals[1], 10), parseInt(vals[2], 10) ], mines: parseInt(vals[3], 10) };
             }
             else {
-                preset = Mines.defaultBoards[hash];
+                preset = Mines.defaultBoards[hash || "beginner"];
             }
             return new Mines(this.field, preset.size, preset.mines);
         }

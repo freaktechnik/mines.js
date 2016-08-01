@@ -1,67 +1,48 @@
-<!DOCTYPE html>
-<html manifest="manifest.appcache" lang="<!-- @echo DEFAULT_LOCALE -->">
-    <head>
-        <!-- @include head.html -->
-
-        <title data-l10n-id="custom_title">Custom Minefield</title>
-
-        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->input_areas.css">
-        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->buttons.css">
-
-        <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->stringbundle.min.js"></script>
-    </head>
-    <body class="skin-comms skin-organic" role="application">
-        <div id="strings" class="hidden" hidden>
-            <span data-l10n-id="custom_form_error">There has to be at least one mine and one empty cell in the Minefield.</span>
-            <span data-l10n-id="custom_percentage_unit">{{percentage}}%</span>
+    <header class="nav-wrapper row">
+        <div class="col s12">
+            <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <span data-l10n-id="custom_title" class="brand-logo">Custom Minefield</span>
+            <ul class="right">
+                <li><a href="" id="submit" data-l10n-id="custom_done"><i class="material-icons">done</i></a></li>
+            </ul>
         </div>
-        <section role="region" class="vbox fit">
-            <gaia-header action="back" id="header">
-                <span class="l10n-action" data-l10n-id="action_back">Back</span>
-                <h1 data-l10n-id="custom_title">Custom Minefield</h1>
-            </gaia-header>
-            <section class="gaia-list fit scroll sticky">
-                <article>
-                    <form id="form" role="main">
-                        <ul>
-                            <li>
-                                <div class="fit">
-                                    <label for="height" data-l10n-id="custom_height">Height:</label>
-                                </div>
-                                <div class="fit">
-                                    <input type="number" id="height" min="1" value="8" required step="1">
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fit">
-                                    <label for="width" data-l10n-id="custom_width">Width:</label>
-                                </div>
-                                <div class="fit">
-                                    <input type="number" id="width" min="1" value="8" required step="1">
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fit">
-                                    <label for="mines" data-l10n-id="custom_mines">Mines:</label>
-                                </div>
-                                <div class="fit">
-                                    <input type="number" id="mines" min="1" value="10" required step="1">
-                                </div>
-                            </li>
-                            <li>
-                                <div class="fit">
-                                    <label for="percentage" data-l10n-id="custom_percentage_label">Mines percentage:</label>
-                                </div>
-                                <div class="fit">
-                                    <output for="height,width,mines" id="percentage">15.6%</output>
-                                </div>
-                            <li><button type="submit" id="submit" data-l10n-id="custom_done">Start Game</button></li>
-                        </ul>
-                    </form>
-                </article>
-            </section>
-        </section>
-        <script type="application/javascript" src="<!-- @echo VENDOR_DIR -->/what-input/what-input.js"></script>
-        <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->custom.min.js"></script>
-    </body>
-</html>
+    </header>
+</nav>
+<div id="strings" class="hidden" hidden>
+    <span data-l10n-id="custom_form_error">There has to be at least one mine and one empty cell in the Minefield.</span>
+    <span data-l10n-id="custom_percentage_unit">{{percentage}}%</span>
+</div>
+<main>
+    <section class="container">
+        <article class="card">
+            <div class="card-content row">
+                <form id="form" class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input class="validate" type="number" id="height" min="1" value="8" required step="1">
+                            <label class="active" for="height" data-l10n-id="custom_height">Height:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input class="validate" type="number" id="width" min="1" value="8" required step="1">
+                            <label class="active" for="width" data-l10n-id="custom_width">Width:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input class="validate" type="number" id="mines" min="1" value="10" required step="1">
+                            <label class="active" for="mines" data-l10n-id="custom_mines">Mines:</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s6">
+                            <label for="percentage" data-l10n-id="custom_percentage_label">Mines percentage:</label>
+                            <output for="height,width,mines" id="percentage">15.6%</output>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </article>
+    </section>
+</main>

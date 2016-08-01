@@ -1,3 +1,7 @@
+import Preferences from '../../src/settings';
+import StringBundle from '../../src/stringbundle';
+import Highscores from '../../src/highscores';
+
 function setupBoolPreference(name) {
     document.getElementById(name).checked = Preferences[name].value;
 
@@ -35,8 +39,4 @@ document.querySelector("[data-l10n-id='settings_highscores_clear']").addEventLis
         Highscores.clear();
     }
 });
-
-document.getElementById("header").addEventListener("action", function() {
-    window.location = "index.html";
-}, false);
 

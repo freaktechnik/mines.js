@@ -694,3 +694,5 @@ Mines.restoreSavedState = function(cfx) {
     return null;
 };
 
+export default Mines;
+

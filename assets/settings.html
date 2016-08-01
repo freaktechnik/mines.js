@@ -1,77 +1,64 @@
-<!DOCTYPE html>
-<html manifest="manifest.appcache" lang="<!-- @echo DEFAULT_LOCALE -->">
-    <head>
-        <!-- @include head.html -->
-        <title data-l10n-id="settings_title">Settings</title>
-
-        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->switches.css">
-        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->buttons.css">
-        <link rel="stylesheet" type="text/css" href="<!-- @echo STYLE_DIR -->input_areas.css">
-
-        <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->stringbundle.min.js"></script>
-        <script type="application/javascript" src="<!-- @echo SCRIPT_DIR -->settings.min.js"></script>
-    </head>
-    <body class="skin-comms skin-organic theme-settings" role="application">
-        <div id="strings" class="hidden" hidden>
-            <div data-l10n-id="highscores_confirm_clear">Do you really want to delete all high scores?</div>
+    <header class="nav-wrapper row">
+        <div class="col s12">
+            <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <span data-l10n-id="settings_title" class="brand-logo">Settings</span>
         </div>
-        <section role="region" class="vbox fit">
-            <gaia-header action="back" id="header">
-                <span class="l10n-action" data-l10n-id="action_back">Back</span>
-                <h1 data-l10n-id="settings_title">Settings</h1>
-            </gaia-header>
-            <section class="gaia-list fit scroll sticky" role="main">
-                <article>
-                    <header data-l10n-id="settings_gameplay">Gameplay</header>
-                    <ul>
-                        <li>
-                            <label class="pack-switch" for="vibration">
+    </header>
+</nav>
+<div id="strings" class="hidden" hidden>
+    <div data-l10n-id="highscores_confirm_clear">Do you really want to delete all high scores?</div>
+</div>
+<main>
+    <div class="container">
+        <article class="card">
+            <div class="card-content row">
+                <header class="card-title" data-l10n-id="settings_gameplay">Gameplay</header>
+                <div class="col s12">
+                    <div class="row">
+                        <div class="col s12 switch">
+                            <label>
                                 <input id="vibration" type="checkbox">
+                                <span class="lever"></span>
                                 <span data-l10n-id="settings_vibration">Haptic Feedback</span>
                             </label>
-                        </li>
-                        <li>
-                            <label class="pack-switch" for="autotoggle">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12 switch">
+                            <label>
                                 <input id="autotoggle" type="checkbox">
+                                <span class="lever"></span>
                                 <span data-l10n-id="settings_automodeswitch">Switch mode after first cell is uncovered</span>
                             </label>
-                        </li>
-                        <li>
-                            <div class="fit">
-                                <label for="fieldsize" data-l10n-id="settings_fieldsize">Field-cell scale:</label>
-                            </div>
-                            <div class="fit">
-                                <input type="number" id="fieldsize" min="0.1" value="1" step="0.1">
-                            </div>
-                        </li>
-                    </ul>
-                </article>
-                <article>
-                    <header data-l10n-id="settings_highscores">High Scores</header>
-                    <ul>
-                        <li>
-                            <button data-l10n-id="settings_highscores_clear">Delete All High Scores</button>
-                        </li>
-                    </ul>
-                </article>
-                <article>
-                    <header data-l10n-id="settings_about_title">About</header>
-                    <ul>
-                        <li>
-                            <p data-l10n-id="settings_about_content">This application was written by Martin Giger. A big thank you to all translators that helped localizing this application!</p>
-                        </li>
-                        <li>
-                            <p data-l10n-id="settings_about_version" data-l10n-args='{"version": "<!-- @echo VERSION -->"}'>Version <!-- @echo VERSION --></p>
-                        </li>
-                        <li>
-                            <a role="button" href="licenses.html" class="button icon icon-view" data-l10n-id="settings_licenses_show">Show License Information</a>
-                        </li>
-                    </ul>
-                </article>
-            </section>
-        </section>
-        <script type="application/javascript" src="<!-- @echo VENDOR_DIR -->what-input/what-input.js"></script>
-        <script src="<!-- @echo SCRIPT_DIR -->settings-content.min.js"></script>
-    </body>
-</html>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input type="number" id="fieldsize" min="0.1" value="1" step="0.1">
+                            <label class="active" for="fieldsize" data-l10n-id="settings_fieldsize">Field-cell scale</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <article class="card">
+            <div class="card-content">
+                <header class="card-title" data-l10n-id="settings_highscores">High Scores</header>
+                <button class="btn waves-effect waves-light" data-l10n-id="settings_highscores_clear">Delete All High Scores</button>
+            </div>
+        </article>
+        <article class="card">
+            <div class="card-content">
+                <header class="card-title" data-l10n-id="settings_about_title">About</header>
+                <ul>
+                    <li data-l10n-id="settings_about_content">This application was written by Martin Giger. A big thank you to all translators that helped localizing this application!</li>
+                    <li data-l10n-id="settings_about_version" data-l10n-args='{"version": "<%= data.version %>"}'>Version <%= data.version %></li>
+                    <li>
+                        <a href="licenses.html" data-l10n-id="settings_licenses_show">Show License Information</a>
+                    </li>
+                </ul>
+            </div>
+        </article>
+    </div>
+</main>
 
