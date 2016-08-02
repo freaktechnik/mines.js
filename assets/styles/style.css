@@ -110,7 +110,12 @@ body:not([data-whatinput='keyboard']) td {
     transition-duration: 0.2s;
 }
 
-table:not(.done) .covered:active {
+.paused {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+table:not(.done):not(.paused) .covered:active {
     border: 3px inset gray;
 }
 

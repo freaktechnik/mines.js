@@ -70,10 +70,6 @@ var Page = {
             }
         }, false);
 
-        this.field.addEventListener("pause", function() {
-            window.location = "index.html";
-        }, false);
-
         this.field.addEventListener("help", function() {
             window.location = document.querySelector('link[rel="help"]').href;
         });
@@ -177,6 +173,12 @@ var Page = {
             NOT_HAS_SAVED_TIME: "false",
             init: function(mines) {
                 var time = 0;
+                const buttonIcon = document.getElementById("pauseicon"),
+                    gameOver = () => {
+                        this.model.pause();
+                        buttonIcon.textContent = "loop";
+                    };
+
                 if(localStorage.getItem(this.SAVED_TIME) == this.HAS_SAVED_TIME) {
                     time = parseInt(localStorage.getItem(this.TIME), 10);
                     localStorage.setItem(this.SAVED_TIME, this.NOT_HAS_SAVED_TIME);
@@ -184,21 +186,19 @@ var Page = {
                 }
 
                 this.model = new Timer(time, this.output);
-                this.button = document.getElementById("pause");
-                if(time !== 0 && !mines.startPaused) {
+                if(time !== 0 && !mines.paused) {
                     this.model.start();
                 }
-
-                const buttonIcon = document.getElementById("pauseicon"),
-                    gameOver = () => {
-                        this.model.pause();
-                        buttonIcon.textContent = "loop";
-                    };
+                else {
+                    buttonIcon.textContent = "play_arrow";
+                }
 
                 mines.context.addEventListener("generated", this.model.start.bind(this.model), false);
                 mines.context.addEventListener("loose", gameOver, false);
                 mines.context.addEventListener("win", gameOver, false);
                 mines.context.addEventListener("reset", this.model.reset.bind(this.model), false);
+                mines.context.addEventListener("pause", this.model.pause.bind(this.model), false);
+                mines.context.addEventListener("unpause", this.model.start.bind(this.model), false);
 
                 this.output.addEventListener("start", () => {
                     buttonIcon.textContent = "pause";
@@ -211,11 +211,11 @@ var Page = {
 
                 this.button.addEventListener("click", () => {
                     if(mines.boardGenerated && !mines.done) {
-                        if(this.model.running) {
-                            this.model.pause();
+                        if(!mines.paused) {
+                            mines.pause();
                         }
                         else {
-                            this.model.start();
+                            mines.unpause();
                         }
                     }
                     else if(mines.done) {
@@ -224,7 +224,9 @@ var Page = {
                 }, false);
             },
             model: null,
-            button: null,
+            get button() {
+                return document.getElementById("pause");
+            },
             get output() {
                 return document.getElementById("time");
             },
@@ -266,7 +268,7 @@ var Page = {
                 if(mines.mode == Mines.MODE_FLAG) {
                     this.Toolbar.flagtoggle.toggle();
                 }
-                mines.startPaused = hash.charAt(0) != "r";
+                mines.pause();
                 return mines;
             }
         }

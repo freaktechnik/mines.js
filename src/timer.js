@@ -4,14 +4,14 @@
 
 var TIME_UNIT_STRING = "mines_time_unit";
 
-function Timer(offset, output) {
+function Timer(offset = 0, output) {
     this.offset = offset;
     this.output = output;
 
-    var time = "0.0";
+    var time = (this.offset/1000.0).toFixed(1);
     if("Intl" in window) {
         this._nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 1 });
-        time = this._nf.format(0.0);
+        time = this._nf.format(this.offset / 1000.0);
     }
 
     navigator.mozL10n.setAttributes(this.output, TIME_UNIT_STRING, { time: time });
@@ -101,7 +101,7 @@ Timer.prototype.stop = function() {
         this.reset();
         return time;
     }
-    return false;
+    return this.offset;
 };
 
 export default Timer;

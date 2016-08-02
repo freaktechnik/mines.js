@@ -46,7 +46,7 @@ function Mines(cfx, dimensions, mineCount) {
         }
         else if(e.key == "Backspace" || e.key == "Pause" || e.keyCode == 8 ||
                 e.keyCode == 19) {
-            self.context.dispatchEvent(new Event("pause"));
+            self.pause();
         }
         else if(e.key == "F1" || e.keyCode == 112) {
             self.context.dispatchEvent(new Event("help"));
@@ -106,9 +106,21 @@ Mines.prototype.board = [];
 Mines.prototype.markedMines = [];
 Mines.prototype.boardGenerated = false;
 Mines.prototype.done = false;
+Mines.prototype.paused = false;
 Mines.prototype.mode = Mines.MODE_UNCOVER;
 Mines.prototype.size = 1;
 
+Mines.prototype.pause = function() {
+    this.paused = true;
+    this.context.classList.add("paused");
+    this.context.dispatchEvent(new Event("pause"));
+};
+
+Mines.prototype.unpause = function() {
+    this.paused = false;
+    this.context.classList.remove("paused");
+    this.context.dispatchEvent(new Event("unpause"));
+};
 
 Mines.prototype.translateCell = function(x, y, deferTranslation) {
     var node = this.getCell(x, y);
@@ -457,9 +469,27 @@ Mines.prototype.cellFullyMarked = function(x, y) {
     }
 };
 
+Mines.prototype.cellClickListener = function(x, y, e) {
+    e.preventDefault();
+    if(!this.done && !this.paused) {
+        if(this.markedMines[y][x] !== Mines.MINE_KNOWN) {
+            if(Mines.MODE_UNCOVER === this.mode && e.button != 2) {
+                this.uncoverCell(x, y);
+            }
+            else {
+                this.flagCell(x, y);
+            }
+        }
+        else {
+            this.uncoverCompleteCells(x, y);
+        }
+    }
+};
+
 Mines.prototype.createCell = function(x, y) {
     var cell = document.createElement("td"),
-        self = this;
+        self = this,
+        clickListener = this.cellClickListener.bind(this, x, y);
 
     cell.classList.add(COVERED_CLASS);
     cell.setAttribute("aria-pressed", "false");
@@ -467,22 +497,7 @@ Mines.prototype.createCell = function(x, y) {
     cell.setAttribute("tabindex", 0);
     this.translateCellNode(x, y, cell);
 
-    cell.addEventListener("click", function(e) {
-        e.preventDefault();
-        if(!self.done) {
-            if(self.markedMines[y][x] !== Mines.MINE_KNOWN) {
-                if(Mines.MODE_UNCOVER === self.mode && e.button != 2) {
-                    self.uncoverCell(x, y);
-                }
-                else {
-                    self.flagCell(x, y);
-                }
-            }
-            else {
-                self.uncoverCompleteCells(x, y);
-            }
-        }
-    }, false);
+    cell.addEventListener("click", clickListener, false);
     cell.addEventListener("contextmenu", function(e) {
         e.preventDefault();
         if(!self.done && self.markedMines[y][x] !== Mines.MINE_KNOWN) {
@@ -528,7 +543,7 @@ Mines.prototype.createCell = function(x, y) {
         else if(e.key == " " || e.keyCode == 32) {
             cell.click();
         }
-        else if(!self.done) {
+        else if(!self.done && !self.paused) {
             if(self.markedMines[y][x] !== Mines.MINE_KNOWN) {
                 if(e.key == "f" || e.keyCode == 70) {
                     e.preventDefault();
