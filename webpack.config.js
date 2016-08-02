@@ -61,8 +61,13 @@ module.exports = {
                 loader: 'ejs?variable=data'
             },
             {
+                test: /manifest.json$/,
+                loader: 'file?name=manifest.json!web-app-manifest-loader'
+            },
+            {
                 test: /\.json$/,
-                loader: 'ĵson'
+                exclude: /manifest.json$/,
+                loader: 'json'
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,

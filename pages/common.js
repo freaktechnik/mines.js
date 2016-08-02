@@ -9,16 +9,6 @@ import 'materialize-css/bin/materialize.css';
 import '../assets/styles/general.css';
 import 'material-design-icons/iconfont/material-icons.css';
 
-import '../assets/images/icon-16.png';
-import '../assets/images/icon-32.png';
-import '../assets/images/icon-48.png';
-import '../assets/images/icon-64.png';
-import '../assets/images/icon-90.png';
-import '../assets/images/icon-128.png';
-import '../assets/images/icon-144.png';
-import '../assets/images/icon-256.png';
-import '../assets/images/icon-512.png';
-
 import '../locales/de/app.properties';
 import '../locales/el/app.properties';
 import '../locales/en/app.properties';
@@ -29,6 +19,8 @@ import '../locales/nl/app.properties';
 import '../locales/rm/app.properties';
 import '../locales/ru/app.properties';
 
+import '../manifest.json';
+
 import Mines from '../src/mines';
 
 $(document).ready(() => {
@@ -37,7 +29,6 @@ $(document).ready(() => {
         closeOnClick: true
     });
 
-    //TODO doesn't work like it should at all
     document.getElementById("continuemenu").hidden = !Mines.hasSavedState();
 });
 

@@ -7,6 +7,7 @@
         <link rel="license" href="https://mozilla.org/MPL/2.0/" hreflang="en">
         <link rel="help" href="help.html" type="text/html">
         <link rel="jslicense" href="licenses.html">
+        <link rel="manifest" href="manifest.json">
 
         <% for(var size of webpack.assets.filter((a) => a.name.includes('images/icon-')).map((a) => a.name.match(/icon-([0-9]+)\.png/)[1])) { %>
             <link rel="icon" sizes="<%= size %>x<%= size %>" type="image/png" href="images/icon-<%= size %>.png">
@@ -31,6 +32,7 @@
             var attrMap = {
                 "aria-label": "ariaLabel"
             };
+
             var translateElement = function(id, options, attr) {
                 var str = ' data-l10n-id="'+id+'">';
 
@@ -62,6 +64,8 @@
 
                 return str;
             }; %>
+
+        <meta name="application-name" content="<%= bundle.title %>">
         <title <%= translateElement(htmlWebpackPlugin.options.titleId) %></title>
     </head>
     <body role="application">
