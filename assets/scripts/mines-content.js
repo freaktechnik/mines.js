@@ -211,12 +211,7 @@ var Page = {
 
                 this.button.addEventListener("click", () => {
                     if(mines.boardGenerated && !mines.done) {
-                        if(!mines.paused) {
-                            mines.pause();
-                        }
-                        else {
-                            mines.unpause();
-                        }
+                        mines.togglePause();
                     }
                     else if(mines.done) {
                         mines.reset();

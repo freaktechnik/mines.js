@@ -5,7 +5,7 @@ import '../assets/scripts/register-service-worker';
 import 'what-input';
 import 'materialize-css/dist/js/materialize.js';
 
-import 'materialize-css/bin/materialize.css';
+import 'materialize-css/dist/css/materialize.css';
 import '../assets/styles/general.css';
 import 'material-design-icons/iconfont/material-icons.css';
 
@@ -25,6 +25,7 @@ import Mines from '../src/mines';
 
 $(document).ready(() => {
     $('.button-collapse').sideNav({
+        menuWidth: 300,
         edge: 'left',
         closeOnClick: true
     });

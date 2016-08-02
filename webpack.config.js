@@ -18,7 +18,8 @@ const plugins = [
     }),
     new ExtractTextPlugin("styles/[name]-[hash].css"),
     new ProvidePlugin({
-        _: "underscore"
+        _: "underscore",
+        'window.jQuery': 'jquery'
     })
 ];
 

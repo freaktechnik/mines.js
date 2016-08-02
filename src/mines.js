@@ -44,9 +44,9 @@ function Mines(cfx, dimensions, mineCount) {
             self.toggleMode();
             e.preventDefault();
         }
-        else if(e.key == "Backspace" || e.key == "Pause" || e.keyCode == 8 ||
+        else if(e.key == "Pause" || e.keyCode == 8 ||
                 e.keyCode == 19) {
-            self.pause();
+            self.togglePause();
         }
         else if(e.key == "F1" || e.keyCode == 112) {
             self.context.dispatchEvent(new Event("help"));
@@ -120,6 +120,15 @@ Mines.prototype.unpause = function() {
     this.paused = false;
     this.context.classList.remove("paused");
     this.context.dispatchEvent(new Event("unpause"));
+};
+
+Mines.prototype.togglePause = function() {
+    if(this.paused) {
+        this.unpause();
+    }
+    else {
+        this.pause();
+    }
 };
 
 Mines.prototype.translateCell = function(x, y, deferTranslation) {
