@@ -156,6 +156,10 @@ var Page = {
                 }, false);
 
                 this.button.addEventListener("change", function() {
+                    // Dirty workaround e.preventDefault() not working. This
+                    // toggles the checkbox back to its initial state, so the
+                    // modetoggle event listener can toggle it.
+                    self.toggle();
                     mines.toggleMode();
                 }, false);
             },

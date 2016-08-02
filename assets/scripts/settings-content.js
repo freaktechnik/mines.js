@@ -7,7 +7,7 @@ function setupBoolPreference(name) {
 
     document.getElementById(name).addEventListener("change", function(e) {
         Preferences[name].value = e.target.checked;
-    });
+    }, false);
 }
 
 function setupNumberPreference(name) {
@@ -15,7 +15,7 @@ function setupNumberPreference(name) {
 
     document.getElementById(name).addEventListener("change", function(e) {
         Preferences[name].value = e.target.value;
-    });
+    }, false);
 }
 
 var strbundle = new StringBundle(document.getElementById("strings")),
