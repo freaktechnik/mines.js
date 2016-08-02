@@ -7,6 +7,7 @@ import 'materialize-css/dist/js/materialize.js';
 
 import 'materialize-css/bin/materialize.css';
 import '../assets/styles/general.css';
+import 'material-design-icons/iconfont/material-icons.css';
 
 import '../assets/images/icon-16.png';
 import '../assets/images/icon-32.png';

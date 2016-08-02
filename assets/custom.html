@@ -1,16 +1,16 @@
     <header class="nav-wrapper row">
         <div class="col s12">
             <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-            <span data-l10n-id="custom_title" class="brand-logo">Custom Minefield</span>
+            <span class="brand-logo"<%= data.translate("custom_title") %></span>
             <ul class="right">
-                <li><a href="" id="submit" data-l10n-id="custom_done"><i class="material-icons">done</i></a></li>
+                <li><a href="" id="submit"<%= data.translate("custom_done", undefined, "title") %><i class="material-icons">done</i></a></li>
             </ul>
         </div>
     </header>
 </nav>
 <div id="strings" class="hidden" hidden>
-    <span data-l10n-id="custom_form_error">There has to be at least one mine and one empty cell in the Minefield.</span>
-    <span data-l10n-id="custom_percentage_unit">{{percentage}}%</span>
+    <span<%= data.translate("custom_form_error") %></span>
+    <span<%= data.translate("custom_percentage_unit") %></span>
 </div>
 <main>
     <section class="container">
@@ -20,24 +20,24 @@
                     <div class="row">
                         <div class="input-field col s12">
                             <input class="validate" type="number" id="height" min="1" value="8" required step="1">
-                            <label class="active" for="height" data-l10n-id="custom_height">Height:</label>
+                            <label class="active" for="height"<%= data.translate("custom_height") %></label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <input class="validate" type="number" id="width" min="1" value="8" required step="1">
-                            <label class="active" for="width" data-l10n-id="custom_width">Width:</label>
+                            <label class="active" for="width"<%= data.translate("custom_width") %></label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12">
                             <input class="validate" type="number" id="mines" min="1" value="10" required step="1">
-                            <label class="active" for="mines" data-l10n-id="custom_mines">Mines:</label>
+                            <label class="active" for="mines"<%= data.translate("custom_mines") %></label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col s6">
-                            <label for="percentage" data-l10n-id="custom_percentage_label">Mines percentage:</label>
+                            <label for="percentage"<%= data.translate("custom_precentage_label") %></label>
                             <output for="height,width,mines" id="percentage">15.6%</output>
                         </div>
                     </div>

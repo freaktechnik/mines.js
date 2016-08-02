@@ -1,15 +1,15 @@
     <header class="nav-wrapper row">
         <div class="col s12">
             <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-            <span data-l10n-id="highscores_title" class="brand-logo">High Scores</span>
+            <span class="brand-logo"<%= data.translate("highscores_title") %></span>
             <ul class="right">
-                <li><a id="delete-highscores"><i class="material-icons">delete</i></a></li>
+                <li><a id="delete-highscores"<%= data.translate("action_delete", undefined, "title") %><i class="material-icons">delete</i></a></li>
             </ul>
         </div>
     </header>
 </nav>
 <div id="strings" class="hidden" hidden>
-    <div data-l10n-id="highscores_confirm_clear">Do you really want to delete all high scores?</div>
+    <div<%= data.translate("highscores_confirm_clear") %></div>
 </div>
 <main>
     <section class="container">
@@ -17,14 +17,14 @@
             <li class="collection-header">
                 <div class="input-field">
                     <select id="gametype" aria-controls="highscores">
-                        <option value="8x8:10" data-l10n-id="menu_difficulty_beginner" selected>Beginner</option>
-                        <option value="16x16:40" data-l10n-id="menu_difficulty_advanced">Advanced</option>
-                        <option value="30x16:99" data-l10n-id="menu_difficulty_expert">Expert</option>
+                        <option value="8x8:10" selected<%= data.translate("menu_difficulty_beginner") %></option>
+                        <option value="16x16:40"<%= data.translate("menu_difficulty_advanced") %></option>
+                        <option value="30x16:99"<%= data.translate("menu_difficulty_expert") %></option>
                     </select>
-                    <label for="gametype" data-l10n-id="highscores_select_label">Board Type</label>
+                    <label for="gametype"<%= data.translate("highscores_select_label") %></label>
                 </div>
             </li>
-            <li class="collection-item" data-l10n-id="highscores_none" id="noresults">No high scores yet.</li>
+            <li class="collection-item" id="noresults"<%= data.translate("highscores_none") %></li>
         </ul>
     </section>
 </main>

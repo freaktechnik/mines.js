@@ -20,36 +20,36 @@
     <header class="nav-wrapper row">
         <div class="col s12">
             <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-            <span data-l10n-id="title" class="brand-logo">Mines</span>
+            <span class="brand-logo"<%= data.translate("title") %></span>
             <ul class="right">
-                <li><a id="reset"><i class="material-icons">loop</i></a></li>
+                <li><a id="reset"<%= data.translate("mines_reset", undefined, "title") %><i class="material-icons">loop</i></a></li>
             </ul>
         </div>
     </header>
 </nav>
 <div id="strings" class="hidden" hidden>
-    <span data-l10n-id="mines_restore_error">Saved game is corrupted. Returning to main menu.</span>
-    <span data-l10n-id="mines_new_highscore">Highscore! Please enter your name:</span>
+    <span<%= data.translate("mines_restore_error") %></span>
+    <span<%= data.translate("mines_new_highscore") %></span>
 </div>
 <main>
     <section id="fieldcontainer">
         <div class="row container">
             <div class="col s2 m4 left-align">
-                <label class="mine" id="countlabel" aria-label="Remaining mines:" data-l10n-id="mines_remaining" for="minecount"></label>
+                <label class="mine" id="countlabel"for="minecount"<%= data.translate("mines_remaining", undefined, "aria-label") %></label>
                 <output id="minecount" for="field" aria-live="polite"></output>
             </div>
             <div class="col s8 m4 switch center-align">
                 <!-- TODO figure out why this doesn't work properly -->
                 <label>
-                    <i class="material-icons">visibility</i>
+                    <i class="material-icons" <%= data.translate("mines_mode_uncover", undefined, "aria-label") %>visibility</i>
                     <input type="checkbox" id="flagtoggle">
                     <span class="lever"></span>
-                    <i class="material-icons">flag</i>
+                    <i class="material-icons"<%= data.translate("mines_mode_flag", undefined, "aria-label") %>flag</i>
                 </label>
             </div>
             <div class="col s2 m4 right-align">
-                <label id="timelabel" for="time" data-l10n-id="mines_time_label" class="visuallyhidden">Time:</label>
-                <output id="time" data-l10n-id="mines_time_unit" data-l10n-args='{"time": "0.0"}'>0.0s</output>
+                <label id="timelabel" for="time" class="visuallyhidden" <%= data.translate("mines_time_label") %></label>
+                <output id="time"<%= data.translate("mines_time_unit", {"time": "0.0"}) %></output>
             </div>
         </div>
         <article aria-busy="true" class="row">

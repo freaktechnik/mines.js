@@ -1,61 +1,71 @@
 <!-- TODO update content -->
-<<gaia-header action="back" id="header">
-    <span class="l10n-action" data-l10n-id="action_back">Back</span>
-    <h1 data-l10n-id="license_title">License Information</h1>
-</gaia-header>
-<section class="gaia-list fit scroll sticky" role="main">
-    <article>
-        <header data-l10n-id="license_js_title">JavaScript File Licenses</header>
-        <ul><li><table id="jslicense-labels1" data-l10n-id="license_js_table">
-            <caption>
-                <details>
-                    <summary data-l10n-id="license_js_caption">All JavaScript files used within this application and their licenses.</summary>
-                    <p data-l10n-id="license_js_details">This table lists the used versions of JavaScript files together with their license and source code. This is necessary, because minified JavaScript counts as compiled code.</p>
-                </details>
-            </caption>
-            <thead>
-                <tr>
-                    <th scope="col" data-l10n-id="license_js_thead_file">Used File</th>
-                    <th scope="col">License</th>
-                    <th scope="col">Source File</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="hammerjs" target="_blank">vendor/<wbr>hammerjs/<wbr>hammer<wbr>.js</a></td>
-                    <td>
-                        <a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en">Expat</a>
-                    </td>
-                    <td><a href="hammerjs/hammer.js" target="_blank">hammer<wbr>.js</a></td>
-                </tr>
-                <tr>
-                    <td><a href="what-input" target="_blank">vendor/<wbr>what-<wbr>input/<wbr>what-<wbr>input<wbr>.js</a></td>
-                    <td>
-                        <a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en">Expat</a>
-                    </td>
-                    <td><a href="what-input/what-input.js" target="_blank">what-<wbr>input<wbr>.js</a></td>
-                </tr>
-            </tbody>
-        </table></li></ul>
-    </article>
-    <article>
-        <header data-l10n-id="license_font_title">Font Licenses</header>
-        <ul>
-            <li><p><span data-l10n-args='{"font":"Fira Sans"}' data-l10n-id="license_font_content">Fira Sans licensed under the</span> <a href="https://rawgit.com/mozilla/Fira/master/LICENSE" target="_blank" hreflang="en">SIL OFL 1.1</a></p></li>
-            <li><p><span data-l10n-args='{"font":"Gaia Icons Font"}' data-l10n-id="license_font_content">Gaia Icons Font licensed under the</span> <a href="https://opensource.org/licenses/MIT" target="_blank" hreflang="en">MIT</a></p></li>
-            <li><p><span data-l10n-args='{"font":"Font Awesome"}' data-l10n-id="license_font_content">Font Awesome licensed under the</span> <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=OFL" target="_blank" hreflang="en">SIL OFL 1.1</a></p></li>
-        </ul>
-    </article>
-    <article>
-        <header data-l10n-id="license_about_title">Everything Else</header>
-        <ul>
-            <li>
-                <p><span data-l10n-id="license_about_license_before">Everything not listed previously (HTML pages, most style sheets) is licensed under the</span> <a href="LICENSE" target="_blank" hreflang="en">MPL-2.0</a><span data-l10n-id="license_about_license_after">.</span></p>
-            </li>
-            <li>
-                <a class="button" data-l10n-id="license_about_source" href="https://github.com/freaktechnik/mines.js" hreflang="en" rel="external" target="_blank">Source Code on Github</a>
-            </li>
-        </ul>
-    </article>
-</section>
+    <header class="nav-wrapper row">
+        <div class="col s12">
+            <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+            <span bclass="brand-logo"<%= data.translate("license_title") %></span>
+        </div>
+    </header>
+</nav>
+<main>
+   <div class="container">
+        <article class="card">
+            <div class="card-content">
+                <header class="card-title"<%= data.translate("license_js_title") %></header>
+                <table class="striped" id="jslicense-labels1">
+                    <caption>
+                        <details>
+                            <summary<%= data.translate("license_js_caption") %></summary>
+                            <p<%= data.translate("license_js_details") %></p>
+                        </details>
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col"<%= data.translate("license_js_thead_file") %></th>
+                            <th scope="col"<%= data.translate("license_js_thead_license") %></th>
+                            <th scope="col"<%= data.translate("license_js_thead_source") %></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- TODO make the source links and licenses useful -->
+                        <% var files = {};
+                            for(var m of data.files.modules) {
+                                if(m.name.indexOf(".js") != -1) {
+                                    for(var chunk of m.chunks) {
+                                        if(!files[chunk])
+                                            files[chunk] = [];
+                                        files[chunk].push(m.name);
+                                    }
+                                }
+                            }
+                            for(var c of data.files.chunks) { %>
+                        <tr>
+                            <td><a href="<%= c.files[0] %>" target="_blank"><%= c.files[0] %></a></td>
+                            <td>
+                                <a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en">Expat</a>
+                                <a href="http://www.mozilla.org/MPL/2.0" target="_blank" hreflang="en">MPL-2.0</a>
+                            </td>
+                            <td><% var cfiles = files[c.id]; for(var f in cfiles) { %><a href="<%= cfiles[f] %>" target="_blank"><%= cfiles[f] %></a><% if(f < cfiles.length - 1) { %><br><% }} %></td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </article>
+        <article class="card">
+            <div class="card-content">
+                <header class="card-title"<%= data.translate("license_font_title") %></header>
+                <p><span<%= data.translate("license_font_content", {"font":"Roboto"}) %></span> <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" hreflang="en">Apache License 2.0</a></p>
+                <p><span<%= data.translate("license_font_content", {"font":"Material Icons"}) %></span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" hreflang="en">CC-BY 4.0</a></p>
+                <p><span<%= data.translate("license_font_content", {"font":"Font Awesome"}) %></span> <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=OFL" target="_blank" hreflang="en">SIL OFL 1.1</a></p>
+            </div>
+        </article>
+        <article class="card">
+            <div class="card-content">
+                <header class="card-title"<%= data.translate("license_about_title") %></header>
+                <p><span<%= data.translate("license_about_license_before") %></span> <a href="LICENSE" target="_blank" hreflang="en">MPL-2.0</a><span<%= data.translate("license_about_license_after") %></span></p>
+                <a class="btn waves-effect waves-light" href="https://github.com/freaktechnik/mines.js" hreflang="en" rel="external" target="_blank"<%= data.translate("license_about_source") %></a>
+            </div>
+        </article>
+    </div>
+</main>
 

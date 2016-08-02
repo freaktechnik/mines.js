@@ -27,26 +27,63 @@
 
         <link rel="localization" href="locales/{locale}/app.properties">
 
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <% var bundle = require('!!properties!../locales/'+htmlWebpackPlugin.options.defaultLanguage+'/app.properties');
+            var attrMap = {
+                "aria-label": "ariaLabel"
+            };
+            var translateElement = function(id, options, attr) {
+                var str = ' data-l10n-id="'+id+'">';
 
-        <title data-l10n-id="<%= htmlWebpackPlugin.options.titleId %>"><%= require('!!properties!../locales/'+htmlWebpackPlugin.options.defaultLanguage+'/app.properties')[htmlWebpackPlugin.options.titleId] %></title>
+                var string = bundle[id] || bundle[id+'.innerHTML'];
+                if(attr && !(attr in attrMap)) {
+                    string = bundle[id + '.' + attr];
+                }
+                else if(attr && attr in attrMap) {
+                    string = bundle[id + '.' + attrMap[attr]];
+                }
+
+                if(!string || !string.trim().length) {
+                    throw "Empty string "+id;
+                }
+
+                if(options) {
+                    for(var opt in options) {
+                        string = string.replace(new RegExp("{{"+opt+"}}", "g"), options[opt]);
+                    }
+                    str = " data-l10n-args='"+JSON.stringify(options)+"'" + str;
+                }
+
+                if(!attr) {
+                    str += string;
+                }
+                else {
+                    str = ' '+attr+'="'+string+'"'+str;
+                }
+
+                return str;
+            }; %>
+        <title <%= translateElement(htmlWebpackPlugin.options.titleId) %></title>
     </head>
     <body role="application">
         <nav>
             <ul id="nav-mobile" class="side-nav fixed">
-                <li><span class="subheader">Play</span></li>
-                <li><a class="waves-effect" href="index.html#restore" data-l10n-id="menu_continue" hidden id="continuemenu">Continue</a></li>
-                <li><a class="waves-effect" href="index.html#beginner" data-l10n-id="menu_difficulty_beginner">Beginner</a></li>
-                <li><a class="waves-effect" href="index.html#advanced" data-l10n-id="menu_difficulty_advanced">Advanced</a></li>
-                <li><a class="waves-effect" href="index.html#expert" data-l10n-id="menu_difficutly_expert">Expert</a></li>
-                <li<%= htmlWebpackPlugin.options.filename == 'custom.html' ? ' class="active"': '' %>><a class="waves-effect" href="custom.html" data-l10n-id="menu_difficutly_custom">Custom</a></li>
+                <li><span class="subheader"<%= translateElement("menu_play") %></span></li>
+                <li><a class="waves-effect" href="index.html#restore" hidden id="continuemenu"<%= translateElement("menu_continue") %></a></li>
+                <li><a class="waves-effect" href="index.html#beginner"<%= translateElement("menu_difficulty_beginner") %></a></li>
+                <li><a class="waves-effect" href="index.html#advanced"<%= translateElement("menu_difficulty_advanced") %></a></li>
+                <li><a class="waves-effect" href="index.html#expert"<%= translateElement("menu_difficulty_expert") %></a></li>
+                <li<%= htmlWebpackPlugin.options.filename == 'custom.html' ? ' class="active"': '' %>><a class="waves-effect" href="custom.html"<%= translateElement("menu_difficulty_custom") %></a></li>
                 <li><hr class="divider"></li>
-                <li<%= htmlWebpackPlugin.options.filename == 'highscores.html' ? ' class="active"': '' %>><a class="waves-effect" href="highscores.html"><i class="material-icons">list</i> <span data-l10n-id="highscores_title">High Scores</span></a></li>
-                <li<%= htmlWebpackPlugin.options.filename == 'settings.html' ? ' class="active"': '' %>><a class="waves-effect" href="settings.html"><i class="material-icons">settings</i> <span data-l10n-id="settings_title">Settings</span></a></li>
-                <li<%= htmlWebpackPlugin.options.filename == 'help.html' ? ' class="active"': '' %>><a class="waves-effect" href="help.html"><i class="material-icons">help</i> <span data-l10n-id="help_title">Mines Help</span></a></li>
+                <li<%= htmlWebpackPlugin.options.filename == 'highscores.html' ? ' class="active"': '' %>><a class="waves-effect" href="highscores.html"><i class="material-icons">list</i> <span<%= translateElement("highscores_title") %></span></a></li>
+                <li<%= htmlWebpackPlugin.options.filename == 'settings.html' ? ' class="active"': '' %>><a class="waves-effect" href="settings.html"><i class="material-icons">settings</i> <span<%= translateElement("settings_title") %></span></a></li>
+                <li<%= htmlWebpackPlugin.options.filename == 'help.html' ? ' class="active"': '' %>><a class="waves-effect" href="help.html"><i class="material-icons">help</i> <span<%= translateElement("help_title") %></span></a></li>
             </ul>
         <% var ctx = require.context("./", false, /.*\.html$/); var content = ctx('./'+htmlWebpackPlugin.options.filename); %>
-        <%= content(htmlWebpackPlugin.options) %>
+        <%= content({
+            options: htmlWebpackPlugin.options,
+            files: webpack,
+            translate: translateElement
+        }) %>
     </body>
 </html>
 
