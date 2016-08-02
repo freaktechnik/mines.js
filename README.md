@@ -2,14 +2,14 @@
 =====
 [![Build Status](https://travis-ci.org/freaktechnik/mines.js.svg)](https://travis-ci.org/freaktechnik/mines.js) [![Dependency Status](https://dependencyci.com/github/freaktechnik/mines.js/badge)](https://dependencyci.com/github/freaktechnik/mines.js)
 
-Mines is a web app minesweeper clone. It orients itself at the Firefox OS style.
+Mines is a web app minesweeper clone.
 
 Play
 ----
 Mines is available on the following sites:
 
  * [Web (Release)](https://humanoids.be/mines)
- * [Firefox Marketplace](https://marketplace.firefox.com/app/mines/)
+ * ([Firefox Marketplace](https://marketplace.firefox.com/app/mines/))
  * [Web (Testing)](http://lab.humanoids.be/mines.js)
 
 Translate
@@ -23,24 +23,19 @@ Build
 You'll have to install these tools in order to build the app.
 
 * [npm](https://www.npmjs.com/) (available as package for most Linux distros)
-* [Bower](http://bower.io/) (installed by running `npm install -g bower` in the command line)
-* [Grunt](http://gruntjs.com/) (installed by running `npm install -g grunt-cli` in the command line)
 
 ### Prepare the Build
 There are some third-party resources the app uses. Install them by running these commands in the command line:
 ```
 npm install
-bower install
 ```
 
 ### Actually Build the App
-To build just run `grunt` in the root folder of the repository. This will build a development grade version of the application in the dist/ folder.
-
-Grunt can do a plethora of things, like cleaning the project directory with `grunt clean`. To see a full list of its targets, run `grunt --help`.
+To build just run `npm run build` in the root folder of the repository. This will build a development grade version of the application in the dist/ folder.
 
 License
 -------
-Copyright (c) 2015 Martin Giger
+Copyright © 2016 Martin Giger
 Licensed under the MPL-2.0.
 
 See the [LICENSE](LICENSE) file for the full license text.
