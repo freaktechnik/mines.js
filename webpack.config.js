@@ -3,6 +3,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ProvidePlugin = require("webpack/lib/ProvidePlugin");
+const UglifyJsPlugin = require("webpack/lib/optimize/UglifyJsPlugin");
 
 const pageTitles = require("./pages/titles.json");
 const pkg = require("./package.json");
@@ -20,7 +21,8 @@ const plugins = [
     new ProvidePlugin({
         _: "underscore",
         'window.jQuery': 'jquery'
-    })
+    }),
+    new UglifyJsPlugin()
 ];
 
 for(let p of pages) {
