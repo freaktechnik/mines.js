@@ -82,7 +82,10 @@ module.exports = {
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 exclude: /font/,
-                loader: "file?name=images/[name].[ext]"
+                loaders: [
+                    "file?name=images/[name].[ext]",
+                    "image-webpack?optimizationLevel=7&progressive=true&interlaced=true"
+                ]
             },
             {
                 test: /\.properties$/,

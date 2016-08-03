@@ -12,7 +12,6 @@ import 'material-design-icons/iconfont/material-icons.css';
 import '../locales/de/app.properties';
 import '../locales/el/app.properties';
 import '../locales/en/app.properties';
-import '../locales/eo/app.properties';
 import '../locales/fr/app.properties';
 import '../locales/it/app.properties';
 import '../locales/nl/app.properties';
