@@ -1,3 +1,5 @@
+import runtime from 'offline-plugin/runtime';
+
 //TODO some way to ensure there's only one game at a time.
 var globalState = {},
     swPostMessage,
@@ -6,7 +8,7 @@ var globalState = {},
 if('serviceWorker' in navigator) {
     swPostMessage = function(cmd, msg) {
         if(navigator.serviceWorker.controller) {
-            navigator.serviceWorker.controller.swPostMessage({
+            navigator.serviceWorker.controller.postMessage({
                 command: cmd,
                 message: msg
             });
@@ -15,7 +17,7 @@ if('serviceWorker' in navigator) {
         return false;
     };
 
-    navigator.serviceWorker.register('service-worker.js');
+    runtime.install();
 
     navigator.serviceWorker.addEventListener("message", function(event) {
         if(event.data.command == 'global-event') {
