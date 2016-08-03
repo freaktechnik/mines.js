@@ -44,7 +44,7 @@ function Mines(cfx, dimensions, mineCount) {
             self.toggleMode();
             e.preventDefault();
         }
-        else if(e.key == "Pause" || e.keyCode == 8 ||
+        else if(e.key == "p" || e.keyCode == 80 || e.key == "Pause" || e.keyCode == 8 ||
                 e.keyCode == 19) {
             self.togglePause();
         }
@@ -350,7 +350,7 @@ Mines.prototype.uncoverCell = function(x, y, force) {
             this.win();
         }
         else if(this.cellFullyMarked(x, y) && this.autoUncover) {
-            left = x > 0,
+            left = x > 0;
             right = x < this.dimensions[0] - 1;
             if(y > 0) {
                 this.uncoverCell(x, y-1);
