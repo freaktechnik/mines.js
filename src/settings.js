@@ -61,6 +61,10 @@ var Defaults = {
         vibration: {
             type: "bool",
             value: "vibrate" in navigator
+        },
+        autouncover: {
+            type: "bool",
+            value: true
         }
     },
     // init prefs

@@ -33,6 +33,16 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col s12 switch">
+                            <label>
+                                <span<%= data.translate("settings_manualuncover") %></span>
+                                <input id="autouncover" type="checkbox">
+                                <span class="lever"></span>
+                                <span<%= data.translate("settings_autouncover") %></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="input-field col s12">
                             <input type="number" id="fieldsize" min="0.1" value="1" step="0.1">
                             <label class="active" for="fieldsize"<%= data.translate("settings_fieldsize") %></label>

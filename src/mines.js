@@ -109,6 +109,7 @@ Mines.prototype.done = false;
 Mines.prototype.paused = false;
 Mines.prototype.mode = Mines.MODE_UNCOVER;
 Mines.prototype.size = 1;
+Mines.prototype.autoUncover = true;
 
 Mines.prototype.pause = function() {
     this.paused = true;
@@ -348,7 +349,7 @@ Mines.prototype.uncoverCell = function(x, y, force) {
         else if(!this.nonMinesCovered()) {
             this.win();
         }
-        else if(this.cellFullyMarked(x, y)) {
+        else if(this.cellFullyMarked(x, y) && this.autoUncover) {
             left = x > 0,
             right = x < this.dimensions[0] - 1;
             if(y > 0) {
@@ -401,7 +402,7 @@ Mines.prototype.flagCell = function(x, y, force) {
 };
 
 Mines.prototype.uncoverCompleteCells = function(x, y) {
-    if(this.cellFullyMarked(x, y)) {
+    if(this.cellFullyMarked(x, y) && this.autoUncover) {
         var left = x > 0,
             right = x < this.dimensions[0] - 1;
         if(y > 0) {

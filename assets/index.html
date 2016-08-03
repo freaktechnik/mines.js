@@ -32,30 +32,28 @@
     <span<%= data.translate("mines_new_highscore") %></span>
 </div>
 <main>
-    <section id="fieldcontainer">
-        <div class="row container">
-            <div class="col s2 m4 left-align">
-                <label class="mine" id="countlabel"for="minecount"<%= data.translate("mines_remaining", undefined, "aria-label") %></label>
-                <output id="minecount" for="field" aria-live="polite"></output>
-            </div>
-            <div class="col s8 m4 switch center-align">
-                <label>
-                    <i class="material-icons" <%= data.translate("mines_mode_uncover", undefined, "aria-label") %>visibility</i>
-                    <input type="checkbox" id="flagtoggle">
-                    <span class="lever"></span>
-                    <i class="material-icons"<%= data.translate("mines_mode_flag", undefined, "aria-label") %>flag</i>
-                </label>
-            </div>
-            <div class="col s2 m4 right-align">
-                <label id="timelabel" for="time" class="visuallyhidden" <%= data.translate("mines_time_label") %></label>
-                <output id="time"<%= data.translate("mines_time_unit", {"time": "0.0"}) %></output>
-            </div>
+    <div class="row container">
+        <div class="col s2 m4 left-align">
+            <label class="mine" id="countlabel"for="minecount"<%= data.translate("mines_remaining", undefined, "aria-label") %></label>
+            <output id="minecount" for="field" aria-live="polite"></output>
         </div>
-        <article aria-busy="true" class="row">
-            <table id="field" role="grid" class="browser-default">
-            </table>
-        </article>
-    </section>
+        <div class="col s8 m4 switch center-align">
+            <label>
+                <i class="material-icons" <%= data.translate("mines_mode_uncover", undefined, "aria-label") %>visibility</i>
+                <input type="checkbox" id="flagtoggle">
+                <span class="lever"></span>
+                <i class="material-icons"<%= data.translate("mines_mode_flag", undefined, "aria-label") %>flag</i>
+            </label>
+        </div>
+        <div class="col s2 m4 right-align">
+            <label id="timelabel" for="time" class="visuallyhidden" <%= data.translate("mines_time_label") %></label>
+            <output id="time"<%= data.translate("mines_time_unit", {"time": "0.0"}) %></output>
+        </div>
+    </div>
+    <article aria-busy="true" class="row" id="fieldcontainer">
+        <table id="field" role="grid" class="browser-default">
+        </table>
+    </article>
 </main>
 <div class="fixed-action-btn">
     <button id="pause" class="btn-floating btn-large waves-effect waves-light blue"><i class="material-icons" id="pauseicon">pause</i></button>

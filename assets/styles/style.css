@@ -5,10 +5,6 @@
  */
 
 #fieldcontainer {
-    margin-bottom: 45px;
-}
-
-article {
     width: 100%;
     font-size: initial;
 }
@@ -44,6 +40,7 @@ td {
     line-height: 1.5em;
     font-weight: bold;
     position: relative;
+    border-radius: 0;
 }
 
 body:not([data-whatinput='keyboard']) td {

@@ -19,6 +19,7 @@ var Page = {
 
         this.mines = this.getMinesFromHash(document.location.hash.substr(1));
         this.mines.setSize(Preferences.fieldsize.value);
+        this.mines.autoUncover = Preferences.autouncover.value;
 
         this.Toolbar.init(this.mines);
 
