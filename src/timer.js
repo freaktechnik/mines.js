@@ -25,7 +25,7 @@ Timer.prototype.interval = 0;
 Timer.prototype.running = false;
 
 Timer.prototype.updateOutput = function(time) {
-    if(typeof(time) !== "number") {
+    if(typeof time !== "number") {
         time = Date.now() - this.startTime;
     }
 

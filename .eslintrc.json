@@ -92,7 +92,8 @@
         "space-before-blocks": 2,
         "space-before-function-paren": [2, "never"],
         "no-alert": 2,
-        "space-infix-ops": 2
+        "space-infix-ops": 2,
+        "space-unary-ops": 2
     },
     "extends": "eslint:recommended"
 }
