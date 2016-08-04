@@ -72,19 +72,20 @@
         <nav>
             <ul id="nav-mobile" class="side-nav fixed">
                 <li><span class="subheader"<%= translateElement("menu_play") %></span></li>
-                <li><a class="waves-effect" href="index.html#restore" hidden id="continuemenu"<%= translateElement("menu_continue") %></a></li>
-                <li><a class="waves-effect" href="index.html#beginner"<%= translateElement("menu_difficulty_beginner") %></a></li>
-                <li><a class="waves-effect" href="index.html#advanced"<%= translateElement("menu_difficulty_advanced") %></a></li>
-                <li><a class="waves-effect" href="index.html#expert"<%= translateElement("menu_difficulty_expert") %></a></li>
-                <li<%= htmlWebpackPlugin.options.filename == 'custom.html' ? ' class="active"': '' %>><a class="waves-effect" href="custom.html"<%= translateElement("menu_difficulty_custom") %></a></li>
+                <li id="continuemenu" hidden><a class="waves-effect" href="index.html#restore"<%= translateElement("menu_continue") %></a></li>
+                <li data-difficulty="beginner"><a class="waves-effect" href="index.html#beginner"<%= translateElement("menu_difficulty_beginner") %></a></li>
+                <li data-difficulty="advanced"><a class="waves-effect" href="index.html#advanced"<%= translateElement("menu_difficulty_advanced") %></a></li>
+                <li data-difficulty="expert"><a class="waves-effect" href="index.html#expert"<%= translateElement("menu_difficulty_expert") %></a></li>
+                <li data-difficulty="custom"<%= htmlWebpackPlugin.options.filename == 'custom.html' ? ' class="active"': '' %>><a class="waves-effect" href="custom.html"<%= translateElement("menu_difficulty_custom") %></a></li>
                 <li><hr class="divider"></li>
                 <li<%= htmlWebpackPlugin.options.filename == 'highscores.html' ? ' class="active"': '' %>><a class="waves-effect" href="highscores.html"><i class="material-icons">list</i> <span<%= translateElement("highscores_title") %></span></a></li>
                 <li<%= htmlWebpackPlugin.options.filename == 'settings.html' ? ' class="active"': '' %>><a class="waves-effect" href="settings.html"><i class="material-icons">settings</i> <span<%= translateElement("settings_title") %></span></a></li>
                 <li<%= htmlWebpackPlugin.options.filename == 'help.html' ? ' class="active"': '' %>><a class="waves-effect" href="help.html"><i class="material-icons">help</i> <span<%= translateElement("help_title") %></span></a></li>
             </ul>
-        <% var ctx = require.context("./", false, /.*\.html$/); var content = ctx('./'+htmlWebpackPlugin.options.filename); %>
+        <% var content = require('./'+htmlWebpackPlugin.options.filename.replace(".html", "")+'.html'); %>
         <%= content({
             options: htmlWebpackPlugin.options,
+            tag: DEBUG ? "master" : htmlWebpackPlugin.options.version,
             files: webpack,
             translate: translateElement
         }) %>

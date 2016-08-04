@@ -37,7 +37,8 @@
   "scripts": {
     "test": "npm run lint",
     "lint": "eslint src/ assets/",
-    "build": "webpack --progress"
+    "build": "webpack --progress -p --optimize-dedupe --optimize-occurrence-order --output-public-path /mines/",
+    "build-dev": "webpack -d --progress --output-public-path /mines.js/"
   },
   "dependencies": {
     "hammerjs": "^2.0.8",

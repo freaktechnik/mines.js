@@ -2,7 +2,7 @@ var gameState = false;
 
 self.addEventListener("message", function(event) {
     if(event.data.command == 'global-event') {
-        var promise = self.clientList.matchAll().then(function(clients) {
+        var promise = self.clients.matchAll().then(function(clients) {
             clients.forEach(function(client) {
                 client.postMessage(event.data);
             });

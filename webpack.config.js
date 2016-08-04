@@ -3,7 +3,6 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ProvidePlugin = require("webpack/lib/ProvidePlugin");
-const UglifyJsPlugin = require("webpack/lib/optimize/UglifyJsPlugin");
 const OfflinePlugin = require("offline-plugin");
 
 const pageTitles = require("./pages/titles.json");
@@ -13,20 +12,22 @@ const pages = Object.keys(pageTitles);
 
 const entry = {};
 const plugins = [
-    new CleanPlugin([ 'dist' ]),
+    new CleanPlugin([ 'dist' ], {
+        exclude: ['images', 'locales', 'fonts', 'manifest.json']
+    }),
     new CommonsChunkPlugin({
         name: "common",
-        filename: "scripts/common.min.js"
+        filename: "scripts/common-[hash].js"
     }),
     new ExtractTextPlugin("styles/[name]-[hash].css"),
     new ProvidePlugin({
         _: "underscore",
         'window.jQuery': 'jquery'
     }),
-    new UglifyJsPlugin(),
     new OfflinePlugin({
         ServiceWorker: {
-            entry: './assets/sw/global-events.js'
+            entry: './assets/sw/global-events.js',
+            events: true
         },
         AppCache: false
     })
@@ -49,8 +50,7 @@ module.exports = {
     entry: entry,
     output: {
         path: "dist",
-        filename: "scripts/[name]-[hash].min.js",
-        publicPath: "/mines.js/"
+        filename: "scripts/[name]-[hash].js"
     },
     module: {
         loaders: [
@@ -81,10 +81,10 @@ module.exports = {
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                exclude: /font/,
+                exclude: /fonts/,
                 loaders: [
                     "file?name=images/[name].[ext]",
-                    "image-webpack?optimizationLevel=7&progressive=true&interlaced=true"
+                    "image-webpack?bypassOnDebug&optimizationLevel=7&progressive=true&interlaced=true"
                 ]
             },
             {
@@ -94,10 +94,10 @@ module.exports = {
             },
             {
                 test: /\.(txt|eot|ttf|svg|woff|woff2)$/,
-                loader: "file?name=font/[name].[ext]"
+                loader: "file?name=fonts/[name].[ext]"
             },
         ],
-        noParse: /~$/
+        noParse: [/~$/, /assets\/.*\.html$/]
     },
     plugins: plugins,
     node: {

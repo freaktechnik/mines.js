@@ -29,6 +29,6 @@ $(document).ready(() => {
         closeOnClick: true
     });
 
-    document.getElementById("continuemenu").hidden = !Mines.hasSavedState();
+    document.getElementById("continuemenu").hidden = !Mines.hasSavedState() && document.location.hash != "#restore";
 });
 

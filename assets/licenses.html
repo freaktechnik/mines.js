@@ -1,4 +1,37 @@
-<!-- TODO update content -->
+<% const getPackageTar = (module) => {
+        const pkg = require(module + "/package.json");
+        return module + "-" + pkg.version + ".tgz";
+    },
+    makeURL = (path) => {
+        if(path.includes("~")) {
+            path = path.substring(path.lastIndexOf("~")+2);
+            const module = path.match(/^[^\/]+/)[0];
+            console.log(path, module);
+            return "https://registry.npmjs.org/"+module+"/-/"+getPackageTar(module);
+        }
+        else if(path.startsWith("./")) {
+            return path.replace("./", "https://raw.githubusercontent.com/freaktechnik/mines.js/"+data.tag+"/");
+        }
+        else if(path.startsWith("(webpack)")) {
+            return "https://registry.npmjs.org/webpack/-/"+getPackageTar("webpack");
+        }
+        else {
+            return path;
+        }
+    },
+    makeName = (name) => {
+        if(name.includes("~")) {
+            name = name.substring(name.lastIndexOf("~")+2);
+            const module = name.match(/^[^\/]+/)[0];
+            return getPackageTar(module);
+        }
+        else if(name.startsWith("(webpack)")) {
+            return getPackageTar("webpack");
+        }
+        else {
+            return name;
+        }
+    } %>
     <header class="nav-wrapper row">
         <div class="col s12">
             <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -27,9 +60,9 @@
                     </thead>
                     <tbody>
                         <!-- TODO make the source links and licenses useful -->
-                        <% var files = {};
+                        <% var files = {}, swFiles = [];
                             for(var m of data.files.modules) {
-                                if(m.name.indexOf(".js") != -1) {
+                                if(m.name.search(/\.js$/) != -1) {
                                     for(var chunk of m.chunks) {
                                         if(!files[chunk])
                                             files[chunk] = [];
@@ -41,12 +74,23 @@
                         <tr>
                             <td><a href="<%= c.files[0] %>" target="_blank"><%= c.files[0] %></a></td>
                             <td>
-                                <a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en">Expat</a>
+                                <% if(files[c.id].some((f) => f.includes("~"))) { %><a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en">Expat</a><br><% } %>
                                 <a href="http://www.mozilla.org/MPL/2.0" target="_blank" hreflang="en">MPL-2.0</a>
                             </td>
-                            <td><% var cfiles = files[c.id]; for(var f in cfiles) { %><a href="<%= cfiles[f] %>" target="_blank"><%= cfiles[f] %></a><% if(f < cfiles.length - 1) { %><br><% }} %></td>
+                            <td><% var cfiles = files[c.id]; for(var f in cfiles) { %><a href="<%= makeURL(cfiles[f]) %>" target="_blank"><%= makeName(cfiles[f]) %></a><% if(f < cfiles.length - 1) { %><br><% }} %></td>
                         </tr>
                         <% } %>
+                        <tr>
+                            <td><a href="sw.js" target="_blank">sw.js</a></td>
+                            <td>
+                                <a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en">Expat</a><br>
+                                <a href="http://www.mozilla.org/MPL/2.0" target="_blank" hreflang="en">MPL-2.0</a>
+                            </td>
+                            <td>
+                                <a href="<%= makeURL('./assets/sw/global-events.js') %>">./assets/sw/global-events.js</a><br>
+                                <a href="<%= makeURL('./~/offline-plugin/') %>"><%= makeName('./~/offline-plugin/') %></a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

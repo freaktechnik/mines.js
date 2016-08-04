@@ -17,7 +17,11 @@ if('serviceWorker' in navigator) {
         return false;
     };
 
-    runtime.install();
+    runtime.install({
+        onUpdateReady: () => {
+            runtime.applyUpdate();
+        }
+    });
 
     navigator.serviceWorker.addEventListener("message", function(event) {
         if(event.data.command == 'global-event') {

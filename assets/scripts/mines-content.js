@@ -6,9 +6,6 @@ import Timer from '../../src/timer';
 import Highscores from '../../src/highscores';
 import globalState from './register-service-worker';
 
-// TODO disable all input to the playing field while paused/cover it up
-// TODO mark correct nav item as active
-
 function gameDescriptionFromMines(mines) {
     return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
 }
@@ -261,6 +258,9 @@ var Page = {
                 window.location = "index.html";
             }
             else {
+                const menuItem = document.getElementById("continuemenu");
+                menuItem.hidden = false;
+                menuItem.classList.add("active");
                 if(mines.mode == Mines.MODE_FLAG) {
                     this.Toolbar.flagtoggle.toggle();
                 }
@@ -271,11 +271,14 @@ var Page = {
         else {
             this.deleteSave();
             if(hash.charAt(0) == "c") {
+                document.querySelector("#nav-mobile li[data-difficulty='custom']").classList.add("active");
                 vals = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/);
                 preset = { size: [ parseInt(vals[1], 10), parseInt(vals[2], 10) ], mines: parseInt(vals[3], 10) };
             }
             else {
-                preset = Mines.defaultBoards[hash || "beginner"];
+                const difficulty = hash || "beginner";
+                document.querySelector(`#nav-mobile li[data-difficulty='${difficulty}']`).classList.add("active");
+                preset = Mines.defaultBoards[difficulty];
             }
             return new Mines(this.field, preset.size, preset.mines);
         }
