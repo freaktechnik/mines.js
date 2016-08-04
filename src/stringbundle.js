@@ -20,7 +20,7 @@ StringBundle.prototype.container = null;
  * @returns {Element} Container element of the string.
  */
 StringBundle.prototype.getStringContainer = function(id) {
-    return this.container.querySelector("[data-l10n-id='"+id+"']");
+    return this.container.querySelector("[data-l10n-id='" + id + "']");
 };
 
 /**

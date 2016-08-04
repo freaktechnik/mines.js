@@ -1,15 +1,13 @@
 import Highscores from '../../src/highscores';
-import StringBundle from '../../src/stringbundle';
 
-$(document).ready(() => {
+const updateSelect = () => {
     $('select').material_select();
-});
+};
 
 var select = document.getElementById("gametype"),
     builtinOptions = [ "8x8:10", "16x16:40", "30x16:99" ],
     list = document.getElementById("highscores"),
     noresults = document.getElementById("noresults"),
-    strbundle = new StringBundle(document.getElementById("strings")),
     nf;
 if("Intl" in window) {
     nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
@@ -35,7 +33,7 @@ function highscoreListItem(name, time) {
         divA = document.createElement("span"),
         divB = document.createElement("span"),
         nameNode = document.createTextNode(name),
-        timeNode = document.createTextNode(time+"s");
+        timeNode = document.createTextNode(time + "s");
 
     li.classList.add("dynamic");
     li.classList.add("collection-item");
@@ -91,10 +89,14 @@ function loadGames() {
                 addOption(game);
             }
         });
-        $('select').material_select();
+        updateSelect();
         showHighscores(select.value);
     });
 }
+
+
+$(document).ready(updateSelect);
+navigator.mozL10n.ready(updateSelect);
 
 if(!Highscores.ready) {
     document.addEventListener("dbready", loadGames, false);
@@ -103,14 +105,16 @@ else {
     loadGames();
 }
 
-document.getElementById("delete-highscores").addEventListener("click", function() {
-    if(window.confirm(strbundle.getString('highscores_confirm_clear'))) {
-        Highscores.clear();
-        removeDynamicItems();
-        noresults.classList.remove("hidden");
-        noresults.removeAttribute("hidden");
-    }
-});
+document.getElementById("modal-confirm").addEventListener("click", () => {
+    Highscores.clear();
+    removeDynamicItems();
+    noresults.classList.remove("hidden");
+    noresults.removeAttribute("hidden");
+}, false);
+
+document.getElementById("delete-highscores").addEventListener("click", () => {
+    $("#highscores-clear").openModal();
+}, false);
 
 $('select').on('change', function() {
     showHighscores(select.value);

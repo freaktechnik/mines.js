@@ -101,7 +101,7 @@ var Highscores = {
             }
             else if(cbk) {
                 cbk(top.sort(function(a, b) {
-                    return a.score-b.score;
+                    return a.score - b.score;
                 }).slice(0, num));
             }
         };

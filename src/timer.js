@@ -8,7 +8,7 @@ function Timer(offset = 0, output) {
     this.offset = offset;
     this.output = output;
 
-    var time = (this.offset/1000.0).toFixed(1);
+    var time = (this.offset / 1000.0).toFixed(1);
     if("Intl" in window) {
         this._nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 1 });
         time = this._nf.format(this.offset / 1000.0);
@@ -34,7 +34,7 @@ Timer.prototype.updateOutput = function(time) {
         timeStr = this._nf.format(time / 1000.0);
     }
     else {
-        timeStr = (time/1000.0).toFixed(1);
+        timeStr = (time / 1000.0).toFixed(1);
     }
 
     navigator.mozL10n.setAttributes(this.output, TIME_UNIT_STRING, { time: timeStr });

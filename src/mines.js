@@ -4,7 +4,7 @@
 
 // From MDN (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#Example:_Using_Math.random)
 function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max-min)) + min;
+    return Math.floor(Math.random() * (max - min)) + min;
 }
 
 const COVERED_CLASS = "covered",
@@ -140,7 +140,7 @@ Mines.prototype.translateCell = function(x, y, deferTranslation) {
 Mines.prototype.translateCellNode = function(x, y, node, deferTranslation) {
     var l10nId = "mines_cell_covered";
     if(this.markedMines[y][x] == Mines.MINE_KNOWN) {
-        l10nId = "mines_cell_" + (this.board[y][x] == Mines.MINE ? "mine": "known");
+        l10nId = "mines_cell_" + (this.board[y][x] == Mines.MINE ? "mine" : "known");
     }
     else if(this.markedMines[y][x] == Mines.MINE_FLAG) {
         l10nId = "mines_cell_flagged";
@@ -254,28 +254,28 @@ Mines.prototype.addMine = function(x, y) {
     var left = x > 0,
         right = x < this.dimensions[0] - 1;
     if(y > 0) {
-        this.addNeighbouringMine(x, y-1);
+        this.addNeighbouringMine(x, y - 1);
         if(left) {
-            this.addNeighbouringMine(x-1, y-1);
+            this.addNeighbouringMine(x - 1, y - 1);
         }
         if(right) {
-            this.addNeighbouringMine(x+1, y-1);
+            this.addNeighbouringMine(x + 1, y - 1);
         }
     }
     if(y < this.dimensions[1] - 1) {
-        this.addNeighbouringMine(x, y+1);
+        this.addNeighbouringMine(x, y + 1);
         if(left) {
-            this.addNeighbouringMine(x-1, y+1);
+            this.addNeighbouringMine(x - 1, y + 1);
         }
         if(right) {
-            this.addNeighbouringMine(x+1, y+1);
+            this.addNeighbouringMine(x + 1, y + 1);
         }
     }
     if(left) {
-        this.addNeighbouringMine(x-1, y);
+        this.addNeighbouringMine(x - 1, y);
     }
     if(right) {
-        this.addNeighbouringMine(x+1, y);
+        this.addNeighbouringMine(x + 1, y);
     }
 };
 
@@ -353,28 +353,28 @@ Mines.prototype.uncoverCell = function(x, y, force) {
             left = x > 0;
             right = x < this.dimensions[0] - 1;
             if(y > 0) {
-                this.uncoverCell(x, y-1);
+                this.uncoverCell(x, y - 1);
                 if(left) {
-                    this.uncoverCell(x-1, y-1);
+                    this.uncoverCell(x - 1, y - 1);
                 }
                 if(right) {
-                    this.uncoverCell(x+1, y-1);
+                    this.uncoverCell(x + 1, y - 1);
                 }
             }
             if(y < this.dimensions[1] - 1) {
-                this.uncoverCell(x, y+1);
+                this.uncoverCell(x, y + 1);
                 if(left) {
-                    this.uncoverCell(x-1, y+1);
+                    this.uncoverCell(x - 1, y + 1);
                 }
                 if(right) {
-                    this.uncoverCell(x+1, y+1);
+                    this.uncoverCell(x + 1, y + 1);
                 }
             }
             if(left) {
-                this.uncoverCell(x-1, y);
+                this.uncoverCell(x - 1, y);
             }
             if(right) {
-                this.uncoverCell(x+1, y);
+                this.uncoverCell(x + 1, y);
             }
         }
     }
@@ -406,28 +406,28 @@ Mines.prototype.uncoverCompleteCells = function(x, y) {
         var left = x > 0,
             right = x < this.dimensions[0] - 1;
         if(y > 0) {
-            this.uncoverCell(x, y-1);
+            this.uncoverCell(x, y - 1);
             if(left) {
-                this.uncoverCell(x-1, y-1);
+                this.uncoverCell(x - 1, y - 1);
             }
             if(right) {
-                this.uncoverCell(x+1, y-1);
+                this.uncoverCell(x + 1, y - 1);
             }
         }
         if(y < this.dimensions[1] - 1) {
-            this.uncoverCell(x, y+1);
+            this.uncoverCell(x, y + 1);
             if(left) {
-                this.uncoverCell(x-1, y+1);
+                this.uncoverCell(x - 1, y + 1);
             }
             if(right) {
-                this.uncoverCell(x+1, y+1);
+                this.uncoverCell(x + 1, y + 1);
             }
         }
         if(left) {
-            this.uncoverCell(x-1, y);
+            this.uncoverCell(x - 1, y);
         }
         if(right) {
-            this.uncoverCell(x+1, y);
+            this.uncoverCell(x + 1, y);
         }
     }
     else {
@@ -451,28 +451,28 @@ Mines.prototype.cellFullyMarked = function(x, y) {
             left = x > 0,
             right = x < this.dimensions[0] - 1;
         if(y > 0) {
-            surroundingFlags += this.cellIsFlagged(x, y-1);
+            surroundingFlags += this.cellIsFlagged(x, y - 1);
             if(left) {
-                surroundingFlags += this.cellIsFlagged(x-1, y-1);
+                surroundingFlags += this.cellIsFlagged(x - 1, y - 1);
             }
             if(right) {
-                surroundingFlags += this.cellIsFlagged(x+1, y-1);
+                surroundingFlags += this.cellIsFlagged(x + 1, y - 1);
             }
         }
         if(y < this.dimensions[1] - 1) {
-            surroundingFlags += this.cellIsFlagged(x, y+1);
+            surroundingFlags += this.cellIsFlagged(x, y + 1);
             if(left) {
-                surroundingFlags += this.cellIsFlagged(x-1, y+1);
+                surroundingFlags += this.cellIsFlagged(x - 1, y + 1);
             }
             if(right) {
-                surroundingFlags += this.cellIsFlagged(x+1, y+1);
+                surroundingFlags += this.cellIsFlagged(x + 1, y + 1);
             }
         }
         if(left) {
-            surroundingFlags += this.cellIsFlagged(x-1, y);
+            surroundingFlags += this.cellIsFlagged(x - 1, y);
         }
         if(right) {
-            surroundingFlags += this.cellIsFlagged(x+1, y);
+            surroundingFlags += this.cellIsFlagged(x + 1, y);
         }
 
         return surroundingFlags == this.board[y][x];
@@ -517,7 +517,7 @@ Mines.prototype.createCell = function(x, y) {
     cell.addEventListener("keydown", function(e) {
         if(e.key == "ArrowUp" || e.key == "PageUp" || e.keyCode == 38 || e.keyCode == 33) {
             if(y > 0) {
-                self.getCell(x, y-1).focus();
+                self.getCell(x, y - 1).focus();
             }
             e.preventDefault();
             cell.scrollIntoView();
@@ -525,21 +525,21 @@ Mines.prototype.createCell = function(x, y) {
         }
         else if(e.key == "ArrowDown" || e.key == "PageDown" || e.keyCode == 40 || e.keyCode == 34) {
             if(y < self.dimensions[1] - 1) {
-                self.getCell(x, y+1).focus();
+                self.getCell(x, y + 1).focus();
             }
             e.preventDefault();
             cell.scrollIntoView();
         }
         else if(e.key == "ArrowLeft" || e.keyCode == 37) {
             if(x > 0) {
-                self.getCell(x-1, y).focus();
+                self.getCell(x - 1, y).focus();
             }
             e.preventDefault();
             cell.scrollIntoView();
         }
         else if(e.key == "ArrowRight" || e.keyCode == 39) {
             if(x < self.dimensions[0] - 1) {
-                self.getCell(x+1, y).focus();
+                self.getCell(x + 1, y).focus();
             }
             e.preventDefault();
             cell.scrollIntoView();
@@ -548,7 +548,7 @@ Mines.prototype.createCell = function(x, y) {
             self.getCell(0, 0).focus();
         }
         else if(e.key == "End" || e.keyCode == 35 ) {
-            self.getCell(self.dimensions[0]-1, self.dimensions[1]-1).focus();
+            self.getCell(self.dimensions[0] - 1, self.dimensions[1] - 1).focus();
         }
         else if(e.key == " " || e.keyCode == 32) {
             cell.click();
@@ -626,7 +626,7 @@ Mines.prototype.printEmptyBoard = function() {
             if(start < this.dimensions[0]) {
                 cellsToAdd = this.dimensions[0] - start;
                 for(m = 0; m < cellsToAdd; ++m) {
-                    row.appendChild(this.createCell(start+m, j));
+                    row.appendChild(this.createCell(start + m, j));
                 }
             }
         }
@@ -634,7 +634,7 @@ Mines.prototype.printEmptyBoard = function() {
             rowsToAdd = this.dimensions[1] - this.context.childElementCount;
             start = this.context.childElementCount;
             for(n = 0; n < rowsToAdd; ++n) {
-                this.context.appendChild(this.createRow(start+n));
+                this.context.appendChild(this.createRow(start + n));
             }
         }
 

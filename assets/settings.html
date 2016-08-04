@@ -1,13 +1,10 @@
-    <header class="nav-wrapper row">
+    <header class="nav-wrapper row orange">
         <div class="col s12">
             <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             <span class="brand-logo"<%= data.translate("settings_title") %></span>
         </div>
     </header>
 </nav>
-<div id="strings" class="hidden" hidden>
-    <div<%= data.translate("highscores_confirm_clear") %></div>
-</div>
 <main>
     <div class="container">
         <article class="card">
@@ -54,7 +51,7 @@
         <article class="card">
             <div class="card-content">
                 <header class="card-title"<%= data.translate("settings_highscores") %></header>
-                <button class="btn waves-effect waves-light"<%= data.translate("settings_highscores_clear") %></button>
+                <button class="btn waves-effect waves-light blue"<%= data.translate("settings_highscores_clear") %></button>
             </div>
         </article>
         <article class="card">
@@ -71,4 +68,13 @@
         </article>
     </div>
 </main>
+<dialog id="highscores-clear" class="modal">
+    <div class="modal-content">
+        <p<%= data.translate('highscores_confirm_clear') %></p>
+    </div>
+    <div class="modal-footer">
+        <button id="modal-confirm" class="modal-action modal-close waves-effect btn-flat red-text"<%= data.translate("highscores_clear_yes") %></button>
+        <button class="modal-action modal-close waves-effect btn-flat"<%= data.translate("highscores_clear_no") %></button>
+    </div>
+</dialog>
 

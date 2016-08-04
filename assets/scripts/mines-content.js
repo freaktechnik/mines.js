@@ -1,18 +1,16 @@
 import Hammer from 'hammerjs';
 import Mines from '../../src/mines';
 import Preferences from '../../src/settings';
-import StringBundle from '../../src/stringbundle';
 import Timer from '../../src/timer';
 import Highscores from '../../src/highscores';
 import globalState from './register-service-worker';
 
 function gameDescriptionFromMines(mines) {
-    return mines.dimensions[0]+"x"+mines.dimensions[1]+":"+mines.mineCount;
+    return mines.dimensions[0] + "x" + mines.dimensions[1] + ":" + mines.mineCount;
 }
 
 var Page = {
     init: function PageInit() {
-        this.strbundle = new StringBundle(document.getElementById("strings"));
 
         this.mines = this.getMinesFromHash(document.location.hash.substr(1));
         this.mines.setSize(Preferences.fieldsize.value);
@@ -23,7 +21,8 @@ var Page = {
         var self = this,
             hammer = new Hammer.Manager(this.field),
             pinch = new Hammer.Pinch({ threshold: 0 }),
-            initialSize = Preferences.fieldsize.value;
+            initialSize = Preferences.fieldsize.value,
+            HIGHSCORE_USER = "highscoreUser";
 
         this.field.addEventListener("generated", function() {
             globalState.setGameState(true);
@@ -38,22 +37,30 @@ var Page = {
         }, false);
 
         this.field.addEventListener("win", function() {
+            let game = gameDescriptionFromMines(self.mines),
+                time = self.Toolbar.timer.model.getTime() / 1000.0;
             globalState.setGameState(false);
-            var game = gameDescriptionFromMines(self.mines),
-                time = self.Toolbar.timer.model.getTime()/1000.0,
-                HIGHSCORE_USER = "highscoreUser";
 
             Highscores.isNewTop(game, time, function(newTop) {
                 if(newTop) {
-                    var lastUser = localStorage.getItem(HIGHSCORE_USER) || "",
-                        user = window.prompt(self.strbundle.getString('mines_new_highscore'), lastUser);
-
-                    if(user) {
-                        localStorage.setItem(HIGHSCORE_USER, user);
-                        Highscores.save(game, time, user);
+                    var lastUser = localStorage.getItem(HIGHSCORE_USER);
+                    if(lastUser) {
+                        document.getElementById("highscore-user").value = lastUser;
+                        document.getElementById("highscore-user-label").classList.add("active");
                     }
+
+                    $('#highscore-alert').openModal();
                 }
             });
+        }, false);
+
+        document.getElementById("highscore-form").addEventListener("submit", function() {
+            var user = document.getElementById("highscore-user").value,
+                game = gameDescriptionFromMines(self.mines),
+                time = self.Toolbar.timer.model.getTime() / 1000.0;
+
+            localStorage.setItem(HIGHSCORE_USER, user);
+            Highscores.save(game, time, user);
         }, false);
 
         this.field.addEventListener("flagged", function() {
@@ -101,7 +108,6 @@ var Page = {
         return document.getElementById("field");
     },
     mines: null,
-    strbundle: null,
     Toolbar: {
         init: function(mines) {
             this.output.value = mines.mineCount - mines.countFlags();
@@ -253,9 +259,12 @@ var Page = {
         if(hash.charAt(0) == "r" || (!hash && Mines.hasSavedState())) {
             mines = Mines.restoreSavedState(this.field);
             if(!mines) {
-                window.alert(this.strbundle.getString('mines_restore_error'));
-                Mines.removeSavedState();
-                window.location = "index.html";
+                $('#save-corrupt').openModal({
+                    complete() {
+                        Mines.removeSavedState();
+                        window.location = "index.html";
+                    }
+                });
             }
             else {
                 const menuItem = document.getElementById("continuemenu");

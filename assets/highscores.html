@@ -1,4 +1,4 @@
-    <header class="nav-wrapper row">
+    <header class="nav-wrapper row orange">
         <div class="col s12">
             <a href="" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             <span class="brand-logo"<%= data.translate("highscores_title") %></span>
@@ -8,9 +8,6 @@
         </div>
     </header>
 </nav>
-<div id="strings" class="hidden" hidden>
-    <div<%= data.translate("highscores_confirm_clear") %></div>
-</div>
 <main>
     <section class="container">
         <ul id="highscores" class="collection with-header">
@@ -28,3 +25,12 @@
         </ul>
     </section>
 </main>
+<dialog id="highscores-clear" class="modal">
+    <div class="modal-content">
+        <p<%= data.translate('highscores_confirm_clear') %></p>
+    </div>
+    <div class="modal-footer">
+        <button id="modal-confirm" class="modal-action modal-close waves-effect btn-flat red-text"<%= data.translate("highscores_clear_yes") %></button>
+        <button class="modal-action modal-close waves-effect btn-flat"<%= data.translate("highscores_clear_no") %></button>
+    </div>
+</dialog>
