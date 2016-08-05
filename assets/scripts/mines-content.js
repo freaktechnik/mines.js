@@ -60,7 +60,7 @@ const Page = {
             const user = document.getElementById("highscore-user").value,
                 game = gameDescriptionFromMines(this.mines),
                 time = this.Toolbar.timer.model.getTime() / 1000.0;
-                
+
             $('#highscore-alert').closeModal();
 
             if(user.length) {
