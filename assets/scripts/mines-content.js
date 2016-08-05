@@ -36,17 +36,20 @@ const Page = {
         }, false);
 
         this.field.addEventListener("win", () => {
-            const game = gameDescriptionFromMines(self.mines),
+            const game = gameDescriptionFromMines(this.mines),
                 time = this.Toolbar.timer.model.getTime() / 1000.0;
             globalState.setGameState(false);
 
             Highscores.isNewTop(game, time, (newTop) => {
                 if(newTop) {
-                    const lastUser = localStorage.getItem(HIGHSCORE_USER);
+                    const lastUser = localStorage.getItem(HIGHSCORE_USER),
+                        input = document.getElementById("highscore-user");
                     if(lastUser) {
-                        document.getElementById("highscore-user").value = lastUser;
+                        input.value = lastUser;
                         document.getElementById("highscore-user-label").classList.add("active");
                     }
+
+                    input.focus();
 
                     $('#highscore-alert').openModal();
                 }
@@ -55,11 +58,16 @@ const Page = {
 
         document.getElementById("highscore-form").addEventListener("submit", () => {
             const user = document.getElementById("highscore-user").value,
-                game = gameDescriptionFromMines(self.mines),
+                game = gameDescriptionFromMines(this.mines),
                 time = this.Toolbar.timer.model.getTime() / 1000.0;
+                
+            $('#highscore-alert').closeModal();
 
-            localStorage.setItem(HIGHSCORE_USER, user);
-            Highscores.save(game, time, user);
+            if(user.length) {
+                localStorage.setItem(HIGHSCORE_USER, user);
+                Highscores.save(game, time, user);
+            }
+            // else toast not saved
         }, false);
 
         this.field.addEventListener("flagged", () => {

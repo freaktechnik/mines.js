@@ -60,14 +60,14 @@
         <form id="highscore-form">
             <div class="row">
                 <div class="input-field col s12">
-                    <input type="text" autocomplete="username" id="highscore-user">
+                    <input type="text" autocomplete="username" id="highscore-user" class="validate" required>
                     <label id="highscore-user-label" for="highscore-user"<%= data.translate('mines_highscore_user_label') %></label>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button form="highscore-form" type="submit" class="modal-action modal-close waves-effect btn-flat"<%= data.translate('mines_save_highscore') %></button>
+        <button form="highscore-form" type="submit" class="modal-action waves-effect btn-flat"<%= data.translate('mines_save_highscore') %></button>
         <button class="modal-action modal-close waves-effect btn-flat red-text"<%= data.translate('mines_cancel_highscore') %></button>
         <!-- <button class="modal-action waves-effect btn-falt">Share</button> -->
     </div>
