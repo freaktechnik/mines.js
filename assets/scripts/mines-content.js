@@ -9,41 +9,40 @@ function gameDescriptionFromMines(mines) {
     return mines.dimensions[0] + "x" + mines.dimensions[1] + ":" + mines.mineCount;
 }
 
-var Page = {
-    init: function PageInit() {
-
+const Page = {
+    init() {
         this.mines = this.getMinesFromHash(document.location.hash.substr(1));
         this.mines.setSize(Preferences.fieldsize.value);
         this.mines.autoUncover = Preferences.autouncover.value;
 
         this.Toolbar.init(this.mines);
 
-        var self = this,
-            hammer = new Hammer.Manager(this.field),
+        const hammer = new Hammer.Manager(this.field),
             pinch = new Hammer.Pinch({ threshold: 0 }),
-            initialSize = Preferences.fieldsize.value,
             HIGHSCORE_USER = "highscoreUser";
 
-        this.field.addEventListener("generated", function() {
+        let initialSize = Preferences.fieldsize.value;
+
+        this.field.addEventListener("generated", () => {
             globalState.setGameState(true);
             if(Preferences.autotoggle.value) {
-                self.mines.toggleMode();
+                this.mines.toggleMode();
             }
         }, false);
 
-        this.field.addEventListener("loose", function() {
+        this.field.addEventListener("loose", () => {
             globalState.setGameState(false);
-            self.vibrate(500);
+            this.vibrate(500);
         }, false);
 
-        this.field.addEventListener("win", function() {
-            let game = gameDescriptionFromMines(self.mines),
-                time = self.Toolbar.timer.model.getTime() / 1000.0;
+        this.field.addEventListener("win", () => {
+            const game = gameDescriptionFromMines(self.mines),
+                time = this.Toolbar.timer.model.getTime() / 1000.0;
             globalState.setGameState(false);
 
-            Highscores.isNewTop(game, time, function(newTop) {
+            Highscores.isNewTop(game, time, (newTop) => {
                 if(newTop) {
-                    var lastUser = localStorage.getItem(HIGHSCORE_USER);
+                    const lastUser = localStorage.getItem(HIGHSCORE_USER);
                     if(lastUser) {
                         document.getElementById("highscore-user").value = lastUser;
                         document.getElementById("highscore-user-label").classList.add("active");
@@ -54,40 +53,40 @@ var Page = {
             });
         }, false);
 
-        document.getElementById("highscore-form").addEventListener("submit", function() {
-            var user = document.getElementById("highscore-user").value,
+        document.getElementById("highscore-form").addEventListener("submit", () => {
+            const user = document.getElementById("highscore-user").value,
                 game = gameDescriptionFromMines(self.mines),
-                time = self.Toolbar.timer.model.getTime() / 1000.0;
+                time = this.Toolbar.timer.model.getTime() / 1000.0;
 
             localStorage.setItem(HIGHSCORE_USER, user);
             Highscores.save(game, time, user);
         }, false);
 
-        this.field.addEventListener("flagged", function() {
-            if(self.Toolbar.flagtoggle.mode == self.Toolbar.flagtoggle.UNCOVER) {
-                self.vibrate(50);
+        this.field.addEventListener("flagged", () => {
+            if(!this.Toolbar.flagtoggle.button.checked) {
+                this.vibrate(50);
             }
         }, false);
 
-        this.field.addEventListener("unflagged", function() {
-            if(self.Toolbar.flagtoggle.mode == self.Toolbar.flagtoggle.UNCOVER) {
-                self.vibrate(50);
+        this.field.addEventListener("unflagged", () => {
+            if(!this.Toolbar.flagtoggle.button.checked) {
+                this.vibrate(50);
             }
         }, false);
 
-        this.field.addEventListener("help", function() {
+        this.field.addEventListener("help", () => {
             window.location = document.querySelector('link[rel="help"]').href;
         });
 
-        window.addEventListener("beforeunload", function() {
-            if(!self.mines.done && self.mines.boardGenerated) {
+        window.addEventListener("beforeunload", () => {
+            if(!this.mines.done && this.mines.boardGenerated) {
                 globalState.setGameState(false);
-                self.mines.saveState();
-                self.Toolbar.unload();
+                this.mines.saveState();
+                this.Toolbar.unload();
             }
         }, false);
 
-        window.addEventListener("hashchange", function() {
+        window.addEventListener("hashchange", () => {
             window.location.reload();
         }, false);
 
@@ -96,12 +95,12 @@ var Page = {
         hammer.set({ touchAction: "auto" });
         hammer.add(pinch);
 
-        hammer.on("pinchstart", function() {
-            initialSize = self.mines.size;
+        hammer.on("pinchstart", () => {
+            initialSize = this.mines.size;
         });
 
-        hammer.on("pinch", function(e) {
-            self.mines.setSize(initialSize * e.scale);
+        hammer.on("pinch", (e) => {
+            this.mines.setSize(initialSize * e.scale);
         });
     },
     get field() {
@@ -109,30 +108,29 @@ var Page = {
     },
     mines: null,
     Toolbar: {
-        init: function(mines) {
+        init(mines) {
             this.output.value = mines.mineCount - mines.countFlags();
 
             this.timer.init(mines);
             this.flagtoggle.init(mines);
 
-            this.reset.addEventListener("click", function() {
+            this.reset.addEventListener("click", () => {
                 mines.reset();
             }, false);
 
-            var self = this;
-            mines.context.addEventListener("reset", function() {
-                self.output.value = mines.mineCount;
+            mines.context.addEventListener("reset", () => {
+                this.output.value = mines.mineCount;
             });
 
-            mines.context.addEventListener("flagged", function() {
-                self.output.value = parseInt(self.output.value, 10) - 1;
+            mines.context.addEventListener("flagged", () => {
+                this.output.value = parseInt(this.output.value, 10) - 1;
             }, false);
 
-            mines.context.addEventListener("unflagged", function() {
-                self.output.value = parseInt(self.output.value, 10) + 1;
+            mines.context.addEventListener("unflagged", () => {
+                this.output.value = parseInt(this.output.value, 10) + 1;
             }, false);
         },
-        unload: function() {
+        unload() {
             this.timer.unload();
         },
         get output() {
@@ -142,24 +140,22 @@ var Page = {
             return document.getElementById("reset");
         },
         flagtoggle: {
-            init: function(mines) {
-                var self = this;
-
-                mines.context.addEventListener("modetoggle", function() {
-                    self.toggle();
+            init(mines) {
+                mines.context.addEventListener("modetoggle", () => {
+                    this.toggle();
                 }, false);
 
-                mines.context.addEventListener("reset", function() {
-                    if(self.button.checked) {
-                        self.toggle();
+                mines.context.addEventListener("reset", () => {
+                    if(this.button.checked) {
+                        this.toggle();
                     }
                 }, false);
 
-                this.button.addEventListener("change", function() {
+                this.button.addEventListener("change", () => {
                     // Dirty workaround e.preventDefault() not working. This
                     // toggles the checkbox back to its initial state, so the
                     // modetoggle event listener can toggle it.
-                    self.toggle();
+                    this.toggle();
                     mines.toggleMode();
                 }, false);
             },
@@ -175,8 +171,8 @@ var Page = {
             TIME: "time",
             HAS_SAVED_TIME: "true",
             NOT_HAS_SAVED_TIME: "false",
-            init: function(mines) {
-                var time = 0;
+            init(mines) {
+                let time = 0;
                 const buttonIcon = document.getElementById("pauseicon"),
                     gameOver = () => {
                         this.model.pause();
@@ -229,11 +225,11 @@ var Page = {
             get output() {
                 return document.getElementById("time");
             },
-            deleteSave: function() {
+            deleteSave() {
                 localStorage.setItem(this.SAVED_TIME, this.NOT_HAS_SAVED_TIME);
                 localStorage.setItem(this.TIME, "0");
             },
-            unload: function() {
+            unload() {
                 localStorage.setItem(this.TIME, this.model.stop());
                 localStorage.setItem(this.SAVED_TIME, this.HAS_SAVED_TIME);
             }
@@ -242,7 +238,7 @@ var Page = {
     // Execute an asynchonous vibration if it's enabled
     vibrate: function PageVibrate(time) {
         if("vibrate" in navigator && Preferences.vibration.value) {
-            setTimeout(function() {
+            setTimeout(() => {
                 navigator.vibrate(time);
             }, 0);
         }
@@ -253,11 +249,8 @@ var Page = {
         this.Toolbar.timer.deleteSave();
     },
     getMinesFromHash: function PageGetMinesFromHash(hash) {
-        var mines,
-            preset,
-            vals;
         if(hash.charAt(0) == "r" || (!hash && Mines.hasSavedState())) {
-            mines = Mines.restoreSavedState(this.field);
+            const mines = Mines.restoreSavedState(this.field);
             if(!mines) {
                 $('#save-corrupt').openModal({
                     complete() {
@@ -279,9 +272,10 @@ var Page = {
         }
         else {
             this.deleteSave();
+            let preset;
             if(hash.charAt(0) == "c") {
                 document.querySelector("#nav-mobile li[data-difficulty='custom']").classList.add("active");
-                vals = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/);
+                const vals = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/);
                 preset = { size: [ parseInt(vals[1], 10), parseInt(vals[2], 10) ], mines: parseInt(vals[3], 10) };
             }
             else {

@@ -4,7 +4,7 @@ import Highscores from '../../src/highscores';
 function setupBoolPreference(name) {
     document.getElementById(name).checked = Preferences[name].value;
 
-    document.getElementById(name).addEventListener("change", function(e) {
+    document.getElementById(name).addEventListener("change", (e) => {
         Preferences[name].value = e.target.checked;
     }, false);
 }
@@ -12,12 +12,12 @@ function setupBoolPreference(name) {
 function setupNumberPreference(name) {
     document.getElementById(name).value = Preferences[name].value;
 
-    document.getElementById(name).addEventListener("change", function(e) {
+    document.getElementById(name).addEventListener("change", (e) => {
         Preferences[name].value = e.target.value;
     }, false);
 }
 
-for(let n in Preferences) {
+for(const n in Preferences) {
     if(Preferences[n].type == "bool") {
         setupBoolPreference(n);
     }

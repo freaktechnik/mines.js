@@ -1,12 +1,10 @@
 import runtime from 'offline-plugin/runtime';
 
 //TODO some way to ensure there's only one game at a time.
-var globalState = {},
-    swPostMessage,
-    resolveWith = null;
+const globalState = {};
 
 if('serviceWorker' in navigator) {
-    swPostMessage = function(cmd, msg) {
+    const swPostMessage = function(cmd, msg) {
         if(navigator.serviceWorker.controller) {
             navigator.serviceWorker.controller.postMessage({
                 command: cmd,
@@ -17,15 +15,17 @@ if('serviceWorker' in navigator) {
         return false;
     };
 
+    let resolveWith = null;
+
     runtime.install({
         onUpdateReady: () => {
             runtime.applyUpdate();
         }
     });
 
-    navigator.serviceWorker.addEventListener("message", function(event) {
+    navigator.serviceWorker.addEventListener("message", (event) => {
         if(event.data.command == 'global-event') {
-            var e = new Event(event.data.message);
+            const e = new Event(event.data.message);
             document.dispatchEvent(e);
         }
         else if(event.data.command == 'game-state') {
@@ -37,7 +37,7 @@ if('serviceWorker' in navigator) {
     });
     globalState.dispatchEvent = function(eventName) {
         if(!swPostMessage('global-event', eventName)) {
-            var e = new Event(eventName);
+            const e = new Event(eventName);
             document.dispatchEvent(e);
         }
     };
@@ -46,7 +46,7 @@ if('serviceWorker' in navigator) {
         this.dispatchEvent('gamestate');
     };
     globalState.getGameState = function() {
-        return new Promise(function(resolve) {
+        return new Promise((resolve) => {
             resolveWith = resolve;
             if(!swPostMessage('game-state')) {
                 resolveWith = null;
@@ -57,7 +57,7 @@ if('serviceWorker' in navigator) {
 }
 else {
     globalState.dispatchEvent = function(eventName) {
-        var e = new Event(eventName);
+        const e = new Event(eventName);
         document.dispatchEvent(e);
     };
     globalState.setGameState = function(state) {

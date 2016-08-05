@@ -18,7 +18,7 @@ BoolPreference.prototype = {
     set value(val) {
         localStorage.setItem(this.title, val ? BoolPreference.TRUE : BoolPreference.FALSE);
     },
-    reset: function() {
+    reset() {
         this.value = this.defaultValue;
     }
 };
@@ -38,18 +38,18 @@ NumberPreference.prototype = {
         return parseFloat(localStorage.getItem(this.title), 10);
     },
     set value(val) {
-        var num = parseFloat(val, 10);
+        const num = parseFloat(val, 10);
         if(typeof num == "number" && !isNaN(num)) {
             localStorage.setItem(this.title, val);
         }
     },
-    reset: function() {
+    reset() {
         this.value = this.defaultValue;
     }
 };
 
 // Defaults
-var Defaults = {
+const Defaults = {
         autotoggle: {
             type: "bool",
             value: false
@@ -68,11 +68,10 @@ var Defaults = {
         }
     },
     // init prefs
-    Preferences = {},
-    n;
+    Preferences = {};
 
 function getPreference(name) {
-    var def = Defaults[name];
+    const def = Defaults[name];
     switch(def.type) {
     case "bool":
         return new BoolPreference(name, def.value);
@@ -83,13 +82,13 @@ function getPreference(name) {
 }
 
 
-for(n in Defaults) {
+for(const n in Defaults) {
     Preferences[n] = getPreference(n);
 }
 
 Object.defineProperty(Preferences, "reset", {
-    value: function() {
-        for(var name in Preferences) {
+    value() {
+        for(const name in Preferences) {
             Preferences[name].reset();
         }
     }

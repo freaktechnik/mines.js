@@ -1,12 +1,13 @@
 import StringBundle from '../../src/stringbundle';
 
-var mines = document.getElementById("mines"),
+let nf;
+const mines = document.getElementById("mines"),
     height = document.getElementById("height"),
     width = document.getElementById("width"),
     percentage = document.getElementById("percentage"),
     strbundle = new StringBundle(document.getElementById("strings")),
-    minesValidator = function() {
-        var cells = height.valueAsNumber * width.valueAsNumber;
+    minesValidator = () => {
+        const cells = height.valueAsNumber * width.valueAsNumber;
         if(mines.valueAsNumber >= cells || cells < 2) {
             mines.setCustomValidity(strbundle.getString('custom_form_error'));
         }
@@ -14,8 +15,7 @@ var mines = document.getElementById("mines"),
             mines.setCustomValidity("");
         }
     },
-    nf,
-    toFixed = function(number) {
+    toFixed = (number) => {
         if(nf) {
             return nf.format(number);
         }
@@ -23,21 +23,28 @@ var mines = document.getElementById("mines"),
             return number.toFixed(1);
         }
     },
-    updateOutput = function() {
+    updateOutput = () => {
         if(mines.value.length && height.value.length && width.value.length) {
             strbundle.getStringAsync(
                 "custom_percentage_unit",
                 {
                     percentage: toFixed(mines.valueAsNumber / (height.valueAsNumber * width.valueAsNumber) * 100)
                 }
-            ).then(function(val) {
+            ).then((val) => {
                 percentage.value = val;
             });
         }
     },
-    listener = function() {
+    listener = () => {
         minesValidator();
         updateOutput();
+    },
+    submitListener = (e) => {
+        e.preventDefault();
+        minesValidator();
+        if(mines.validity.valid) {
+            window.location = `index.html#c${width.value}x${height.value}:${mines.value}`;
+        }
     };
 
 if("Intl" in window) {
@@ -51,14 +58,6 @@ height.addEventListener("input", listener, false);
 width.addEventListener("change", listener, false);
 width.addEventListener("input", listener, false);
 mines.addEventListener("invalid", minesValidator, false);
-
-function submitListener(e) {
-    e.preventDefault();
-    minesValidator();
-    if(mines.validity.valid) {
-        window.location = `index.html#c${width.value}x${height.value}:${mines.value}`;
-    }
-}
 
 document.getElementById("form").addEventListener("submit", submitListener, false);
 document.getElementById("submit").addEventListener("click", submitListener, false);

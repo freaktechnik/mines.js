@@ -2,58 +2,55 @@
  * (Static) Highscores thing
  */
 
-var Highscores = {
+const Highscores = {
     VERSION: 2,
     TABLE: "scores",
     db: null,
     ready: false,
-    init: function() {
-        var request = window.indexedDB.open("highscores", this.VERSION);
+    init() {
+        const request = window.indexedDB.open("highscores", this.VERSION);
 
         // Create DB if needed
         request.onupgradeneeded = this.setupDB.bind(this);
         // DB already set up
-        request.onsuccess = (function(e) {
+        request.onsuccess = (e) => {
             this.db = e.target.result;
             this.setReady();
-        }).bind(this);
+        };
 
-        request.onerror = function() {
+        request.onerror = () => {
             console.error(request.error);
         };
     },
-    setupDB: function(e) {
+    setupDB(e) {
         this.db = e.target.result;
 
-        var self = this,
-            oldData = [],
-            cont = function() {
-                var scores = self.db.createObjectStore(self.TABLE, { keyPath: [ "score", "game" ] });
+        const oldData = [],
+            cont = () => {
+                const scores = this.db.createObjectStore(self.TABLE, { keyPath: [ "score", "game" ] });
                 scores.createIndex("game", "game", { unique: false });
 
                 if(oldData.length) {
-                    oldData.forEach(function(score) {
+                    oldData.forEach((score) => {
                         scores.add(score);
                     });
                 }
 
-                self.setReady();
-            },
-            store,
-            request;
+                this.setReady();
+            };
 
         if(e.oldVersion > 0) {
-            store = e.target.transaction.objectStore(this.TABLE);
-            request = store.openCursor();
+            const store = e.target.transaction.objectStore(this.TABLE),
+                request = store.openCursor();
 
-            request.onsuccess = function(e) {
-                var cursor = e.target.result;
+            request.onsuccess = (e) => {
+                const cursor = e.target.result;
                 if(cursor) {
                     oldData.push(cursor.value);
                     cursor.continue();
                 }
                 else {
-                    self.db.deleteObjectStore(self.TABLE);
+                    this.db.deleteObjectStore(self.TABLE);
                     cont();
                 }
             };
@@ -63,57 +60,56 @@ var Highscores = {
             cont();
         }
     },
-    setReady: function() {
+    setReady() {
         this.ready = true;
         document.dispatchEvent(new Event("dbready"));
     },
-    clear: function() {
-        var transaction = this.db.transaction(this.TABLE, "readwrite"),
+    clear() {
+        const transaction = this.db.transaction(this.TABLE, "readwrite"),
             store = transaction.objectStore(this.TABLE);
         store.clear();
     },
-    isNewTop: function(gameDescription, score, cbk) {
-        this.getTop(gameDescription, 1, function(top) {
+    isNewTop(gameDescription, score, cbk) {
+        this.getTop(gameDescription, 1, (top) => {
             cbk(!top.length || score < top[0].score);
         });
     },
-    save: function(gameDescription, score, name) {
-        var transaction = this.db.transaction(this.TABLE, "readwrite"),
+    save(gameDescription, score, name) {
+        const transaction = this.db.transaction(this.TABLE, "readwrite"),
             store = transaction.objectStore(this.TABLE),
-            object = { game: gameDescription, score: score, name: name };
+            object = { game: gameDescription, score, name };
         store.add(object);
     },
-    getTop: function(gameDescription, num, cbk) {
-        var transaction = this.db.transaction(this.TABLE, "readonly"),
+    getTop(gameDescription, num, cbk) {
+        const transaction = this.db.transaction(this.TABLE, "readonly"),
             store = transaction.objectStore(this.TABLE),
             request = store.index("game").openCursor(gameDescription),
             top = [];
 
-        request.onsuccess = function(e) {
-            var cursor = e.target.result,
-                entry;
+        request.onsuccess = (e) => {
+            const cursor = e.target.result;
 
             if(cursor) {
-                entry = cursor.value;
+                const entry = cursor.value;
                 entry.score = parseFloat(entry.score);
                 top.push(entry);
                 cursor.continue();
             }
             else if(cbk) {
-                cbk(top.sort(function(a, b) {
+                cbk(top.sort((a, b) => {
                     return a.score - b.score;
                 }).slice(0, num));
             }
         };
     },
-    getGames: function(cbk) {
-        var transaction = this.db.transaction(this.TABLE, "readonly"),
+    getGames(cbk) {
+        const transaction = this.db.transaction(this.TABLE, "readonly"),
             store = transaction.objectStore(this.TABLE),
             request = store.index("game").openKeyCursor(),
             games = [];
 
-        request.onsuccess = function(e) {
-            var cursor = e.target.result;
+        request.onsuccess = (e) => {
+            const cursor = e.target.result;
 
             if(cursor) {
                 if(games.indexOf(cursor.key) == -1) {

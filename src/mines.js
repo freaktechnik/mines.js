@@ -16,12 +16,10 @@ function Mines(cfx, dimensions, mineCount) {
     this.mineCount = mineCount || 10;
     this.context = cfx;
 
-    var board = [],
-        marked = [],
-        y,
-        x,
-        self = this;
-    for(y = 0; y < dimensions[1]; ++y) {
+    const board = [],
+        marked = [];
+
+    for(let y = 0, x; y < dimensions[1]; ++y) {
         board.push([]);
         marked.push([]);
         for(x = 0; x < dimensions[0]; ++x) {
@@ -36,20 +34,20 @@ function Mines(cfx, dimensions, mineCount) {
     this.printEmptyBoard();
     this.context.parentNode.removeAttribute("aria-busy");
 
-    this.context.addEventListener("keydown", function(e) {
+    this.context.addEventListener("keydown", (e) => {
         if(e.key == "r" || e.keyCode == 82) {
-            self.reset();
+            this.reset();
         }
         else if(e.key == "CapsLock" || e.keyCode == 20) {
-            self.toggleMode();
+            this.toggleMode();
             e.preventDefault();
         }
         else if(e.key == "p" || e.keyCode == 80 || e.key == "Pause" || e.keyCode == 8 ||
                 e.keyCode == 19) {
-            self.togglePause();
+            this.togglePause();
         }
         else if(e.key == "F1" || e.keyCode == 112) {
-            self.context.dispatchEvent(new Event("help"));
+            this.context.dispatchEvent(new Event("help"));
         }
     }, false);
 
@@ -133,12 +131,12 @@ Mines.prototype.togglePause = function() {
 };
 
 Mines.prototype.translateCell = function(x, y, deferTranslation) {
-    var node = this.getCell(x, y);
+    const node = this.getCell(x, y);
     this.translateCellNode(x, y, node, deferTranslation);
 };
 
 Mines.prototype.translateCellNode = function(x, y, node, deferTranslation) {
-    var l10nId = "mines_cell_covered";
+    let l10nId = "mines_cell_covered";
     if(this.markedMines[y][x] == Mines.MINE_KNOWN) {
         l10nId = "mines_cell_" + (this.board[y][x] == Mines.MINE ? "mine" : "known");
     }
@@ -186,11 +184,9 @@ Mines.prototype.win = function() {
 };
 
 Mines.prototype.reset = function() {
-    var board = [],
-        marked = [],
-        y,
-        x;
-    for(y = 0; y < this.dimensions[1]; ++y) {
+    const board = [],
+        marked = [];
+    for(let y = 0, x; y < this.dimensions[1]; ++y) {
         board.push([]);
         marked.push([]);
         for(x = 0; x < this.dimensions[0]; ++x) {
@@ -231,7 +227,7 @@ Mines.prototype.toggleMode = function() {
 
 Mines.prototype.generate = function(emptyPoint) {
     // Place Mines
-    var remainingMines = this.mineCount,
+    let remainingMines = this.mineCount,
         x,
         y;
     while(remainingMines > 0) {
@@ -251,7 +247,7 @@ Mines.prototype.addMine = function(x, y) {
     this.board[y][x] = Mines.MINE;
 
     // Mark the mine around itself
-    var left = x > 0,
+    const left = x > 0,
         right = x < this.dimensions[0] - 1;
     if(y > 0) {
         this.addNeighbouringMine(x, y - 1);
@@ -289,8 +285,8 @@ Mines.prototype.countFlags = function() {
     if(!this.boardGenerated) {
         return 0;
     }
-    return this.markedMines.reduce(function(p, row) {
-        return row.reduce(function(p, cell) {
+    return this.markedMines.reduce((p, row) => {
+        return row.reduce((p, cell) => {
             if(Mines.MINE_FLAG === cell) {
                 return p + 1;
             }
@@ -305,9 +301,9 @@ Mines.prototype.nonMinesCovered = function() {
     if(!this.boardGenerated) {
         return true;
     }
-    var count = 0;
+    let count = 0;
     // Flatten array
-    return this.markedMines.reduce(function(p, row) {
+    return this.markedMines.reduce((p, row) => {
         return p.concat(row);
     }, []).some(function(mine) {
         if(Mines.MINE_KNOWN === mine) {
@@ -335,9 +331,8 @@ Mines.prototype.uncoverCell = function(x, y, force) {
             this.generate([ x, y ]);
         }
 
-        var cell = this.getCell(x, y),
-            left,
-            right;
+        const cell = this.getCell(x, y);
+
         cell.classList.remove(COVERED_CLASS);
         cell.setAttribute("aria-pressed", "true");
         this.markedMines[y][x] = Mines.MINE_KNOWN;
@@ -350,8 +345,8 @@ Mines.prototype.uncoverCell = function(x, y, force) {
             this.win();
         }
         else if(this.cellFullyMarked(x, y) && this.autoUncover) {
-            left = x > 0;
-            right = x < this.dimensions[0] - 1;
+            const left = x > 0,
+                right = x < this.dimensions[0] - 1;
             if(y > 0) {
                 this.uncoverCell(x, y - 1);
                 if(left) {
@@ -381,7 +376,7 @@ Mines.prototype.uncoverCell = function(x, y, force) {
 };
 
 Mines.prototype.flagCell = function(x, y, force) {
-    var cell = this.getCell(x, y);
+    const cell = this.getCell(x, y);
     if(!force && Mines.MINE_FLAG === this.markedMines[y][x]) {
         // Cell has already been flagged, so we unflag it
         this.markedMines[y][x] = Mines.MINE_UNKNOWN;
@@ -403,7 +398,7 @@ Mines.prototype.flagCell = function(x, y, force) {
 
 Mines.prototype.uncoverCompleteCells = function(x, y) {
     if(this.cellFullyMarked(x, y) && this.autoUncover) {
-        var left = x > 0,
+        const left = x > 0,
             right = x < this.dimensions[0] - 1;
         if(y > 0) {
             this.uncoverCell(x, y - 1);
@@ -447,8 +442,8 @@ Mines.prototype.cellFullyMarked = function(x, y) {
         return true;
     }
     else {
-        var surroundingFlags = 0,
-            left = x > 0,
+        let surroundingFlags = 0;
+        const left = x > 0,
             right = x < this.dimensions[0] - 1;
         if(y > 0) {
             surroundingFlags += this.cellIsFlagged(x, y - 1);
@@ -497,8 +492,7 @@ Mines.prototype.cellClickListener = function(x, y, e) {
 };
 
 Mines.prototype.createCell = function(x, y) {
-    var cell = document.createElement("td"),
-        self = this,
+    const cell = document.createElement("td"),
         clickListener = this.cellClickListener.bind(this, x, y);
 
     cell.classList.add(COVERED_CLASS);
@@ -508,61 +502,61 @@ Mines.prototype.createCell = function(x, y) {
     this.translateCellNode(x, y, cell);
 
     cell.addEventListener("click", clickListener, false);
-    cell.addEventListener("contextmenu", function(e) {
+    cell.addEventListener("contextmenu", (e) => {
         e.preventDefault();
-        if(!self.done && self.markedMines[y][x] !== Mines.MINE_KNOWN) {
-            self.flagCell(x, y);
+        if(!this.done && this.markedMines[y][x] !== Mines.MINE_KNOWN) {
+            this.flagCell(x, y);
         }
     }, false);
-    cell.addEventListener("keydown", function(e) {
+    cell.addEventListener("keydown", (e) => {
         if(e.key == "ArrowUp" || e.key == "PageUp" || e.keyCode == 38 || e.keyCode == 33) {
             if(y > 0) {
-                self.getCell(x, y - 1).focus();
+                this.getCell(x, y - 1).focus();
             }
             e.preventDefault();
             cell.scrollIntoView();
             // scrollIntoView doesn't really work with the fixed header and footer, sadly
         }
         else if(e.key == "ArrowDown" || e.key == "PageDown" || e.keyCode == 40 || e.keyCode == 34) {
-            if(y < self.dimensions[1] - 1) {
-                self.getCell(x, y + 1).focus();
+            if(y < this.dimensions[1] - 1) {
+                this.getCell(x, y + 1).focus();
             }
             e.preventDefault();
             cell.scrollIntoView();
         }
         else if(e.key == "ArrowLeft" || e.keyCode == 37) {
             if(x > 0) {
-                self.getCell(x - 1, y).focus();
+                this.getCell(x - 1, y).focus();
             }
             e.preventDefault();
             cell.scrollIntoView();
         }
         else if(e.key == "ArrowRight" || e.keyCode == 39) {
-            if(x < self.dimensions[0] - 1) {
-                self.getCell(x + 1, y).focus();
+            if(x < this.dimensions[0] - 1) {
+                this.getCell(x + 1, y).focus();
             }
             e.preventDefault();
             cell.scrollIntoView();
         }
         else if(e.key == "Home" || e.keyCode == 36) {
-            self.getCell(0, 0).focus();
+            this.getCell(0, 0).focus();
         }
         else if(e.key == "End" || e.keyCode == 35 ) {
-            self.getCell(self.dimensions[0] - 1, self.dimensions[1] - 1).focus();
+            this.getCell(this.dimensions[0] - 1, this.dimensions[1] - 1).focus();
         }
         else if(e.key == " " || e.keyCode == 32) {
             cell.click();
         }
-        else if(!self.done && !self.paused) {
-            if(self.markedMines[y][x] !== Mines.MINE_KNOWN) {
+        else if(!this.done && !this.paused) {
+            if(this.markedMines[y][x] !== Mines.MINE_KNOWN) {
                 if(e.key == "f" || e.keyCode == 70) {
                     e.preventDefault();
-                    self.flagCell(x, y);
+                    this.flagCell(x, y);
                 }
             }
         }
     }, false);
-    cell.addEventListener("transitionend", function() {
+    cell.addEventListener("transitionend", () => {
         cell.classList.remove(FLASH_CLASS);
     }, false);
 
@@ -570,16 +564,16 @@ Mines.prototype.createCell = function(x, y) {
 };
 
 Mines.prototype.createRow = function(y) {
-    var row = document.createElement("tr"),
-        i;
-    for(i = 0; i < this.dimensions[0]; ++i) {
+    const row = document.createElement("tr");
+
+    for(let i = 0; i < this.dimensions[0]; ++i) {
         row.appendChild(this.createCell(i, y));
     }
     return row;
 };
 
 Mines.prototype.generateBoard = function() {
-    for(var i = 0; i < this.dimensions[1]; ++i) {
+    for(let i = 0; i < this.dimensions[1]; ++i) {
         this.context.appendChild(this.createRow(i));
     }
 };
@@ -589,51 +583,39 @@ Mines.prototype.printEmptyBoard = function() {
         this.generateBoard();
     }
     else {
-        var start,
-            row,
-            rowsToRemove,
-            cellsToRemove,
-            rowsToAdd,
-            cellsToAdd,
-            i,
-            j,
-            k,
-            l,
-            m,
-            n;
         if(this.context.childElementCount > this.dimensions[1]) {
-            rowsToRemove = this.context.childElementCount - this.dimensions[1];
-            start = this.context.childElementCount - 1;
-            for(i = 0; i < rowsToRemove; ++i) {
+            const rowsToRemove = this.context.childElementCount - this.dimensions[1],
+                start = this.context.childElementCount - 1;
+            for(let i = 0; i < rowsToRemove; ++i) {
                 this.context.removeChild(this.context.rows[start - i]);
             }
         }
-        for(j = 0; j < this.context.childElementCount; ++j) {
-            row = this.context.rows[j];
-            start = row.childElementCount;
+        for(let j = 0; j < this.context.childElementCount; ++j) {
+            const row = this.context.rows[j];
+            let start = row.childElementCount;
             if(start > this.dimensions[0]) {
-                cellsToRemove = start - this.dimensions[0];
-                for(k = 0; k < cellsToRemove; ++k) {
+                const cellsToRemove = start - this.dimensions[0];
+                for(let k = 0; k < cellsToRemove; ++k) {
                     row.removeChild(row.cells[start - k]);
                 }
                 start = row.childElementCount;
             }
-            for(l = 0; l < start; ++l) {
+            for(let l = 0; l < start; ++l) {
                 row.cells[l].textContent = "";
                 row.cells[l].className = COVERED_CLASS;
                 this.translateCellNode(l, j, row.cells[l], true);
             }
             if(start < this.dimensions[0]) {
-                cellsToAdd = this.dimensions[0] - start;
-                for(m = 0; m < cellsToAdd; ++m) {
+                const cellsToAdd = this.dimensions[0] - start;
+                for(let m = 0; m < cellsToAdd; ++m) {
                     row.appendChild(this.createCell(start + m, j));
                 }
             }
         }
         if(this.context.childElementCount < this.dimensions[1]) {
-            rowsToAdd = this.dimensions[1] - this.context.childElementCount;
-            start = this.context.childElementCount;
-            for(n = 0; n < rowsToAdd; ++n) {
+            const rowsToAdd = this.dimensions[1] - this.context.childElementCount,
+                start = this.context.childElementCount;
+            for(let n = 0; n < rowsToAdd; ++n) {
                 this.context.appendChild(this.createRow(start + n));
             }
         }
@@ -648,12 +630,10 @@ Mines.prototype.printBoard = function() {
             this.printEmptyBoard();
         }
         else {
-            var tr,
-                y,
-                x;
-            for(y = 0; y < this.dimensions[1]; ++y) {
+            let tr;
+            for(let y = 0; y < this.dimensions[1]; ++y) {
                 tr = this.context.rows[y];
-                for(x = 0; x < this.dimensions[0]; ++x) {
+                for(let x = 0; x < this.dimensions[0]; ++x) {
                     tr.cells[x].classList.add(Mines.getClassForContent(this.board[y][x]));
                 }
             }
@@ -663,11 +643,8 @@ Mines.prototype.printBoard = function() {
 
 Mines.prototype.restoreBoard = function() {
     this.printBoard();
-    var mineState,
-        y,
-        x;
-    for(y = 0; y < this.dimensions[1]; ++y) {
-        for(x = 0; x < this.dimensions[0]; ++x) {
+    for(let y = 0; y < this.dimensions[1]; ++y) {
+        for(let x = 0, mineState; x < this.dimensions[0]; ++x) {
             this.translateCell(x, y, true);
             mineState = this.markedMines[y][x];
             if(Mines.MINE_KNOWN === mineState) {
@@ -690,20 +667,19 @@ Mines.removeSavedState = function() {
 };
 
 Mines.prototype.saveState = function() {
-    var self = this,
-        settings = {
-            mineCount: self.mineCount,
-            board: self.board,
-            markedMines: self.markedMines,
-            mode: self.mode
-        };
+    const settings = {
+        mineCount: this.mineCount,
+        board: this.board,
+        markedMines: this.markedMines,
+        mode: this.mode
+    };
     localStorage.setItem("gameSettings", JSON.stringify(settings));
     localStorage.setItem("savedGame", "true");
 };
 
 Mines.restoreSavedState = function(cfx) {
     if(Mines.hasSavedState()) {
-        var settings = JSON.parse(localStorage.getItem("gameSettings")),
+        const settings = JSON.parse(localStorage.getItem("gameSettings")),
             mines = new Mines(cfx, [ settings.board[0].length, settings.board.length ], settings.mineCount);
         mines.board = settings.board;
         mines.markedMines = settings.markedMines;

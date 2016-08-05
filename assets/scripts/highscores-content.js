@@ -1,20 +1,20 @@
 import Highscores from '../../src/highscores';
 
-const updateSelect = () => {
-    $('select').material_select();
-};
-
-var select = document.getElementById("gametype"),
+let nf;
+const select = document.getElementById("gametype"),
     builtinOptions = [ "8x8:10", "16x16:40", "30x16:99" ],
     list = document.getElementById("highscores"),
     noresults = document.getElementById("noresults"),
-    nf;
+    updateSelect = () => {
+        $('select').material_select();
+    };
+
 if("Intl" in window) {
     nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
 }
 
 function gameDescriptionFromValue(element, val) {
-    var mines = val.split(":"),
+    const mines = val.split(":"),
         size = mines[0].split("x");
     navigator.mozL10n.setAttributes(element, "highscores_custom_board", { width: parseInt(size[0], 10), height: parseInt(size[1], 10), mines: parseInt(mines[1], 10) });
     // Need to explicitly translate it in case it's not inserted into the document yet.
@@ -29,7 +29,7 @@ function highscoreListItem(name, time) {
         time = time.toFixed(2);
     }
 
-    var li = document.createElement("li"),
+    const li = document.createElement("li"),
         divA = document.createElement("span"),
         divB = document.createElement("span"),
         nameNode = document.createTextNode(name),
@@ -42,7 +42,7 @@ function highscoreListItem(name, time) {
     divA.appendChild(nameNode);
     divB.appendChild(timeNode);
 
-    navigator.mozL10n.setAttributes(divB, "mines_time_unit", { time: time });
+    navigator.mozL10n.setAttributes(divB, "mines_time_unit", { time });
 
     li.appendChild(divA);
     li.appendChild(divB);
@@ -51,21 +51,20 @@ function highscoreListItem(name, time) {
 }
 
 function removeDynamicItems() {
-    var items = document.querySelectorAll(".dynamic"),
-        i;
-    for(i = 0; i < items.length; ++i) {
-        items[i].remove();
+    const items = document.querySelectorAll(".dynamic");
+    for(const i of items) {
+        i.remove();
     }
 }
 
 function showHighscores(game) {
-    Highscores.getTop(game, 15, function(tops) {
+    Highscores.getTop(game, 15, (tops) => {
         removeDynamicItems();
         if(tops.length) {
             noresults.classList.add("hidden");
             noresults.setAttribute("hidden", true);
 
-            tops.forEach(function(top) {
+            tops.forEach((top) => {
                 list.appendChild(highscoreListItem(top.name, top.score));
             });
         }
@@ -77,14 +76,14 @@ function showHighscores(game) {
 }
 
 function addOption(game) {
-    var item = new Option(game, game);
+    const item = new Option(game, game);
     gameDescriptionFromValue(item, game);
     select.add(item);
 }
 
 function loadGames() {
-    Highscores.getGames(function(games) {
-        games.forEach(function(game) {
+    Highscores.getGames((games) => {
+        games.forEach((game) => {
             if(builtinOptions.indexOf(game) == -1) {
                 addOption(game);
             }
@@ -116,7 +115,7 @@ document.getElementById("delete-highscores").addEventListener("click", () => {
     $("#highscores-clear").openModal();
 }, false);
 
-$('select').on('change', function() {
+$('select').on('change', () => {
     showHighscores(select.value);
 });
 

@@ -1,4 +1,4 @@
-var ELEMENT_TAG = 'div',
+const ELEMENT_TAG = 'div',
     nativeDescriptor = Object.getOwnPropertyDescriptor,
     polyfill = function(obj, prop) {
         return {
@@ -8,7 +8,7 @@ var ELEMENT_TAG = 'div',
     };
 
 Object.getOwnPropertyDescriptor = function(obj, prop) {
-    var ret = nativeDescriptor(obj, prop);
+    let ret = nativeDescriptor(obj, prop);
     if(ret !== undefined) {
         return ret;
     }

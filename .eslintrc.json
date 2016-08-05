@@ -93,7 +93,14 @@
         "space-before-function-paren": [2, "never"],
         "no-alert": 2,
         "space-infix-ops": 2,
-        "space-unary-ops": 2
+        "space-unary-ops": 2,
+        "arrow-parens": 2,
+        "generator-star-spacing": [2, "after"],
+        "no-var": 2,
+        "object-shorthand": 1,
+        "prefer-arrow-callback": 1,
+        "prefer-const": 1,
+        "no-loop-func": 1
     },
     "extends": "eslint:recommended"
 }

@@ -30,7 +30,7 @@ StringBundle.prototype.getStringContainer = function(id) {
  * @returns {string} Translation of string with the supplied ID.
  */
 StringBundle.prototype.getString = function(id) {
-    var node = this.getStringContainer(id);
+    const node = this.getStringContainer(id);
     //navigator.mozL10n.setAttributes(node, id);
     return node.textContent;
 };
@@ -44,16 +44,15 @@ StringBundle.prototype.getString = function(id) {
  * @returns {string}
  */
 StringBundle.prototype.getStringAsync = function(id, args) {
-    var node = this.getStringContainer(id),
-        promised = new Promise(function(accept) {
-            var tempNode = node.cloneNode();
-            navigator.mozL10n.ready(function() {
-                navigator.mozL10n.setAttributes(tempNode, id, args);
-                navigator.mozL10n.translateFragment(tempNode);
-                accept(tempNode.textContent);
-            });
+    const node = this.getStringContainer(id);
+    return new Promise((accept) => {
+        const tempNode = node.cloneNode();
+        navigator.mozL10n.ready(() => {
+            navigator.mozL10n.setAttributes(tempNode, id, args);
+            navigator.mozL10n.translateFragment(tempNode);
+            accept(tempNode.textContent);
         });
-    return promised;
+    });
 };
 
 export default StringBundle;

@@ -2,19 +2,18 @@
  * Timer thing
  */
 
-var TIME_UNIT_STRING = "mines_time_unit";
+const TIME_UNIT_STRING = "mines_time_unit";
 
 function Timer(offset = 0, output) {
     this.offset = offset;
     this.output = output;
 
-    var time = (this.offset / 1000.0).toFixed(1);
     if("Intl" in window) {
         this._nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 1 });
-        time = this._nf.format(this.offset / 1000.0);
     }
+    const time = this.formatTime(this.offset);
 
-    navigator.mozL10n.setAttributes(this.output, TIME_UNIT_STRING, { time: time });
+    navigator.mozL10n.setAttributes(this.output, TIME_UNIT_STRING, { time });
     navigator.mozL10n.translateFragment(this.output);
 }
 
@@ -24,18 +23,21 @@ Timer.prototype.offset = 0;
 Timer.prototype.interval = 0;
 Timer.prototype.running = false;
 
+Timer.prototype.formatTime = function(time) {
+    if(this._nf) {
+        return this._nf.format(time / 1000.0);
+    }
+    else {
+        return (time / 1000.0).toFixed(1);
+    }
+};
+
 Timer.prototype.updateOutput = function(time) {
     if(typeof time !== "number") {
         time = Date.now() - this.startTime;
     }
 
-    var timeStr;
-    if(this._nf) {
-        timeStr = this._nf.format(time / 1000.0);
-    }
-    else {
-        timeStr = (time / 1000.0).toFixed(1);
-    }
+    const timeStr = this.formatTime(time);
 
     navigator.mozL10n.setAttributes(this.output, TIME_UNIT_STRING, { time: timeStr });
     navigator.mozL10n.translateFragment(this.output);
@@ -67,10 +69,7 @@ Timer.prototype.start = function() {
         this.startTime = Date.now() - this.offset;
         this.running = true;
         if(this.output) {
-            var self = this;
-            this.interval = setInterval(function() {
-                self.updateOutput();
-            }, 100);
+            this.interval = setInterval(this.updateOutput.bind(this), 100);
             this.output.dispatchEvent(new Event("start"));
         }
     }
@@ -91,7 +90,7 @@ Timer.prototype.pause = function() {
 
 Timer.prototype.stop = function() {
     if(this.running) {
-        var time = Date.now() - this.startTime;
+        const time = Date.now() - this.startTime;
         this.running = false;
         if(this.interval) {
             clearInterval(this.interval);
