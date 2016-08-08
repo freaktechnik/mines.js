@@ -75,20 +75,20 @@
                             <td><a href="<%= c.files[0] %>" target="_blank"><%= c.files[0] %></a></td>
                             <td>
                                 <% if(files[c.id].some((f) => f.includes("~"))) { %><a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en">Expat</a><br><% } %>
-                                <a href="http://www.mozilla.org/MPL/2.0" target="_blank" hreflang="en">MPL-2.0</a>
+                                <a href="http://www.mozilla.org/MPL/2.0" target="_blank" hreflang="en" rel="noopener">MPL-2.0</a>
                             </td>
-                            <td><% var cfiles = files[c.id]; for(var f in cfiles) { %><a href="<%= makeURL(cfiles[f]) %>" target="_blank"><%= makeName(cfiles[f]) %></a><% if(f < cfiles.length - 1) { %><br><% }} %></td>
+                            <td><% var cfiles = files[c.id]; for(var f in cfiles) { %><a rel="noopener" href="<%= makeURL(cfiles[f]) %>" target="_blank"><%= makeName(cfiles[f]) %></a><% if(f < cfiles.length - 1) { %><br><% }} %></td>
                         </tr>
                         <% } %>
                         <tr>
                             <td><a href="sw.js" target="_blank">sw.js</a></td>
                             <td>
-                                <a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en">Expat</a><br>
-                                <a href="http://www.mozilla.org/MPL/2.0" target="_blank" hreflang="en">MPL-2.0</a>
+                                <a href="http://www.jclark.com/xml/copying.txt" target="_blank" hreflang="en" rel="noopener">Expat</a><br>
+                                <a href="http://www.mozilla.org/MPL/2.0" target="_blank" hreflang="en" rel="noopener">MPL-2.0</a>
                             </td>
                             <td>
-                                <a href="<%= makeURL('./assets/sw/global-events.js') %>">./assets/sw/global-events.js</a><br>
-                                <a href="<%= makeURL('./~/offline-plugin/') %>"><%= makeName('./~/offline-plugin/') %></a>
+                                <a href="<%= makeURL('./assets/sw/global-events.js') %>" rel="noopener">./assets/sw/global-events.js</a><br>
+                                <a href="<%= makeURL('./~/offline-plugin/') %>" rel="noopener"><%= makeName('./~/offline-plugin/') %></a>
                             </td>
                         </tr>
                     </tbody>
@@ -98,16 +98,16 @@
         <article class="card">
             <div class="card-content">
                 <header class="card-title"<%= data.translate("license_font_title") %></header>
-                <p><span<%= data.translate("license_font_content", {"font":"Roboto"}) %></span> <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" hreflang="en">Apache License 2.0</a></p>
-                <p><span<%= data.translate("license_font_content", {"font":"Material Icons"}) %></span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" hreflang="en">CC-BY 4.0</a></p>
-                <p><span<%= data.translate("license_font_content", {"font":"Font Awesome"}) %></span> <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=OFL" target="_blank" hreflang="en">SIL OFL 1.1</a></p>
+                <p><span<%= data.translate("license_font_content", {"font":"Roboto"}) %></span> <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="_blank" hreflang="en" rel="noopener">Apache License 2.0</a></p>
+                <p><span<%= data.translate("license_font_content", {"font":"Material Icons"}) %></span> <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" hreflang="en" rel="noopener">CC-BY 4.0</a></p>
+                <p><span<%= data.translate("license_font_content", {"font":"Font Awesome"}) %></span> <a href="http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&amp;id=OFL" target="_blank" hreflang="en" rel="noopener">SIL OFL 1.1</a></p>
             </div>
         </article>
         <article class="card">
             <div class="card-content">
                 <header class="card-title"<%= data.translate("license_about_title") %></header>
-                <p><span<%= data.translate("license_about_license_before") %></span> <a href="LICENSE" target="_blank" hreflang="en">MPL-2.0</a><span<%= data.translate("license_about_license_after") %></span></p>
-                <a class="btn waves-effect waves-light blue" href="https://github.com/freaktechnik/mines.js" hreflang="en" rel="external" target="_blank"<%= data.translate("license_about_source") %></a>
+                <p><span<%= data.translate("license_about_license_before") %></span> <a href="LICENSE" target="_blank" hreflang="en" rel="noopener">MPL-2.0</a><span<%= data.translate("license_about_license_after") %></span></p>
+                <a class="btn waves-effect waves-light blue" href="https://github.com/freaktechnik/mines.js" hreflang="en" rel="external noopener" target="_blank"<%= data.translate("license_about_source") %></a>
             </div>
         </article>
     </div>
