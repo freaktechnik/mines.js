@@ -66,6 +66,7 @@
             }; %>
 
         <meta name="application-name" content="<%= bundle.title %>">
+        <meta name="description"<%= translateElement('description', null, 'content') %>
         <title <%= translateElement(htmlWebpackPlugin.options.titleId) %></title>
     </head>
     <body role="application">

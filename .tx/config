@@ -7,12 +7,6 @@ source_file = locales/en/app.properties
 source_lang = en
 type = MOZILAPROPERTIES
 
-[mines.manifest_json]
-file_filter = locales/<lang>/manifest.json
-source_file = locales/en/manifest.json
-source_lang = en
-type = KEYVALUEJSON
-
 [mines.marketplacejson]
 file_filter = locales/<lang>/marketplace.json
 source_file = locales/en/marketplace.json
