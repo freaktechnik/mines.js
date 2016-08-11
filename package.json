@@ -21,7 +21,7 @@
     "offline-plugin": "^3.4.2",
     "properties-loader": "0.0.1",
     "style-loader": "^0.13.1",
-    "transifex-loader": "^2.4.0",
+    "transifex-loader": "^2.5.4",
     "underscore": "^1.8.3",
     "web-app-manifest-loader": "^0.1.1",
     "webpack": "^1.13.1"
