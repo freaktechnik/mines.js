@@ -90,7 +90,10 @@ module.exports = {
             {
                 test: /\.properties$/,
                 context: 'locales',
-                loader: "file?name=[path][name].[ext]"
+                loaders: [
+                    "file?name=[path][name].[ext]",
+                    "transifex"
+                ]
             },
             {
                 test: /\.(txt|eot|ttf|svg|woff|woff2)$/,
