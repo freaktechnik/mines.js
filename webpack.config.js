@@ -72,7 +72,11 @@ module.exports = {
             },
             {
                 test: /manifest.json$/,
-                loader: 'file?name=manifest.json!web-app-manifest-loader'
+                loaders: [
+                    'file?name=manifest.json',
+                    'web-app-manifest',
+                    'manifest-scope'
+                ]
             },
             {
                 test: /\.json$/,

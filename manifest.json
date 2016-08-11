@@ -50,7 +50,7 @@
         }
     ],
     "display": "fullscreen",
-    "start_url": "/index.html",
+    "start_url": "./",
     "scope": "/mines/",
     "orientation": "any"
 }
