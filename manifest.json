@@ -52,6 +52,7 @@
     "display": "fullscreen",
     "start_url": "./",
     "scope": "/mines/",
-    "orientation": "any"
+    "orientation": "any",
+    "theme_color": "orange"
 }
 
