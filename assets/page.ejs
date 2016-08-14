@@ -28,44 +28,10 @@
 
         <link rel="localization" href="locales/{locale}/app.properties">
 
-        <% var bundle = require('!!properties!../locales/'+htmlWebpackPlugin.options.defaultLanguage+'/app.properties');
-            var attrMap = {
-                "aria-label": "ariaLabel"
-            };
+        <% var requireString = require("./scripts/insert-string").default,
+            translateElement = requireString(htmlWebpackPlugin.options.defaultLanguage); %>
 
-            var translateElement = function(id, options, attr) {
-                var str = ' data-l10n-id="'+id+'">';
-
-                var string = bundle[id] || bundle[id+'.innerHTML'];
-                if(attr && !(attr in attrMap)) {
-                    string = bundle[id + '.' + attr];
-                }
-                else if(attr && attr in attrMap) {
-                    string = bundle[id + '.' + attrMap[attr]];
-                }
-
-                if(!string || !string.trim().length) {
-                    throw "Empty string "+id;
-                }
-
-                if(options) {
-                    for(var opt in options) {
-                        string = string.replace(new RegExp("{{"+opt+"}}", "g"), options[opt]);
-                    }
-                    str = " data-l10n-args='"+JSON.stringify(options)+"'" + str;
-                }
-
-                if(!attr) {
-                    str += string;
-                }
-                else {
-                    str = ' '+attr+'="'+string+'"'+str;
-                }
-
-                return str;
-            }; %>
-
-        <meta name="application-name" content="<%= bundle.title %>">
+        <meta name="application-name" content="<%= translateElement("bundle.title", null, null, true) %>">
         <meta name="description"<%= translateElement('description', null, 'content') %>
         <title <%= translateElement(htmlWebpackPlugin.options.titleId) %></title>
     </head>
