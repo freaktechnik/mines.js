@@ -1,6 +1,6 @@
 ![](assets/images/icon-32.png) Mines
 =====
-[![Build Status](https://travis-ci.org/freaktechnik/mines.js.svg)](https://travis-ci.org/freaktechnik/mines.js) [![Dependency Status](https://dependencyci.com/github/freaktechnik/mines.js/badge)](https://dependencyci.com/github/freaktechnik/mines.js)
+[![Build Status](https://travis-ci.org/freaktechnik/mines.js.svg)](https://travis-ci.org/freaktechnik/mines.js) [![codecov](https://codecov.io/gh/freaktechnik/mines.jss/branch/master/graph/badge.svg)](https://codecov.io/gh/freaktechnik/mines.js) [![Dependency Status](https://dependencyci.com/github/freaktechnik/mines.js/badge)](https://dependencyci.com/github/freaktechnik/mines.js)
 
 Mines is a web app minesweeper clone.
 
