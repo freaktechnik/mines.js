@@ -1562,8 +1562,7 @@
     // XXX always pretranslate if data-no-complete-bug is set;  this is
     // a workaround for a netError page not firing some onreadystatechange
     // events;  see https://bugzil.la/444165
-    var pretranslate = document.documentElement.dataset.noCompleteBug ?
-      true : !isPretranslated;
+    var pretranslate = !isPretranslated;
     waitFor('interactive', init.bind(navigator.mozL10n, pretranslate));
   }
 

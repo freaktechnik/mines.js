@@ -4,6 +4,9 @@ const CleanPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ProvidePlugin = require("webpack/lib/ProvidePlugin");
 const OfflinePlugin = require("offline-plugin");
+const DedupePlugin = require("webpack/lib/optimize/DedupePlugin");
+const OccurenceOrderPlugin = require("webpack/lib/optimize/OccurenceOrderPlugin");
+const UglifyJsPlugin = require("webpack/lib/optimize/UglifyJsPlugin");
 
 const pageTitles = require("./pages/titles.json");
 const pkg = require("./package.json");
@@ -12,9 +15,7 @@ const pages = Object.keys(pageTitles);
 
 const entry = {};
 const plugins = [
-    new CleanPlugin([ 'dist' ], {
-        exclude: ['images', 'locales', 'fonts', 'manifest.json']
-    }),
+    new CleanPlugin([ 'dist' ]),
     new CommonsChunkPlugin({
         name: "common",
         filename: "scripts/common-[hash].js"
@@ -30,7 +31,10 @@ const plugins = [
             events: true
         },
         AppCache: false
-    })
+    }),
+    new OccurenceOrderPlugin(true),
+    new DedupePlugin(),
+    new UglifyJsPlugin()
 ];
 
 for(let p of pages) {
@@ -50,7 +54,7 @@ module.exports = {
     entry: entry,
     output: {
         path: "dist",
-        pathInfo: true,
+        publicPath: "/mines/",
         filename: "scripts/[name]-[hash].js"
     },
     module: {
@@ -111,7 +115,5 @@ module.exports = {
     plugins: plugins,
     node: {
         Buffer: false
-    },
-    debug: true,
-    devtool: "source-map"
+    }
 };

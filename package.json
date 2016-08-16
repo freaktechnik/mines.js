@@ -4,21 +4,28 @@
   "description": "Yet another Minesweeeper clone with custom boards and mine-flagging",
   "version": "2.0.0",
   "devDependencies": {
+    "ava": "^0.16.0",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.0.15",
     "clean-webpack-plugin": "^0.1.10",
+    "codecov": "^1.0.1",
     "css-loader": "^0.23.1",
     "ejs-loader": "^0.3.0",
     "eslint": "^3.2.0",
     "eslint-plugin-freaktechnik": "^1.0.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "fake-indexeddb": "^1.0.8",
     "file-loader": "^0.9.0",
     "git-prepush-hook": "^1.0.1",
     "html-loader": "^0.4.3",
     "html-webpack-plugin": "^2.22.0",
     "image-webpack-loader": "^2.0.0",
+    "jsdom": "^9.4.2",
     "json-loader": "^0.5.4",
+    "localStorage": "^1.0.3",
     "manifest-scope-loader": "^1.0.1",
+    "mutationobserver-shim": "^0.3.1",
+    "nyc": "^8.1.0",
     "offline-plugin": "^3.4.2",
     "properties-loader": "0.0.1",
     "style-loader": "^0.13.1",
@@ -38,10 +45,11 @@
   },
   "license": "MPL-2.0",
   "scripts": {
-    "test": "npm run lint",
-    "lint": "eslint src/ assets/",
-    "build": "webpack --progress -p --optimize-dedupe --optimize-occurrence-order --output-public-path /mines/",
-    "build-dev": "webpack -d --output-public-path /mines.js/"
+    "test": "npm run lint && nyc ava",
+    "lint": "eslint src/ assets/ test/",
+    "build": "webpack --progress --config webpack.config.prod.js",
+    "build-dev": "webpack --config webpack.config.js",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "dependencies": {
     "hammerjs": "^2.0.8",
@@ -52,5 +60,19 @@
   },
   "pre-push": [
     "lint"
-  ]
+  ],
+  "ava": {
+    "babel": "inherit",
+    "require": "babel-register"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ],
+    "plugins": [
+      "transform-es2015-modules-commonjs",
+      "transform-runtime"
+    ]
+  }
 }

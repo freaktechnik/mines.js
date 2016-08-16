@@ -1,0 +1,6 @@
+{
+    "env": {
+        "browser": true
+    },
+    "extends": "plugin:freaktechnik/test"
+}

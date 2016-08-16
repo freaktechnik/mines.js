@@ -10,7 +10,7 @@ function StringBundle(container) {
     this.container.setAttribute("hidden", true);
 
     if(!("mozL10n" in navigator)) {
-        throw "mozL10n global not initialized.";
+        throw new Error("mozL10n global not initialized.");
     }
 }
 StringBundle.prototype.container = null;

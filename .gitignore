@@ -1,9 +1,8 @@
 node_modules/*
 .transifexrc
-.ftppass
-.marketplacerc
 secrets.tar
 dist/*
-bower_components/*
 *.zip
 test/dist/*
+.nyc_output
+coverage
