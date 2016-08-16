@@ -24,7 +24,6 @@ test("construction", (t) => {
     t.is(t.context.mines.markedMines.length, t.context.mines.dimensions[1]);
     t.is(t.context.mines.mode, Mines.MODE_UNCOVER);
     t.false(t.context.mines.boardGenerated);
-    t.false(Mines.hasSavedState());
     t.false(t.context.ctx.parentNode.hasAttribute("aria-busy"));
 });
 
@@ -100,7 +99,7 @@ test("win", async (t) => {
     t.true(t.context.ctx.className.includes("done"));
 });
 
-test("saving", (t) => {
+test.serial("saving", (t) => {
     t.false(Mines.hasSavedState());
     t.context.mines.saveState();
     t.true(Mines.hasSavedState());
@@ -125,7 +124,6 @@ test("reset without mods", async (t) => {
 
     t.false(t.context.mines.done);
     t.is(t.context.mines.countFlags(), 0);
-    t.false(Mines.hasSavedState());
     t.is(t.context.mines.mode, Mines.MODE_UNCOVER);
 });
 
@@ -141,7 +139,6 @@ test("reset in progress", async (t) => {
 
     t.false(t.context.mines.done);
     t.is(t.context.mines.countFlags(), 0);
-    t.false(Mines.hasSavedState());
     t.is(t.context.mines.mode, Mines.MODE_UNCOVER);
 });
 
@@ -156,7 +153,6 @@ test("reset loss", async (t) => {
 
     t.false(t.context.mines.done);
     t.is(t.context.mines.countFlags(), 0);
-    t.false(Mines.hasSavedState());
     t.is(t.context.mines.mode, Mines.MODE_UNCOVER);
 });
 
@@ -172,6 +168,5 @@ test("reset win", async (t) => {
 
     t.false(t.context.mines.done);
     t.is(t.context.mines.countFlags(), 0);
-    t.false(Mines.hasSavedState());
     t.is(t.context.mines.mode, Mines.MODE_UNCOVER);
 });

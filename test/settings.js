@@ -1,7 +1,7 @@
 import test from 'ava';
-import localStorage from 'localStorage';
+import Storage from 'dom-storage';
 
-global.localStorage = localStorage;
+global.localStorage = new Storage(null);
 global.navigator = {};
 
 const Preferences = require('../src/settings').default;

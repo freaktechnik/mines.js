@@ -1,6 +1,6 @@
 import { env, createVirtualConsole } from 'jsdom';
 import path from 'path';
-import localStorage from 'localStorage';
+import Storage from 'dom-storage';
 
 const virtualConsole = createVirtualConsole().sendTo(console);
 export default (content = "") => {
@@ -19,7 +19,7 @@ export default (content = "") => {
             ],
             url: 'file://' + path.resolve(path.dirname(module.filename), "../../assets") + "/",
             created(err, window) {
-                global.localStorage = localStorage;
+                global.localStorage = new Storage(null);
                 global.window = window;
                 window.localStorage = localStorage;
                 window.addEventListener("error", (e) => console.error(e.error));
