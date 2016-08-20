@@ -4,11 +4,16 @@
  * obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+main {
+    overflow: hidden;
+}
+
 #fieldcontainer {
     width: 100%;
     font-size: initial;
     /* Make sure you can scroll out of the FAB */
     margin-bottom: 100px;
+    overflow: auto;
 }
 
 table {
