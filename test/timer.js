@@ -3,8 +3,8 @@ import Timer from '../src/timer';
 import setup from './helpers/setup-browser-env';
 import { wait, when } from './helpers/wait';
 
-test.before(async () => {
-    await setup();
+test.before(() => {
+    return setup();
 });
 
 test.beforeEach((t) => {

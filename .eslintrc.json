@@ -1,11 +1,6 @@
 {
-    "env": {
-        "browser": true,
-        "es6": true
-    },
     "parserOptions": {
-        "ecmaVersion": 7,
         "sourceType": "module"
     },
-    "extends": "plugin:freaktechnik/base"
+    "extends": "plugin:freaktechnik/browser"
 }

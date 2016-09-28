@@ -7,6 +7,7 @@ const OfflinePlugin = require("offline-plugin");
 const DedupePlugin = require("webpack/lib/optimize/DedupePlugin");
 const OccurenceOrderPlugin = require("webpack/lib/optimize/OccurenceOrderPlugin");
 const UglifyJsPlugin = require("webpack/lib/optimize/UglifyJsPlugin");
+const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 
 const pageTitles = require("./pages/titles.json");
 const pkg = require("./package.json");
@@ -16,6 +17,10 @@ const pages = Object.keys(pageTitles);
 const entry = {};
 const plugins = [
     new CleanPlugin([ 'dist' ]),
+    new LoaderOptionsPlugin({
+        debug: false,
+        minimize: true
+    }),
     new CommonsChunkPlugin({
         name: "common",
         filename: "scripts/common-[hash].js"
@@ -34,7 +39,15 @@ const plugins = [
     }),
     new OccurenceOrderPlugin(true),
     new DedupePlugin(),
-    new UglifyJsPlugin()
+    new UglifyJsPlugin({
+        compress: {
+            warnings: true
+        },
+        output: {
+            comments: false
+        },
+        sourceMap: false
+    })
 ];
 
 for(let p of pages) {
