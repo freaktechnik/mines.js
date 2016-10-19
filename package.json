@@ -24,7 +24,7 @@
     "json-loader": "^0.5.4",
     "manifest-scope-loader": "^1.0.1",
     "mutationobserver-shim": "^0.3.2",
-    "nyc": "^8.3.1",
+    "nyc": "^8.3.2",
     "offline-plugin": "^3.4.2",
     "properties-loader": "0.0.1",
     "style-loader": "^0.13.1",
