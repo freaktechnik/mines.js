@@ -12,7 +12,7 @@
     "css-loader": "^0.26.1",
     "dom-storage": "^2.0.2",
     "ejs-loader": "^0.3.0",
-    "eslint": "^3.13.1",
+    "eslint": "^3.14.0",
     "eslint-plugin-freaktechnik": "^2.0.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
