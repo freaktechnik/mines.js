@@ -1,5 +1,7 @@
 ![](assets/images/icon-32.png) Mines
 =====
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/freaktechnik/mines.js.svg)](https://greenkeeper.io/)
 [![Build Status](https://travis-ci.org/freaktechnik/mines.js.svg)](https://travis-ci.org/freaktechnik/mines.js) [![codecov](https://codecov.io/gh/freaktechnik/mines.js/branch/master/graph/badge.svg)](https://codecov.io/gh/freaktechnik/mines.js) [![Dependency Status](https://dependencyci.com/github/freaktechnik/mines.js/badge)](https://dependencyci.com/github/freaktechnik/mines.js)
 
 Mines is a web app minesweeper clone.
