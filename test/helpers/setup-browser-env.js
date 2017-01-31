@@ -3,6 +3,7 @@ import path from 'path';
 import Storage from 'dom-storage';
 
 const virtualConsole = createVirtualConsole().sendTo(console);
+const dirname = path.dirname(module.filename);
 export default (content = "") => {
     return new Promise((resolve, reject) => {
         env({
@@ -15,15 +16,15 @@ export default (content = "") => {
     ${content}
 </body>`,
             scripts: [
-                'scripts/l10n.js'
+                'scripts/l10n.js',
+                require.resolve('mutationobserver-shim')
             ],
-            url: 'file://' + path.resolve(path.dirname(module.filename), "../../assets") + "/",
+            url: 'file://' + path.resolve(dirname, "../../assets") + "/",
             created(err, window) {
                 global.localStorage = new Storage(null);
                 global.window = window;
                 window.localStorage = localStorage;
                 window.addEventListener("error", (e) => console.error(e.error));
-                require("mutationobserver-shim");
             },
             done(err, window) {
                 if(err) {
