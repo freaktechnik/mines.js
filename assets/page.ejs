@@ -52,10 +52,9 @@
         <% var content = require('./'+htmlWebpackPlugin.options.filename.replace(".html", "")+'.html'); %>
         <%= content({
             options: htmlWebpackPlugin.options,
-            tag: DEBUG ? "master" : htmlWebpackPlugin.options.version,
+            tag: htmlWebpackPlugin.options.debug ? "master" : htmlWebpackPlugin.options.version,
             files: webpack,
             translate: translateElement
         }) %>
     </body>
 </html>
-

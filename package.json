@@ -14,7 +14,7 @@
     "ejs-loader": "^0.3.0",
     "eslint": "^3.14.0",
     "eslint-plugin-freaktechnik": "^2.0.0",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.0.0-rc.2",
     "file-loader": "^0.10.0",
     "git-prepush-hook": "^1.0.1",
     "html-loader": "^0.4.3",

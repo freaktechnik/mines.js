@@ -4,6 +4,7 @@ const CleanPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ProvidePlugin = require("webpack/lib/ProvidePlugin");
 const OfflinePlugin = require("offline-plugin");
+const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 
 const pageTitles = require("./pages/titles.json");
 const pkg = require("./package.json");
@@ -19,7 +20,9 @@ const plugins = [
         name: "common",
         filename: "scripts/common-[hash].js"
     }),
-    new ExtractTextPlugin("styles/[name]-[hash].css"),
+    new ExtractTextPlugin({
+        filename: "styles/[name]-[hash].css"
+    }),
     new ProvidePlugin({
         _: "underscore",
         'window.jQuery': 'jquery'
@@ -30,6 +33,10 @@ const plugins = [
             events: true
         },
         AppCache: false
+    }),
+    new LoaderOptionsPlugin({
+        debug: true,
+        minimize: false
     })
 ];
 
@@ -42,7 +49,8 @@ for(let p of pages) {
         defaultLanguage: "en",
         page: p,
         titleId: pageTitles[p],
-        version: pkg.version
+        version: pkg.version,
+        debug: true
     }));
 }
 
@@ -50,62 +58,58 @@ module.exports = {
     entry: entry,
     output: {
         path: "dist",
-        pathInfo: true,
+        pathinfo: true,
         filename: "scripts/[name]-[hash].js"
     },
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel',
-                query: {
+                loader: 'babel-loader',
+                options: {
                     presets: [ 'es2015' ],
                     babelrc: false
                 }
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract('style', 'css', {
+                loader: ExtractTextPlugin.extract({
+                    fallbackLoader: 'style-loader',
+                    loader: 'css-loader',
                     publicPath: "../"
                 })
             },
             {
                 test: /\.html$/,
-                loader: 'ejs?variable=data'
+                loader: 'ejs-loader?variable=data'
             },
             {
                 test: /manifest.json$/,
-                loaders: [
-                    'file?name=manifest.json',
-                    'web-app-manifest',
-                    'manifest-scope'
+                use: [
+                    'file-loader?name=manifest.json',
+                    'web-app-manifest-loader',
+                    'manifest-scope-loader'
                 ]
-            },
-            {
-                test: /\.json$/,
-                exclude: /manifest.json$/,
-                loader: 'json'
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 exclude: /fonts/,
                 loaders: [
-                    "file?name=images/[name].[ext]",
-                    "image-webpack?bypassOnDebug&optimizationLevel=7&progressive=true&interlaced=true"
+                    "file-loader?name=images/[name].[ext]",
+                    "image-webpack-loader?bypassOnDebug&optipng.optimizationLevel=7&progressive=true&gifsicle.interlaced=true"
                 ]
             },
             {
-                test: /\.properties$/,
-                context: 'locales',
-                loaders: [
-                    "file?name=[path][name].[ext]",
-                    "transifex"
+                test: /locales\/[a-z]{2}\/[a-z]+\.properties$/,
+                use: [
+                    "file-loader?name=[path][name].[ext]",
+                    "transifex-loader"
                 ]
             },
             {
                 test: /\.(txt|eot|ttf|svg|woff|woff2)$/,
-                loader: "file?name=fonts/[name].[ext]"
+                loader: "file-loader?name=fonts/[name].[ext]"
             },
         ],
         noParse: [/~$/, /assets\/.*\.html$/]
@@ -114,6 +118,5 @@ module.exports = {
     node: {
         Buffer: false
     },
-    debug: true,
     devtool: "source-map"
 };

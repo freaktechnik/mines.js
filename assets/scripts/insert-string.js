@@ -37,7 +37,7 @@ const attrMap = {
     };
 
 export default (defaultLanguage) => {
-    const bundle = require(`!!properties!../../locales/${defaultLanguage}/app.properties`);
+    const bundle = require(`!!properties-loader!../../locales/${defaultLanguage}/app.properties`);
 
     return translateElement.bind(null, bundle);
 };
