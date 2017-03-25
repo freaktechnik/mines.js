@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ProvidePlugin = require("webpack/lib/ProvidePlugin");
 const OfflinePlugin = require("offline-plugin");
 const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+const path = require("path");
 
 const pageTitles = require("./pages/titles.json");
 const pkg = require("./package.json");
@@ -57,7 +58,7 @@ for(let p of pages) {
 module.exports = {
     entry: entry,
     output: {
-        path: "dist",
+        path: path.resolve(__dirname, "dist"),
         pathinfo: true,
         filename: "scripts/[name]-[hash].js"
     },
