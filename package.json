@@ -11,7 +11,7 @@
     "babel-regenerator-runtime": "^6.5.0",
     "clean-webpack-plugin": "^0.1.15",
     "codecov": "^2.0.1",
-    "css-loader": "^0.27.0",
+    "css-loader": "^0.28.0",
     "dom-storage": "^2.0.2",
     "ejs-loader": "^0.3.0",
     "eslint": "^3.14.0",
