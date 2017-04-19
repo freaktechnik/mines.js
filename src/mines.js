@@ -35,7 +35,7 @@ function Mines(cfx, dimensions, mineCount) {
     this.context.parentNode.removeAttribute("aria-busy");
 
     this.context.addEventListener("keydown", (e) => {
-        if(e.key == "r" || e.keyCode == 82) {
+        if(e.key == "r" || e.keyCode == 82 || e.key == "F2") {
             this.reset();
         }
         else if(e.key == "CapsLock" || e.keyCode == 20) {
@@ -49,6 +49,8 @@ function Mines(cfx, dimensions, mineCount) {
         else if(e.key == "F1" || e.keyCode == 112) {
             this.context.dispatchEvent(new Event("help"));
         }
+        //TODO F4 stats
+        //TODO F5 options
     }, false);
 
     if(Mines.hasSavedState()) {
@@ -544,12 +546,12 @@ Mines.prototype.createCell = function(x, y) {
         else if(e.key == "End" || e.keyCode == 35 ) {
             this.getCell(this.dimensions[0] - 1, this.dimensions[1] - 1).focus();
         }
-        else if(e.key == " " || e.keyCode == 32) {
+        else if(((e.key == " " || e.key == "Enter") && !e.ctrlKey && !e.shiftKey) || e.keyCode == 32) {
             cell.click();
         }
         else if(!this.done && !this.paused) {
             if(this.markedMines[y][x] !== Mines.MINE_KNOWN) {
-                if(e.key == "f" || e.keyCode == 70) {
+                if(e.key == "f" || e.keyCode == 70 || e.key == "1" || ((e.key == " " || e.key == "Enter") && (e.ctrlKey || e.shiftKey))) {
                     e.preventDefault();
                     this.flagCell(x, y);
                 }
@@ -696,4 +698,3 @@ Mines.restoreSavedState = function(cfx) {
 };
 
 export default Mines;
-
