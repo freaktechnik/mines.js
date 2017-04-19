@@ -86,16 +86,21 @@ const Page = {
             window.location = document.querySelector('link[rel="help"]').href;
         });
 
-        window.addEventListener("beforeunload", () => {
-            if(!this.mines.done && this.mines.boardGenerated) {
+        document.addEventListener("visibilitychange", () => {
+            if(document.visibilityState === "hidden" && !this.mines.done && this.mines.boardGenerated) {
                 globalState.setGameState(false);
                 this.mines.saveState();
                 this.Toolbar.unload();
+                //TODO only soft unload? Don't destroy anything?
+            }
+            else if(document.visibilityState === "visible" && this.mines.boardGenerated && this.mines.paused) {
+                //TODO resume game...
             }
         }, false);
 
         window.addEventListener("hashchange", () => {
             window.location.reload();
+            //TODO should not have to reload here.
         }, false);
 
         // Scaling on mobile (since desktop browsers don't let us override it anyways, so nobody complain, k?)
@@ -297,4 +302,3 @@ const Page = {
 };
 
 Page.init();
-
