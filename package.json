@@ -14,7 +14,7 @@
     "css-loader": "^0.28.0",
     "dom-storage": "^2.0.2",
     "ejs-loader": "^0.3.0",
-    "eslint": "^4.0.0",
+    "eslint": "4.0.0",
     "eslint-plugin-freaktechnik": "^2.4.0",
     "extract-text-webpack-plugin": "^2.0.0-rc.2",
     "file-loader": "^0.11.0",
