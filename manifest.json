@@ -1,5 +1,6 @@
 {
     "name": "Mines",
+    "short_name": "Mines",
     "description": "Yet another Minesweeper clone with custom boards and mine-flagging",
     "lang": "en",
     "icons": [
@@ -49,10 +50,9 @@
             "type": "image/png"
         }
     ],
-    "display": "fullscreen",
+    "display": "standalone",
     "start_url": "./",
     "scope": "/mines/",
     "orientation": "any",
     "theme_color": "orange"
 }
-
