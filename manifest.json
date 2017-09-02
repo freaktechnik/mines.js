@@ -54,5 +54,15 @@
     "start_url": "./",
     "scope": "/mines/",
     "orientation": "any",
-    "theme_color": "orange"
+    "theme_color": "orange",
+    "serviceworker": {
+        "src": "sw.js",
+        "scope": "./",
+        "use_cache": false
+    },
+    "categories": [
+        "games"
+    ],
+    "background_color": "white",
+    "theme_color": "#ff9800"
 }
