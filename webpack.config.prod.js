@@ -85,41 +85,76 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract({
-                    fallbackLoader: 'style-loader',
-                    loader: 'css-loader',
+                    fallback: 'style-loader',
+                    use: 'css-loader',
                     publicPath: '../'
                 })
             },
             {
                 test: /\.html$/,
-                loader: 'ejs-loader?variable=data'
+                loader: 'ejs-loader',
+                options: {
+                    variable: 'data'
+                }
             },
             {
                 test: /manifest.json$/,
                 use: [
-                    'file-loader?name=manifest.json',
-                    'web-app-manifest-loader',
-                    'manifest-scope-loader'
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'manifest.json'
+                        }
+                    },
+                    {
+                        loader: 'web-app-manifest-loader'
+                    },
+                    {
+                        loader: 'manifest-scope-loader'
+                    }
                 ]
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
                 exclude: /fonts/,
                 use: [
-                    "file-loader?name=images/[name].[ext]",
-                    "image-webpack-loader?bypassOnDebug&optipng.optimizationLevel=7&progressive=true&gifsicle.interlaced=true"
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "images/[name].[ext]"
+                        }
+                    },
+                    {
+                        loader: "image-webpack-loader",
+                        options: {
+                            bypassOnDebug: true,
+                            "optipng.optimizationLevel": 7,
+                            "mozjpeg.progressive": true
+                            "gifsicle.interlaced": true
+                        }
+                    }
                 ]
             },
             {
                 test: /locales\/[a-z]{2}\/[a-z]+\.properties$/,
                 use: [
-                    "file-loader?name=[path][name].[ext]",
-                    "transifex-loader"
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "[path][name].[ext]"
+                        }
+                    },
+                    {
+                        loader: "transifex-loader"
+                    }
                 ]
             },
             {
                 test: /\.(txt|eot|ttf|svg|woff|woff2)$/,
-                loader: "file-loader?name=fonts/[name].[ext]"
+                loader: "file-loader",
+                options: {
+                    name: "fonts/[name].[ext]"
+                }
             },
         ],
         noParse: [/~$/, /assets\/.*\.html$/]

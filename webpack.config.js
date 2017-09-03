@@ -66,7 +66,10 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                exclude: [
+                    path.resolve(__dirname, 'node_modules'),
+                    path.resolve(__dirname, 'test')
+                ],
                 loader: 'babel-loader',
                 options: {
                     presets: [ 'es2015' ],
@@ -76,41 +79,83 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract({
-                    fallbackLoader: 'style-loader',
-                    loader: 'css-loader',
+                    fallback: 'style-loader',
+                    use: 'css-loader',
                     publicPath: "../"
                 })
             },
             {
                 test: /\.html$/,
-                loader: 'ejs-loader?variable=data'
+                include: [
+                    path.resolve(__dirname, 'pages'),
+                    path.resolve(__dirname, 'assets')
+                ],
+                loader: 'ejs-loader',
+                options: {
+                    variable: 'data'
+                }
             },
             {
                 test: /manifest.json$/,
                 use: [
-                    'file-loader?name=manifest.json',
-                    'web-app-manifest-loader',
-                    'manifest-scope-loader'
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'manifest.json'
+                        }
+                    },
+                    {
+                        loader: 'web-app-manifest-loader'
+                    },
+                    {
+                        loader: 'manifest-scope-loader'
+                    }
                 ]
             },
             {
                 test: /\.(jpe?g|png|gif|svg)$/i,
-                exclude: /fonts/,
-                loaders: [
-                    "file-loader?name=images/[name].[ext]",
-                    "image-webpack-loader?bypassOnDebug&optipng.optimizationLevel=7&progressive=true&gifsicle.interlaced=true"
+                exclude: path.resolve(__dirname, 'assets/font'),
+                include: path.resolve(__dirname, 'assets'),
+                use: [
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "images/[name].[ext]"
+                        }
+                    },
+                    {
+                        loader: "image-webpack-loader",
+                        options: {
+                            bypassOnDebug: true,
+                            "optipng.optimizationLevel": 7,
+                            "mozjpeg.progressive": true,
+                            "gifsicle.interlaced": true
+                        }
+                    }
                 ]
             },
             {
                 test: /locales\/[a-z]{2}\/[a-z]+\.properties$/,
+                include: path.resolve(__dirname, 'locales'),
                 use: [
-                    "file-loader?name=[path][name].[ext]",
-                    "transifex-loader"
+                    {
+                        loader: "file-loader",
+                        options: {
+                            name: "[path][name].[ext]"
+                        }
+                    },
+                    {
+                        loader: "transifex-loader"
+                    }
                 ]
             },
             {
                 test: /\.(txt|eot|ttf|svg|woff|woff2)$/,
-                loader: "file-loader?name=fonts/[name].[ext]"
+                exclude: path.resolve(__dirname, 'assets/images'),
+                loader: "file-loader",
+                options: {
+                    name: "fonts/[name].[ext]"
+                }
             },
         ],
         noParse: [/~$/, /assets\/.*\.html$/]
