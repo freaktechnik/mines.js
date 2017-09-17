@@ -15,7 +15,7 @@ const pages = Object.keys(pageTitles);
 const entry = {};
 const plugins = [
     new CleanPlugin([ 'dist' ], {
-        exclude: ['images', 'locales', 'fonts', 'manifest.json']
+        exclude: [ 'images', 'locales', 'fonts', 'manifest.json' ]
     }),
     new CommonsChunkPlugin({
         name: "common",
@@ -41,10 +41,10 @@ const plugins = [
     })
 ];
 
-for(let p of pages) {
-    entry[p] = "./pages/"+p;
+for(const p of pages) {
+    entry[p] = "./pages/" + p;
     plugins.push(new HtmlWebpackPlugin({
-        filename: p+".html",
+        filename: p + ".html",
         template: "./assets/page.ejs",
         chunks: [ "common", p ],
         defaultLanguage: "en",
