@@ -3,15 +3,16 @@ import setup from './helpers/setup-browser-env';
 import Mines from '../src/mines';
 import { when } from './helpers/wait';
 
-test.before(() => {
-    return setup();
-});
+test.before(() => setup());
 test.beforeEach((t) => {
     const parent = document.createElement("div");
     parent.setAttribute("aria-busy", "true");
     t.context.ctx = document.createElement("table");
     parent.appendChild(t.context.ctx);
-    t.context.mines = new Mines(t.context.ctx, [ 8, 8 ], 10);
+    t.context.mines = new Mines(t.context.ctx, [
+        8,
+        8
+    ], 10);
 });
 
 test("construction", (t) => {
@@ -41,7 +42,10 @@ test("generate", async (t) => {
     t.false(t.context.mines.boardGenerated);
 
     const promise = when(t.context.ctx, "generated");
-    t.context.mines.generate([ 1, 1 ]);
+    t.context.mines.generate([
+        1,
+        1
+    ]);
     await promise;
     t.true(t.context.mines.boardGenerated);
     t.not(t.context.mines.board[1][1], Mines.MINE);
@@ -58,7 +62,10 @@ test("count flags", async (t) => {
     t.is(t.context.mines.cellIsFlagged(0, 0), 0, "Cell was unflagged");
 
     let promise = when(t.context.ctx, "generated");
-    t.context.mines.generate([ 1, 1 ]);
+    t.context.mines.generate([
+        1,
+        1
+    ]);
     await promise;
 
     t.is(t.context.mines.countFlags(), 0, "Count no flagged cell yet");
@@ -128,7 +135,10 @@ test("reset without mods", async (t) => {
 });
 
 test("reset in progress", async (t) => {
-    t.context.mines.generate([ 1, 1 ]);
+    t.context.mines.generate([
+        1,
+        1
+    ]);
     t.context.mines.toggleMode();
     t.context.mines.saveState();
     t.context.mines.flagCell(5, 4);

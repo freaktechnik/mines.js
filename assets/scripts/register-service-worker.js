@@ -1,3 +1,4 @@
+/* eslint "compat/compat": "warn" */
 import runtime from 'offline-plugin/runtime';
 
 //TODO some way to ensure there's only one game at a time.

@@ -1,14 +1,16 @@
 import StringBundle from '../../src/stringbundle';
 
 let nf;
-const mines = document.getElementById("mines"),
+const ONE = 1,
+    TO_PERCENT = 100,
+    mines = document.getElementById("mines"),
     height = document.getElementById("height"),
     width = document.getElementById("width"),
     percentage = document.getElementById("percentage"),
     strbundle = new StringBundle(document.getElementById("strings")),
     minesValidator = () => {
         const cells = height.valueAsNumber * width.valueAsNumber;
-        if(mines.valueAsNumber >= cells || cells < 2) {
+        if(mines.valueAsNumber >= cells || cells <= ONE) {
             mines.setCustomValidity(strbundle.getString('custom_form_error'));
         }
         else {
@@ -19,20 +21,21 @@ const mines = document.getElementById("mines"),
         if(nf) {
             return nf.format(number);
         }
-        else {
-            return number.toFixed(1);
-        }
+
+        return number.toFixed(ONE);
     },
     updateOutput = () => {
         if(mines.value.length && height.value.length && width.value.length) {
             strbundle.getStringAsync(
                 "custom_percentage_unit",
                 {
-                    percentage: toFixed(mines.valueAsNumber / (height.valueAsNumber * width.valueAsNumber) * 100)
+                    percentage: toFixed(mines.valueAsNumber / (height.valueAsNumber * width.valueAsNumber) * TO_PERCENT)
                 }
-            ).then((val) => {
-                percentage.value = val;
-            });
+            )
+                .then((val) => {
+                    percentage.value = val;
+                })
+                .catch(console.error);
         }
     },
     listener = () => {
@@ -48,7 +51,10 @@ const mines = document.getElementById("mines"),
     };
 
 if("Intl" in window) {
-    nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 0 });
+    nf = new Intl.NumberFormat(undefined, {
+        maximumFractionDigits: 1,
+        minimumFractionDigits: 0
+    });
 }
 
 mines.addEventListener("change", listener, false);

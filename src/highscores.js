@@ -27,7 +27,10 @@ const Highscores = {
 
         const oldData = [],
             cont = () => {
-                const scores = this.db.createObjectStore(self.TABLE, { keyPath: [ "score", "game" ] });
+                const scores = this.db.createObjectStore(self.TABLE, { keyPath: [
+                    "score",
+                    "game"
+                ] });
                 scores.createIndex("game", "game", { unique: false });
 
                 if(oldData.length) {
@@ -39,12 +42,12 @@ const Highscores = {
                 this.setReady();
             };
 
-        if(e.oldVersion > 0) {
+        if(e.oldVersion) {
             const store = e.target.transaction.objectStore(this.TABLE),
                 request = store.openCursor();
 
-            request.onsuccess = (e) => {
-                const cursor = e.target.result;
+            request.onsuccess = (ev) => {
+                const cursor = ev.target.result;
                 if(cursor) {
                     oldData.push(cursor.value);
                     cursor.continue();
@@ -70,14 +73,19 @@ const Highscores = {
         store.clear();
     },
     isNewTop(gameDescription, score, cbk) {
-        this.getTop(gameDescription, 1, (top) => {
-            cbk(!top.length || score < top[0].score);
+        const ONE_ITEM = 1;
+        this.getTop(gameDescription, ONE_ITEM, (top) => {
+            cbk(!top.length || score < top.shift().score);
         });
     },
     save(gameDescription, score, name) {
         const transaction = this.db.transaction(this.TABLE, "readwrite"),
             store = transaction.objectStore(this.TABLE),
-            object = { game: gameDescription, score, name };
+            object = {
+                game: gameDescription,
+                score,
+                name
+            };
         store.add(object);
     },
     getTop(gameDescription, num, cbk) {
@@ -96,9 +104,8 @@ const Highscores = {
                 cursor.continue();
             }
             else if(cbk) {
-                cbk(top.sort((a, b) => {
-                    return a.score - b.score;
-                }).slice(0, num));
+                const START = 0;
+                cbk(top.sort((a, b) => a.score - b.score).slice(START, num));
             }
         };
     },
@@ -112,7 +119,7 @@ const Highscores = {
             const cursor = e.target.result;
 
             if(cursor) {
-                if(games.indexOf(cursor.key) == -1) {
+                if(games.includes(cursor.key)) {
                     games.push(cursor.key);
                 }
                 cursor.continue();

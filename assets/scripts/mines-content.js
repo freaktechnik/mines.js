@@ -5,13 +5,21 @@ import Timer from '../../src/timer';
 import Highscores from '../../src/highscores';
 import globalState from './register-service-worker';
 
+const DIM_X = 0,
+    DIM_Y = 1,
+    HASH = "#",
+    VIBRATE_LONG = 500,
+    VIBRATE_SHORT = 50,
+    MS_TO_S = 1000.0,
+    TIME_STOPPED = 0;
+
 function gameDescriptionFromMines(mines) {
-    return mines.dimensions[0] + "x" + mines.dimensions[1] + ":" + mines.mineCount;
+    return `${mines.dimensions[DIM_X]}x${mines.dimensions[DIM_Y]}:${mines.mineCount}`;
 }
 
 const Page = {
     init() {
-        this.mines = this.getMinesFromHash(document.location.hash.substr(1));
+        this.mines = this.getMinesFromHash(document.location.hash.substr(HASH.length));
         this.mines.setSize(Preferences.fieldsize.value);
         this.mines.autoUncover = Preferences.autouncover.value;
 
@@ -32,12 +40,12 @@ const Page = {
 
         this.field.addEventListener("loose", () => {
             globalState.setGameState(false);
-            this.vibrate(500);
+            this.vibrate(VIBRATE_LONG);
         }, false);
 
         this.field.addEventListener("win", () => {
             const game = gameDescriptionFromMines(this.mines),
-                time = this.Toolbar.timer.model.getTime() / 1000.0;
+                time = this.Toolbar.timer.model.getTime() / MS_TO_S;
             globalState.setGameState(false);
 
             Highscores.isNewTop(game, time, (newTop) => {
@@ -59,7 +67,7 @@ const Page = {
         document.getElementById("highscore-form").addEventListener("submit", () => {
             const user = document.getElementById("highscore-user").value,
                 game = gameDescriptionFromMines(this.mines),
-                time = this.Toolbar.timer.model.getTime() / 1000.0;
+                time = this.Toolbar.timer.model.getTime() / MS_TO_S;
 
             $('#highscore-alert').closeModal();
 
@@ -72,13 +80,13 @@ const Page = {
 
         this.field.addEventListener("flagged", () => {
             if(!this.Toolbar.flagtoggle.button.checked) {
-                this.vibrate(50);
+                this.vibrate(VIBRATE_SHORT);
             }
         }, false);
 
         this.field.addEventListener("unflagged", () => {
             if(!this.Toolbar.flagtoggle.button.checked) {
-                this.vibrate(50);
+                this.vibrate(VIBRATE_SHORT);
             }
         }, false);
 
@@ -136,11 +144,11 @@ const Page = {
             });
 
             mines.context.addEventListener("flagged", () => {
-                this.output.value = parseInt(this.output.value, 10) - 1;
+                this.output.valueAsNumber -= 1;
             }, false);
 
             mines.context.addEventListener("unflagged", () => {
-                this.output.value = parseInt(this.output.value, 10) + 1;
+                this.output.valueAsNumber += 1;
             }, false);
         },
         unload() {
@@ -199,7 +207,7 @@ const Page = {
                 }
 
                 this.model = new Timer(time, this.output);
-                if(time !== 0 && !mines.paused) {
+                if(time !== TIME_STOPPED && !mines.paused) {
                     this.model.start();
                 }
                 else {
@@ -249,20 +257,21 @@ const Page = {
         }
     },
     // Execute an asynchonous vibration if it's enabled
-    vibrate: function PageVibrate(time) {
+    vibrate(time) {
         if("vibrate" in navigator && Preferences.vibration.value) {
+            const IMMEDIATE = 0;
             setTimeout(() => {
                 navigator.vibrate(time);
-            }, 0);
+            }, IMMEDIATE);
         }
     },
-    deleteSave: function PageDeleteSave() {
+    deleteSave() {
         Mines.removeSavedState();
 
         this.Toolbar.timer.deleteSave();
     },
-    getMinesFromHash: function PageGetMinesFromHash(hash) {
-        if(hash.charAt(0) == "r" || (!hash && Mines.hasSavedState())) {
+    getMinesFromHash(hash) {
+        if(hash.startsWith("r") || (!hash && Mines.hasSavedState())) {
             const mines = Mines.restoreSavedState(this.field);
             if(!mines) {
                 $('#save-corrupt').openModal({
@@ -286,10 +295,21 @@ const Page = {
         else {
             this.deleteSave();
             let preset;
-            if(hash.charAt(0) == "c") {
+            if(hash.startsWith("c")) {
                 document.querySelector("#nav-mobile li[data-difficulty='custom']").classList.add("active");
-                const vals = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/);
-                preset = { size: [ parseInt(vals[1], 10), parseInt(vals[2], 10) ], mines: parseInt(vals[3], 10) };
+                const [
+                    match, // eslint-disable-line no-unused-vars
+                    width,
+                    height,
+                    count
+                ] = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/) || [];
+                preset = {
+                    size: [
+                        parseInt(width, 10),
+                        parseInt(height, 10)
+                    ],
+                    mines: parseInt(count, 10)
+                };
             }
             else {
                 const difficulty = hash || "beginner";

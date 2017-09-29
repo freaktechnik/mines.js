@@ -1,4 +1,3 @@
-/* eslint-disable */
 (function(window, undefined) {
   'use strict';
 

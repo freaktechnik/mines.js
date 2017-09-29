@@ -2,5 +2,19 @@
     "parserOptions": {
         "sourceType": "module"
     },
-    "extends": "plugin:freaktechnik/browser"
+    "plugins": [
+        "import",
+        "compat"
+    ],
+    "rules": {
+        "compat/compat": 2
+    },
+    "settings": {
+        "import/resolver": "webpack"
+    },
+    "extends": [
+        "plugin:freaktechnik/browser",
+        "plugin:import/errors",
+        "plugin:import/warnings"
+    ]
 }

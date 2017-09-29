@@ -2,14 +2,21 @@
  * Timer thing
  */
 
-const TIME_UNIT_STRING = "mines_time_unit";
+const TIME_UNIT_STRING = "mines_time_unit",
+    NO_OFFSET = 0,
+    MS_TO_S = 1000.0,
+    ONE_DIGIT = 1,
+    INTERVAL = 100;
 
-function Timer(offset = 0, output) {
+function Timer(offset = NO_OFFSET, output) {
     this.offset = offset;
     this.output = output;
 
     if("Intl" in window) {
-        this._nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+        this._nf = new Intl.NumberFormat(undefined, {
+            maximumFractionDigits: 1,
+            minimumFractionDigits: 1
+        });
     }
     const time = this.formatTime(this.offset);
 
@@ -25,11 +32,10 @@ Timer.prototype.running = false;
 
 Timer.prototype.formatTime = function(time) {
     if(this._nf) {
-        return this._nf.format(time / 1000.0);
+        return this._nf.format(time / MS_TO_S);
     }
-    else {
-        return (time / 1000.0).toFixed(1);
-    }
+
+    return (time / MS_TO_S).toFixed(ONE_DIGIT);
 };
 
 Timer.prototype.updateOutput = function(time) {
@@ -46,7 +52,7 @@ Timer.prototype.updateOutput = function(time) {
 Timer.prototype.reset = function() {
     this.startTime = 0;
     this.offset = 0;
-    this.updateOutput(0.0);
+    this.updateOutput(NO_OFFSET);
     this.running = false;
     if(this.interval) {
         clearInterval(this.interval);
@@ -59,9 +65,8 @@ Timer.prototype.getTime = function() {
     if(!this.running) {
         return this.offset;
     }
-    else {
-        return Date.now() - this.startTime;
-    }
+
+    return Date.now() - this.startTime;
 };
 
 Timer.prototype.start = function() {
@@ -69,7 +74,7 @@ Timer.prototype.start = function() {
         this.startTime = Date.now() - this.offset;
         this.running = true;
         if(this.output) {
-            this.interval = setInterval(this.updateOutput.bind(this), 100);
+            this.interval = setInterval(this.updateOutput.bind(this), INTERVAL);
             this.output.dispatchEvent(new Event("start"));
         }
     }

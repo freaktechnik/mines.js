@@ -3,9 +3,7 @@ import Timer from '../src/timer';
 import setup from './helpers/setup-browser-env';
 import { wait, when } from './helpers/wait';
 
-test.before(() => {
-    return setup();
-});
+test.before(() => setup());
 
 test.beforeEach((t) => {
     t.context.output = document.createElement("output");

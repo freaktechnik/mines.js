@@ -1,8 +1,16 @@
 import Highscores from '../../src/highscores';
 
 let nf;
-const select = document.getElementById("gametype"),
-    builtinOptions = [ "8x8:10", "16x16:40", "30x16:99" ],
+const DIM_X = 0,
+    DIM_Y = 1,
+    TWO_DIGITS = 2,
+    HIGHSCORE_COUNT = 15,
+    select = document.getElementById("gametype"),
+    builtinOptions = [
+        "8x8:10",
+        "16x16:40",
+        "30x16:99"
+    ],
     list = document.getElementById("highscores"),
     noresults = document.getElementById("noresults"),
     updateSelect = () => {
@@ -10,13 +18,20 @@ const select = document.getElementById("gametype"),
     };
 
 if("Intl" in window) {
-    nf = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    nf = new Intl.NumberFormat(undefined, {
+        maximumFractionDigits: 2,
+        minimumFractionDigits: 2
+    });
 }
 
 function gameDescriptionFromValue(element, val) {
     const mines = val.split(":"),
-        size = mines[0].split("x");
-    navigator.mozL10n.setAttributes(element, "highscores_custom_board", { width: parseInt(size[0], 10), height: parseInt(size[1], 10), mines: parseInt(mines[1], 10) });
+        size = mines[DIM_X].split("x");
+    navigator.mozL10n.setAttributes(element, "highscores_custom_board", {
+        width: parseInt(size[DIM_X], 10),
+        height: parseInt(size[DIM_Y], 10),
+        mines: parseInt(mines[DIM_Y], 10)
+    });
     // Need to explicitly translate it in case it's not inserted into the document yet.
     navigator.mozL10n.translateFragment(element);
 }
@@ -26,14 +41,14 @@ function highscoreListItem(name, time) {
         time = nf.format(time);
     }
     else {
-        time = time.toFixed(2);
+        time = time.toFixed(TWO_DIGITS);
     }
 
     const li = document.createElement("li"),
         divA = document.createElement("span"),
         divB = document.createElement("span"),
         nameNode = document.createTextNode(name),
-        timeNode = document.createTextNode(time + "s");
+        timeNode = document.createTextNode(`${time}s`);
 
     li.classList.add("dynamic");
     li.classList.add("collection-item");
@@ -58,7 +73,7 @@ function removeDynamicItems() {
 }
 
 function showHighscores(game) {
-    Highscores.getTop(game, 15, (tops) => {
+    Highscores.getTop(game, HIGHSCORE_COUNT, (tops) => {
         removeDynamicItems();
         if(tops.length) {
             noresults.classList.add("hidden");
@@ -84,7 +99,7 @@ function addOption(game) {
 function loadGames() {
     Highscores.getGames((games) => {
         games.forEach((game) => {
-            if(builtinOptions.indexOf(game) == -1) {
+            if(builtinOptions.includes(game)) {
                 addOption(game);
             }
         });
@@ -118,4 +133,3 @@ document.getElementById("delete-highscores").addEventListener("click", () => {
 $('select').on('change', () => {
     showHighscores(select.value);
 });
-

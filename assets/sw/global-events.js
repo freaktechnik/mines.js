@@ -17,7 +17,7 @@ self.addEventListener("message", (event) => {
         gameState = event.data.message;
     }
     else if(event.data.command == 'game-state') {
-        event.ports[0].postMessage({
+        event.ports.shift().postMessage({
             command: 'game-state',
             message: gameState
         });

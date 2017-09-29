@@ -11,6 +11,7 @@ main {
 #fieldcontainer {
     width: 100%;
     font-size: initial;
+
     /* Make sure you can scroll out of the FAB */
     margin-bottom: 100px;
     overflow: auto;
@@ -23,7 +24,7 @@ table {
     -ms-user-select: none;
     user-select: none;
     transition-property: box-shadow;
-    transition-duration: .5s;
+    transition-duration: 0.5s;
     margin: 1px auto;
     color: black;
     white-space: nowrap;
@@ -64,30 +65,37 @@ body:not([data-whatinput='keyboard']) td {
     content: "1";
     color: blue;
 }
+
 .two:not(.covered)::after {
     content: "2";
     color: green;
 }
+
 .three:not(.covered)::after {
     content: "3";
     color: red;
 }
+
 .four:not(.covered)::after {
     content: "4";
     color: navy;
 }
+
 .five:not(.covered)::after {
     content: "5";
     color: maroon;
 }
+
 .six:not(.covered)::after {
     content: "6";
     color: teal;
 }
+
 .seven:not(.covered)::after {
     content: "7";
     color: purple;
 }
+
 .eight:not(.covered)::after {
     content: "8";
     color: black;
@@ -99,6 +107,7 @@ body:not([data-whatinput='keyboard']) td {
     font-family: mine;
     font-weight: initial;
 }
+
 .covered {
     border: 3px outset lightgray;
     color: transparent;
@@ -142,7 +151,7 @@ table:not(.done):not(.paused) .covered:active {
 .done:not(.gameover) {
     box-shadow: 0 0 3em green;
 }
+
 .gameover {
     box-shadow: 0 0 3em red;
 }
-

@@ -29,14 +29,12 @@ const STRINGS = [
     }
 ];
 
-test.before(() => {
-    return setup(`<div id="strings">
+test.before(() => setup(`<div id="strings">
     <span data-l10n-id="mines_restore_error"></span>
     <span data-l10n-id="mines_new_highscore"></span>
     <span data-l10n-id="highscores_custom_board"></span>
     <span data-l10n-id="mines_time_unit"></span>
-</div>`);
-});
+</div>`));
 
 test.beforeEach((t) => {
     t.context.strbundle = new StringBundle(document.getElementById("strings"));
@@ -60,9 +58,18 @@ STRINGS.forEach((s) => test("async", testAsync, s));
 
 test("async same string", (t) => {
     const args = [
-        { arg: "1.23", val: "1.23s" },
-        { arg: "0.1", val: "0.1s" },
-        { arg: "abc", val: "abcs" }
+        {
+            arg: "1.23",
+            val: "1.23s"
+        },
+        {
+            arg: "0.1",
+            val: "0.1s"
+        },
+        {
+            arg: "abc",
+            val: "abcs"
+        }
     ];
     return Promise.all(args.map(async (argument) => {
         const val = await t.context.strbundle.getStringAsync("mines_time_unit", { time: argument.arg });

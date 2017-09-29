@@ -20,7 +20,7 @@ StringBundle.prototype.container = null;
  * @returns {Element} Container element of the string.
  */
 StringBundle.prototype.getStringContainer = function(id) {
-    return this.container.querySelector("[data-l10n-id='" + id + "']");
+    return this.container.querySelector(`[data-l10n-id='${id}']`);
 };
 
 /**
@@ -41,16 +41,16 @@ StringBundle.prototype.getString = function(id) {
  * @param {string} id - ID of the translated string.
  * @param {Object} args - Arguments for variables within the string.
  * @async
- * @returns {string}
+ * @returns {string} Translation of string with the supplied ID..
  */
 StringBundle.prototype.getStringAsync = function(id, args) {
     const node = this.getStringContainer(id);
-    return new Promise((accept) => {
+    return new Promise((resolve) => {
         const tempNode = node.cloneNode();
         navigator.mozL10n.ready(() => {
             navigator.mozL10n.setAttributes(tempNode, id, args);
             navigator.mozL10n.translateFragment(tempNode);
-            accept(tempNode.textContent);
+            resolve(tempNode.textContent);
         });
     });
 };

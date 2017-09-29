@@ -9,20 +9,34 @@ function getRandomInt(min, max) {
 
 const COVERED_CLASS = "covered",
     FLAGGED_CLASS = "flagged",
-    FLASH_CLASS = "invalid";
+    FLASH_CLASS = "invalid",
+    DEFAULT_SIZE = 8,
+    DEFAULT_MINE_COUNT = 10,
+    ADVANCED_SIZE = 16,
+    ADVANCED_MINE_COUNT = 40,
+    EXPERT_HEIGHT = 16,
+    EXPERT_WIDTH = 30,
+    EXPERT_MINE_COUNT = 99,
+    DIM_X = 0,
+    DIM_Y = 1,
+    ORIGIN = 0,
+    RIGHT_CLICK = 2;
 
 function Mines(cfx, dimensions, mineCount) {
-    this.dimensions = dimensions || [ 8, 8 ];
-    this.mineCount = mineCount || 10;
+    this.dimensions = dimensions || [
+        DEFAULT_SIZE,
+        DEFAULT_SIZE
+    ];
+    this.mineCount = mineCount || DEFAULT_MINE_COUNT;
     this.context = cfx;
 
     const board = [],
         marked = [];
 
-    for(let y = 0, x; y < dimensions[1]; ++y) {
+    for(let y = 0; y < dimensions[DIM_Y]; ++y) {
         board.push([]);
         marked.push([]);
-        for(x = 0; x < dimensions[0]; ++x) {
+        for(let x = 0; x < dimensions[DIM_X]; ++x) {
             board[y].push(Mines.AIR);
             marked[y].push(Mines.MINE_UNKNOWN);
         }
@@ -35,18 +49,26 @@ function Mines(cfx, dimensions, mineCount) {
     this.context.parentNode.removeAttribute("aria-busy");
 
     this.context.addEventListener("keydown", (e) => {
-        if(e.key == "r" || e.keyCode == 82 || e.key == "F2") {
+        const KEYCODE = {
+            r: 82,
+            capsLock: 82,
+            p: 80,
+            pause: 8,
+            pauseAlt: 19,
+            f1: 112
+        };
+        if(e.key == "r" || e.keyCode == KEYCODE.r || e.key == "F2") {
             this.reset();
         }
-        else if(e.key == "CapsLock" || e.keyCode == 20) {
+        else if(e.key == "CapsLock" || e.keyCode == KEYCODE.capsLock) {
             this.toggleMode();
             e.preventDefault();
         }
-        else if(e.key == "p" || e.keyCode == 80 || e.key == "Pause" || e.keyCode == 8 ||
-                e.keyCode == 19) {
+        else if(e.key == "p" || e.keyCode == KEYCODE.p || e.key == "Pause" || e.keyCode == KEYCODE.pause ||
+                e.keyCode == KEYCODE.pauseAlt) {
             this.togglePause();
         }
-        else if(e.key == "F1" || e.keyCode == 112) {
+        else if(e.key == "F1" || e.keyCode == KEYCODE.f1) {
             this.context.dispatchEvent(new Event("help"));
         }
         //TODO F4 stats
@@ -94,9 +116,27 @@ Mines.MINE_FLAG = 1;
 Mines.MINE_KNOWN = 2;
 
 Mines.defaultBoards = {
-    "beginner": { "size": [ 8, 8 ], "mines": 10 },
-    "advanced": { "size": [ 16, 16 ], "mines": 40 },
-    "expert": { "size": [ 30, 16 ], "mines": 99 }
+    "beginner": {
+        "size": [
+            DEFAULT_SIZE,
+            DEFAULT_SIZE
+        ],
+        "mines": DEFAULT_MINE_COUNT
+    },
+    "advanced": {
+        "size": [
+            ADVANCED_SIZE,
+            ADVANCED_SIZE
+        ],
+        "mines": ADVANCED_MINE_COUNT
+    },
+    "expert": {
+        "size": [
+            EXPERT_WIDTH,
+            EXPERT_HEIGHT
+        ],
+        "mines": EXPERT_MINE_COUNT
+    }
 };
 
 Mines.prototype.dimensions = [];
@@ -140,14 +180,15 @@ Mines.prototype.translateCell = function(x, y, deferTranslation) {
 Mines.prototype.translateCellNode = function(x, y, node, deferTranslation) {
     let l10nId = "mines_cell_covered";
     if(this.markedMines[y][x] == Mines.MINE_KNOWN) {
-        l10nId = "mines_cell_" + (this.board[y][x] == Mines.MINE ? "mine" : "known");
+        l10nId = `mines_cell_${this.board[y][x] == Mines.MINE ? "mine" : "known"}`;
     }
     else if(this.markedMines[y][x] == Mines.MINE_FLAG) {
         l10nId = "mines_cell_flagged";
     }
+    const ONE_BASED = 1;
     navigator.mozL10n.setAttributes(node, l10nId, {
-        x: x + 1,
-        y: y + 1,
+        x: x + ONE_BASED,
+        y: y + ONE_BASED,
         val: this.board[y][x]
     });
     if(!deferTranslation) {
@@ -157,7 +198,7 @@ Mines.prototype.translateCellNode = function(x, y, node, deferTranslation) {
 
 Mines.prototype.setSize = function(size) {
     this.size = size;
-    this.context.style.fontSize = size + 'em';
+    this.context.style.fontSize = `${size}em`;
 };
 
 Mines.prototype.gameOver = function() {
@@ -188,10 +229,10 @@ Mines.prototype.win = function() {
 Mines.prototype.reset = function() {
     const board = [],
         marked = [];
-    for(let y = 0, x; y < this.dimensions[1]; ++y) {
+    for(let y = 0; y < this.dimensions[DIM_Y]; ++y) {
         board.push([]);
         marked.push([]);
-        for(x = 0; x < this.dimensions[0]; ++x) {
+        for(let x = 0; x < this.dimensions[DIM_X]; ++x) {
             board[y].push(Mines.AIR);
             marked[y].push(Mines.MINE_UNKNOWN);
         }
@@ -232,10 +273,10 @@ Mines.prototype.generate = function(emptyPoint) {
     let remainingMines = this.mineCount,
         x,
         y;
-    while(remainingMines > 0) {
-        x = getRandomInt(0, this.dimensions[0]);
-        y = getRandomInt(0, this.dimensions[1]);
-        if(this.board[y][x] != Mines.MINE && (x != emptyPoint[0] || y != emptyPoint[1])) {
+    while(remainingMines) {
+        x = getRandomInt(ORIGIN, this.dimensions[DIM_X]);
+        y = getRandomInt(ORIGIN, this.dimensions[DIM_Y]);
+        if(this.board[y][x] != Mines.MINE && (x != emptyPoint[DIM_X] || y != emptyPoint[DIM_Y])) {
             this.addMine(x, y);
             --remainingMines;
         }
@@ -249,9 +290,10 @@ Mines.prototype.addMine = function(x, y) {
     this.board[y][x] = Mines.MINE;
 
     // Mark the mine around itself
-    const left = x > 0,
-        right = x < this.dimensions[0] - 1;
-    if(y > 0) {
+    /* eslint-disable no-magic-numbers */
+    const left = x > ORIGIN,
+        right = x < this.dimensions[DIM_X] - 1;
+    if(y > ORIGIN) {
         this.addNeighbouringMine(x, y - 1);
         if(left) {
             this.addNeighbouringMine(x - 1, y - 1);
@@ -260,7 +302,7 @@ Mines.prototype.addMine = function(x, y) {
             this.addNeighbouringMine(x + 1, y - 1);
         }
     }
-    if(y < this.dimensions[1] - 1) {
+    if(y < this.dimensions[DIM_Y] - 1) {
         this.addNeighbouringMine(x, y + 1);
         if(left) {
             this.addNeighbouringMine(x - 1, y + 1);
@@ -275,6 +317,7 @@ Mines.prototype.addMine = function(x, y) {
     if(right) {
         this.addNeighbouringMine(x + 1, y);
     }
+    /* eslint-enable no-magic-numbers */
 };
 
 Mines.prototype.addNeighbouringMine = function(x, y) {
@@ -284,19 +327,16 @@ Mines.prototype.addNeighbouringMine = function(x, y) {
 };
 
 Mines.prototype.countFlags = function() {
+    const NO_FLAGS = 0;
     if(!this.boardGenerated) {
-        return 0;
+        return NO_FLAGS;
     }
-    return this.markedMines.reduce((p, row) => {
-        return row.reduce((p, cell) => {
-            if(Mines.MINE_FLAG === cell) {
-                return p + 1;
-            }
-            else {
-                return p;
-            }
-        }, p);
-    }, 0);
+    return this.markedMines.reduce((p, row) => row.reduce((prev, cell) => {
+        if(Mines.MINE_FLAG === cell) {
+            return ++prev;
+        }
+        return prev;
+    }, p), NO_FLAGS);
 };
 
 Mines.prototype.nonMinesCovered = function() {
@@ -305,32 +345,31 @@ Mines.prototype.nonMinesCovered = function() {
     }
     let count = 0;
     // Flatten array
-    return this.markedMines.reduce((p, row) => {
-        return p.concat(row);
-    }, []).some(function(mine) {
+    return this.markedMines.reduce((p, row) => p.concat(row), []).some(function(mine) {
         if(Mines.MINE_KNOWN === mine) {
             return false;
         }
-        else {
-            ++count;
-            return count > this.mineCount;
-        }
+
+        ++count;
+        return count > this.mineCount;
     }, this);
 };
 
 Mines.prototype.getCell = function(x, y) {
-    if(x >= 0 && y >= 0 && x < this.dimensions[0] && y < this.dimensions[1]) {
+    if(x >= ORIGIN && y >= ORIGIN && x < this.dimensions[DIM_X] && y < this.dimensions[DIM_Y]) {
         return this.context.rows[y].cells[x];
     }
-    else {
-        return null;
-    }
+
+    return null;
 };
 
 Mines.prototype.uncoverCell = function(x, y, force) {
     if(force || (this.markedMines[y][x] === Mines.MINE_UNKNOWN && !this.done)) {
         if(!this.boardGenerated) {
-            this.generate([ x, y ]);
+            this.generate([
+                x,
+                y
+            ]);
         }
 
         const cell = this.getCell(x, y);
@@ -347,9 +386,10 @@ Mines.prototype.uncoverCell = function(x, y, force) {
             this.win();
         }
         else if(this.cellFullyMarked(x, y) && this.autoUncover) {
-            const left = x > 0,
-                right = x < this.dimensions[0] - 1;
-            if(y > 0) {
+            /* eslint-disable no-magic-numbers */
+            const left = x > ORIGIN,
+                right = x < this.dimensions[DIM_X] - 1;
+            if(y > ORIGIN) {
                 this.uncoverCell(x, y - 1);
                 if(left) {
                     this.uncoverCell(x - 1, y - 1);
@@ -358,7 +398,7 @@ Mines.prototype.uncoverCell = function(x, y, force) {
                     this.uncoverCell(x + 1, y - 1);
                 }
             }
-            if(y < this.dimensions[1] - 1) {
+            if(y < this.dimensions[DIM_Y] - 1) {
                 this.uncoverCell(x, y + 1);
                 if(left) {
                     this.uncoverCell(x - 1, y + 1);
@@ -373,6 +413,7 @@ Mines.prototype.uncoverCell = function(x, y, force) {
             if(right) {
                 this.uncoverCell(x + 1, y);
             }
+            /* eslint-enable no-magic-numbers */
         }
     }
 };
@@ -400,9 +441,10 @@ Mines.prototype.flagCell = function(x, y, force) {
 
 Mines.prototype.uncoverCompleteCells = function(x, y) {
     if(this.cellFullyMarked(x, y) && this.autoUncover) {
-        const left = x > 0,
-            right = x < this.dimensions[0] - 1;
-        if(y > 0) {
+        /* eslint-disable no-magic-numbers */
+        const left = x > ORIGIN,
+            right = x < this.dimensions[DIM_X] - 1;
+        if(y > ORIGIN) {
             this.uncoverCell(x, y - 1);
             if(left) {
                 this.uncoverCell(x - 1, y - 1);
@@ -411,7 +453,7 @@ Mines.prototype.uncoverCompleteCells = function(x, y) {
                 this.uncoverCell(x + 1, y - 1);
             }
         }
-        if(y < this.dimensions[1] - 1) {
+        if(y < this.dimensions[DIM_Y] - 1) {
             this.uncoverCell(x, y + 1);
             if(left) {
                 this.uncoverCell(x - 1, y + 1);
@@ -426,6 +468,7 @@ Mines.prototype.uncoverCompleteCells = function(x, y) {
         if(right) {
             this.uncoverCell(x + 1, y);
         }
+        /* eslint-enable no-magic-numbers */
     }
     else {
         this.getCell(x, y).classList.add(FLASH_CLASS);
@@ -433,7 +476,9 @@ Mines.prototype.uncoverCompleteCells = function(x, y) {
 };
 
 Mines.prototype.cellIsFlagged = function(x, y) {
-    return this.markedMines[y][x] == Mines.MINE_FLAG ? 1 : 0;
+    const FLAGGED = 1,
+        NOT_FLAGGED = 0;
+    return this.markedMines[y][x] == Mines.MINE_FLAG ? FLAGGED : NOT_FLAGGED;
 };
 
 Mines.prototype.cellFullyMarked = function(x, y) {
@@ -443,44 +488,45 @@ Mines.prototype.cellFullyMarked = function(x, y) {
     else if(Mines.AIR == this.board[y][x]) {
         return true;
     }
-    else {
-        let surroundingFlags = 0;
-        const left = x > 0,
-            right = x < this.dimensions[0] - 1;
-        if(y > 0) {
-            surroundingFlags += this.cellIsFlagged(x, y - 1);
-            if(left) {
-                surroundingFlags += this.cellIsFlagged(x - 1, y - 1);
-            }
-            if(right) {
-                surroundingFlags += this.cellIsFlagged(x + 1, y - 1);
-            }
-        }
-        if(y < this.dimensions[1] - 1) {
-            surroundingFlags += this.cellIsFlagged(x, y + 1);
-            if(left) {
-                surroundingFlags += this.cellIsFlagged(x - 1, y + 1);
-            }
-            if(right) {
-                surroundingFlags += this.cellIsFlagged(x + 1, y + 1);
-            }
-        }
+
+    let surroundingFlags = 0;
+    /* eslint-disable no-magic-numbers */
+    const left = x > ORIGIN,
+        right = x < this.dimensions[DIM_X] - 1;
+    if(y > ORIGIN) {
+        surroundingFlags += this.cellIsFlagged(x, y - 1);
         if(left) {
-            surroundingFlags += this.cellIsFlagged(x - 1, y);
+            surroundingFlags += this.cellIsFlagged(x - 1, y - 1);
         }
         if(right) {
-            surroundingFlags += this.cellIsFlagged(x + 1, y);
+            surroundingFlags += this.cellIsFlagged(x + 1, y - 1);
         }
-
-        return surroundingFlags == this.board[y][x];
     }
+    if(y < this.dimensions[DIM_Y] - 1) {
+        surroundingFlags += this.cellIsFlagged(x, y + 1);
+        if(left) {
+            surroundingFlags += this.cellIsFlagged(x - 1, y + 1);
+        }
+        if(right) {
+            surroundingFlags += this.cellIsFlagged(x + 1, y + 1);
+        }
+    }
+    if(left) {
+        surroundingFlags += this.cellIsFlagged(x - 1, y);
+    }
+    if(right) {
+        surroundingFlags += this.cellIsFlagged(x + 1, y);
+    }
+    /* eslint-enable no-magic-numbers */
+
+    return surroundingFlags == this.board[y][x];
 };
 
 Mines.prototype.cellClickListener = function(x, y, e) {
     e.preventDefault();
     if(!this.done && !this.paused) {
         if(this.markedMines[y][x] !== Mines.MINE_KNOWN) {
-            if(Mines.MODE_UNCOVER === this.mode && e.button != 2) {
+            if(Mines.MODE_UNCOVER === this.mode && e.button != RIGHT_CLICK) {
                 this.uncoverCell(x, y);
             }
             else {
@@ -500,7 +546,7 @@ Mines.prototype.createCell = function(x, y) {
     cell.classList.add(COVERED_CLASS);
     cell.setAttribute("aria-pressed", "false");
     cell.setAttribute("role", "gridcell");
-    cell.setAttribute("tabindex", 0);
+    cell.setAttribute("tabindex", ORIGIN);
     this.translateCellNode(x, y, cell);
 
     cell.addEventListener("click", clickListener, false);
@@ -511,47 +557,63 @@ Mines.prototype.createCell = function(x, y) {
         }
     }, false);
     cell.addEventListener("keydown", (e) => {
-        if(e.key == "ArrowUp" || e.key == "PageUp" || e.keyCode == 38 || e.keyCode == 33) {
-            if(y > 0) {
-                this.getCell(x, y - 1).focus();
+        const KEYCODE = {
+            up: 38,
+            pageUp: 33,
+            down: 40,
+            pageDown: 34,
+            left: 37,
+            right: 39,
+            home: 36,
+            end: 35,
+            enter: 32,
+            f: 70
+        };
+        if(e.key == "ArrowUp" || e.key == "PageUp" || e.keyCode == KEYCODE.up || e.keyCode == KEYCODE.pageUp) {
+            if(y > ORIGIN) {
+                this.getCell(x, y - 1).focus(); // eslint-disable-line no-magic-numbers
             }
             e.preventDefault();
             cell.scrollIntoView();
             // scrollIntoView doesn't really work with the fixed header and footer, sadly
         }
-        else if(e.key == "ArrowDown" || e.key == "PageDown" || e.keyCode == 40 || e.keyCode == 34) {
-            if(y < this.dimensions[1] - 1) {
+        else if(e.key == "ArrowDown" || e.key == "PageDown" || e.keyCode == KEYCODE.down || e.keyCode == KEYCODE.pageDown) {
+            /* eslint-disable no-magic-numbers */
+            if(y < this.dimensions[DIM_Y] - 1) {
                 this.getCell(x, y + 1).focus();
             }
+            /* eslint-enable no-magic-numbers */
             e.preventDefault();
             cell.scrollIntoView();
         }
-        else if(e.key == "ArrowLeft" || e.keyCode == 37) {
-            if(x > 0) {
-                this.getCell(x - 1, y).focus();
+        else if(e.key == "ArrowLeft" || e.keyCode == KEYCODE.left) {
+            if(x > ORIGIN) {
+                this.getCell(x - 1, y).focus(); // eslint-disable-line no-magic-numbers
             }
             e.preventDefault();
             cell.scrollIntoView();
         }
-        else if(e.key == "ArrowRight" || e.keyCode == 39) {
-            if(x < this.dimensions[0] - 1) {
+        else if(e.key == "ArrowRight" || e.keyCode == KEYCODE.right) {
+            /* eslint-disable no-magic-numbers */
+            if(x < this.dimensions[DIM_X] - 1) {
                 this.getCell(x + 1, y).focus();
             }
+            /* eslint-enable no-magic-numbers */
             e.preventDefault();
             cell.scrollIntoView();
         }
-        else if(e.key == "Home" || e.keyCode == 36) {
-            this.getCell(0, 0).focus();
+        else if(e.key == "Home" || e.keyCode == KEYCODE.home) {
+            this.getCell(ORIGIN, ORIGIN).focus();
         }
-        else if(e.key == "End" || e.keyCode == 35 ) {
-            this.getCell(this.dimensions[0] - 1, this.dimensions[1] - 1).focus();
+        else if(e.key == "End" || e.keyCode == KEYCODE.end) {
+            this.getCell(this.dimensions[DIM_X] - 1, this.dimensions[DIM_Y] - 1).focus(); // eslint-disable-line no-magic-numbers
         }
-        else if(((e.key == " " || e.key == "Enter") && !e.ctrlKey && !e.shiftKey) || e.keyCode == 32) {
+        else if(((e.key == " " || e.key == "Enter") && !e.ctrlKey && !e.shiftKey) || e.keyCode == KEYCODE.enter) {
             cell.click();
         }
         else if(!this.done && !this.paused) {
             if(this.markedMines[y][x] !== Mines.MINE_KNOWN) {
-                if(e.key == "f" || e.keyCode == 70 || e.key == "1" || ((e.key == " " || e.key == "Enter") && (e.ctrlKey || e.shiftKey))) {
+                if(e.key == "f" || e.keyCode == KEYCODE.f || e.key == "1" || ((e.key == " " || e.key == "Enter") && (e.ctrlKey || e.shiftKey))) {
                     e.preventDefault();
                     this.flagCell(x, y);
                 }
@@ -568,14 +630,14 @@ Mines.prototype.createCell = function(x, y) {
 Mines.prototype.createRow = function(y) {
     const row = document.createElement("tr");
 
-    for(let i = 0; i < this.dimensions[0]; ++i) {
+    for(let i = 0; i < this.dimensions[DIM_X]; ++i) {
         row.appendChild(this.createCell(i, y));
     }
     return row;
 };
 
 Mines.prototype.generateBoard = function() {
-    for(let i = 0; i < this.dimensions[1]; ++i) {
+    for(let i = 0; i < this.dimensions[DIM_Y]; ++i) {
         this.context.appendChild(this.createRow(i));
     }
 };
@@ -585,9 +647,9 @@ Mines.prototype.printEmptyBoard = function() {
         this.generateBoard();
     }
     else {
-        if(this.context.childElementCount > this.dimensions[1]) {
-            const rowsToRemove = this.context.childElementCount - this.dimensions[1],
-                start = this.context.childElementCount - 1;
+        if(this.context.childElementCount > this.dimensions[DIM_Y]) {
+            const rowsToRemove = this.context.childElementCount - this.dimensions[DIM_Y],
+                start = --this.context.childElementCount;
             for(let i = 0; i < rowsToRemove; ++i) {
                 this.context.removeChild(this.context.rows[start - i]);
             }
@@ -595,8 +657,8 @@ Mines.prototype.printEmptyBoard = function() {
         for(let j = 0; j < this.context.childElementCount; ++j) {
             const row = this.context.rows[j];
             let start = row.childElementCount;
-            if(start > this.dimensions[0]) {
-                const cellsToRemove = start - this.dimensions[0];
+            if(start > this.dimensions[DIM_X]) {
+                const cellsToRemove = start - this.dimensions[DIM_X];
                 for(let k = 0; k < cellsToRemove; ++k) {
                     row.removeChild(row.cells[start - k]);
                 }
@@ -607,15 +669,15 @@ Mines.prototype.printEmptyBoard = function() {
                 row.cells[l].className = COVERED_CLASS;
                 this.translateCellNode(l, j, row.cells[l], true);
             }
-            if(start < this.dimensions[0]) {
-                const cellsToAdd = this.dimensions[0] - start;
+            if(start < this.dimensions[DIM_X]) {
+                const cellsToAdd = this.dimensions[DIM_X] - start;
                 for(let m = 0; m < cellsToAdd; ++m) {
                     row.appendChild(this.createCell(start + m, j));
                 }
             }
         }
-        if(this.context.childElementCount < this.dimensions[1]) {
-            const rowsToAdd = this.dimensions[1] - this.context.childElementCount,
+        if(this.context.childElementCount < this.dimensions[DIM_Y]) {
+            const rowsToAdd = this.dimensions[DIM_Y] - this.context.childElementCount,
                 start = this.context.childElementCount;
             for(let n = 0; n < rowsToAdd; ++n) {
                 this.context.appendChild(this.createRow(start + n));
@@ -633,9 +695,9 @@ Mines.prototype.printBoard = function() {
         }
         else {
             let tr;
-            for(let y = 0; y < this.dimensions[1]; ++y) {
+            for(let y = 0; y < this.dimensions[DIM_Y]; ++y) {
                 tr = this.context.rows[y];
-                for(let x = 0; x < this.dimensions[0]; ++x) {
+                for(let x = 0; x < this.dimensions[DIM_X]; ++x) {
                     tr.cells[x].classList.add(Mines.getClassForContent(this.board[y][x]));
                 }
             }
@@ -645,8 +707,8 @@ Mines.prototype.printBoard = function() {
 
 Mines.prototype.restoreBoard = function() {
     this.printBoard();
-    for(let y = 0; y < this.dimensions[1]; ++y) {
-        for(let x = 0, mineState; x < this.dimensions[0]; ++x) {
+    for(let y = 0; y < this.dimensions[DIM_Y]; ++y) {
+        for(let x = 0, mineState; x < this.dimensions[DIM_X]; ++x) {
             this.translateCell(x, y, true);
             mineState = this.markedMines[y][x];
             if(Mines.MINE_KNOWN === mineState) {
@@ -682,7 +744,10 @@ Mines.prototype.saveState = function() {
 Mines.restoreSavedState = function(cfx) {
     if(Mines.hasSavedState()) {
         const settings = JSON.parse(localStorage.getItem("gameSettings")),
-            mines = new Mines(cfx, [ settings.board[0].length, settings.board.length ], settings.mineCount);
+            mines = new Mines(cfx, [
+                settings.board[ORIGIN].length,
+                settings.board.length
+            ], settings.mineCount);
         mines.board = settings.board;
         mines.markedMines = settings.markedMines;
         mines.boardGenerated = true;

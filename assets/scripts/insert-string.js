@@ -9,14 +9,14 @@ const attrMap = {
         let str = ` data-l10n-id="${id}">`,
             string = bundle[id] || bundle[`${id}.innerHTML`];
         if(attr && !(attr in attrMap)) {
-            string = bundle[id + '.' + attr];
+            string = bundle[`${id}.${attr}`];
         }
         else if(attr && attr in attrMap) {
-            string = bundle[id + '.' + attrMap[attr]];
+            string = bundle[`${id}.${attrMap[attr]}`];
         }
 
         if(!string || !string.trim().length) {
-            throw `Empty string ${id}`;
+            throw new Error(`Empty string ${id}`);
         }
 
         if(options) {

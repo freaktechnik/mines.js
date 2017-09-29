@@ -35,10 +35,10 @@ NumberPreference.prototype = {
     title: "",
     defaultValue: 0,
     get value() {
-        return parseFloat(localStorage.getItem(this.title), 10);
+        return parseFloat(localStorage.getItem(this.title));
     },
     set value(val) {
-        const num = parseFloat(val, 10);
+        const num = parseFloat(val);
         if(typeof num == "number" && !isNaN(num)) {
             localStorage.setItem(this.title, val);
         }

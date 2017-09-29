@@ -5,7 +5,12 @@ global.localStorage = new Storage(null);
 global.navigator = {};
 
 const Preferences = require('../src/settings').default;
-const EXPECTED_PREFS = [ "vibration", "fieldsize", "autotoggle", "autouncover" ];
+const EXPECTED_PREFS = [
+    "vibration",
+    "fieldsize",
+    "autotoggle",
+    "autouncover"
+];
 
 test.afterEach(() => {
     Preferences.reset();
@@ -49,7 +54,7 @@ const testPref = (t, pref, name) => {
         testNumberPref(t, pref);
     }
     else {
-        t.fail("Invalid pref type for " + name);
+        t.fail(`Invalid pref type for ${name}`);
     }
 };
 testPref.title = (providedTitle, pref, name) => `${providedTitle} - ${name}: functionality test`;
@@ -60,7 +65,10 @@ const testPrefProperties = (t, pref, name) => {
 };
 testPrefProperties.title = (providedTitle, pref, name) => `${providedTitle} - ${name}: naming`;
 
-EXPECTED_PREFS.forEach((name) => test("Preference anatomy", [ testPref, testPrefProperties ], Preferences[name], name));
+EXPECTED_PREFS.forEach((name) => test("Preference anatomy", [
+    testPref,
+    testPrefProperties
+], Preferences[name], name));
 
 test("Preferences.reset()", (t) => {
     Preferences.fieldsize.value = 2;
