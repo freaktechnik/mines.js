@@ -1,7 +1,4 @@
 {
-    "env": {
-        "commonjs": true
-    },
     "globals": {
         "$": true,
         "_": true

@@ -1,20 +1,6 @@
 {
-    "parserOptions": {
-        "sourceType": "module"
-    },
-    "plugins": [
-        "import",
-        "compat"
-    ],
-    "rules": {
-        "compat/compat": 2
-    },
-    "settings": {
-        "import/resolver": "webpack"
-    },
     "extends": [
-        "plugin:freaktechnik/browser",
-        "plugin:import/errors",
-        "plugin:import/warnings"
+        "@freaktechnik/eslint-config-browser",
+        "@freaktechnik/eslint-config-webpack"
     ]
 }

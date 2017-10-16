@@ -1,16 +1,8 @@
 {
-    "parserOptions": {
-        "sourceType": "module"
-    },
-    "plugins": [
-        "import"
-    ],
     "env": {
         "browser": true
     },
     "extends": [
-        "plugin:freaktechnik/test",
-        "plugin:import/errors",
-        "plugin:import/warnings"
+        "@freaktechnik/eslint-config-test"
     ]
 }
