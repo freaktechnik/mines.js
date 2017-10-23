@@ -13,7 +13,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-regenerator-runtime": "^6.5.0",
     "clean-webpack-plugin": "^0.1.17",
-    "codecov": "^2.3.0",
+    "codecov": "^3.0.0",
     "css-loader": "^0.28.0",
     "dom-storage": "^2.0.2",
     "ejs-loader": "^0.3.0",
