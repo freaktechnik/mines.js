@@ -68,7 +68,7 @@ iframe {
 }
 
 .custom_icon {
-    font-family: mine;
+    font-family: mine; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
     font-style: normal !important;
     font-weight: 500;
     font-size: 25px !important;

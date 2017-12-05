@@ -104,7 +104,7 @@ body:not([data-whatinput='keyboard']) td {
 .mine:not(.covered)::after,
 .gameover .mine::after {
     content: "9";
-    font-family: mine;
+    font-family: mine; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
     font-weight: initial;
 }
 
@@ -142,7 +142,7 @@ table:not(.done):not(.paused) .covered:active {
     width: calc(1.5em - 6px);
     text-align: center;
     font-weight: normal;
-    font-family: "Material Icons";
+    font-family: "Material Icons"; /* stylelint-disable-line font-family-no-missing-generic-family-keyword */
     font-style: normal;
     text-rendering: optimizeLegibility;
     font-feature-settings: 'liga';
