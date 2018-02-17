@@ -302,7 +302,7 @@ const Page = {
                     width,
                     height,
                     count
-                ] = hash.match(/^c([0-9]+)x([0-9]+):([0-9]+)/) || [];
+                ] = hash.match(/^c(\d+)x(\d+):(\d+)/) || [];
                 preset = {
                     size: [
                         parseInt(width, 10),

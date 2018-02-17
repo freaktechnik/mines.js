@@ -1,7 +1,10 @@
 import test from 'ava';
 import Timer from '../src/timer';
 import setup from './helpers/setup-browser-env';
-import { wait, when } from './helpers/wait';
+import {
+    wait,
+    when
+} from './helpers/wait';
 
 test.before(() => setup());
 
