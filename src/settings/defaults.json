@@ -1,0 +1,18 @@
+{
+    "autotoggle": {
+        "type": "bool",
+        "value": false
+    },
+    "fieldsize": {
+        "type": "number",
+        "value": 1
+    },
+    "vibration": {
+        "type": "bool",
+        "value": true
+    },
+    "autouncover": {
+        "type": "bool",
+        "value": true
+    }
+}
