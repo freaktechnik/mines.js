@@ -16,17 +16,15 @@
     "codecov": "^3.0.0",
     "css-loader": "^0.28.10",
     "dom-storage": "^2.0.2",
-    "ejs-loader": "^0.3.1",
-    "eslint": "^4.18.2",
-    "extract-text-webpack-plugin": "^3.0.2",
+    "eslint": "^4.18.1",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "file-loader": "^1.1.11",
     "git-prepush-hook": "^1.0.1",
     "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.0.0",
+    "html-webpack-plugin": "^3.0.4",
     "image-webpack-loader": "^4.0.0",
     "jsdom": "^11.6.2",
     "json-loader": "^0.5.7",
-    "manifest-scope-loader": "^1.0.1",
     "mutationobserver-shim": "^0.3.2",
     "nyc": "^11.5.0",
     "offline-plugin": "^4.9.0",
@@ -38,7 +36,8 @@
     "transifex-loader": "^5.0.0",
     "underscore": "^1.8.3",
     "web-app-manifest-loader": "^0.1.1",
-    "webpack": "^4.0.1"
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.9"
   },
   "homepage": "https://humanoids.be/mines",
   "repository": {
@@ -55,8 +54,8 @@
     "lint:js": "eslint src/ assets/ test/ --ext js,json",
     "lint:css": "stylelint assets/styles/*.css",
     "lint": "npm run lint:js && npm run lint:css",
-    "build": "webpack --progress --config webpack.config.prod.js",
-    "build-dev": "webpack --config webpack.config.js",
+    "build": "webpack --mode production --progress --config webpack.config.prod.js",
+    "build-dev": "webpack --mode development --config webpack.config.js",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "dependencies": {

@@ -130,6 +130,6 @@ const Highscores = {
         };
     }
 };
-Highscores.init();
+Highscores.init(); // eslint-disable-line tree-shaking/no-side-effects-in-initialization
 
 export default Highscores;

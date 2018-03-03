@@ -1,6 +1,7 @@
 /**
  * Mines thing
  */
+/* eslint-disable tree-shaking/no-side-effects-in-initialization */
 
 // From MDN (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#Example:_Using_Math.random)
 function getRandomInt(min, max) {
@@ -761,5 +762,6 @@ Mines.restoreSavedState = function(cfx) {
     }
     return null;
 };
+/* eslint-enable tree-shaking/no-side-effects-in-initialization */
 
 export default Mines;

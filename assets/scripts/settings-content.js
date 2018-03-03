@@ -1,5 +1,6 @@
 import Preferences from '../../src/settings';
 import Highscores from '../../src/highscores';
+import $ from 'jquery';
 
 function setupBoolPreference(name) {
     document.getElementById(name).checked = Preferences[name].value;

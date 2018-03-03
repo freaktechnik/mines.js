@@ -4,6 +4,7 @@ import Preferences from '../../src/settings';
 import Timer from '../../src/timer';
 import Highscores from '../../src/highscores';
 import globalState from './register-service-worker';
+import $ from 'jquery';
 
 const DIM_X = 0,
     DIM_Y = 1,

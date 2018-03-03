@@ -1,3 +1,4 @@
+/* eslint-disable tree-shaking/no-side-effects-in-initialization */
 import '../assets/scripts/l10n';
 import '../assets/scripts/property-descriptor-fix';
 import '../assets/scripts/register-service-worker';
@@ -21,6 +22,7 @@ import '../locales/ru/app.properties';
 import '../manifest.json';
 
 import Mines from '../src/mines';
+import $ from 'jquery';
 
 $(document).ready(() => {
     $('.button-collapse').sideNav({
@@ -32,3 +34,4 @@ $(document).ready(() => {
     document.getElementById("continuemenu").hidden = !Mines.hasSavedState() && document.location.hash != "#restore";
 });
 
+/* eslint-enable tree-shaking/no-side-effects-in-initialization */

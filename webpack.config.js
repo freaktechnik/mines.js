@@ -1,8 +1,6 @@
-const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ProvidePlugin = require("webpack/lib/ProvidePlugin");
 const OfflinePlugin = require("offline-plugin");
 const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const path = require("path");
@@ -17,21 +15,14 @@ const plugins = [
     new CleanPlugin([ 'dist' ], {
         exclude: [ 'images', 'locales', 'fonts', 'manifest.json' ]
     }),
-    new CommonsChunkPlugin({
-        name: "common",
-        filename: "scripts/common-[hash].js"
-    }),
     new ExtractTextPlugin({
         filename: "styles/[name]-[hash].css"
-    }),
-    new ProvidePlugin({
-        _: "underscore",
-        'window.jQuery': 'jquery'
     }),
     new OfflinePlugin({
         ServiceWorker: {
             entry: './assets/sw/global-events.js',
-            events: true
+            events: true,
+            minify: false
         },
         AppCache: false
     }),
@@ -45,8 +36,8 @@ for(const p of pages) {
     entry[p] = "./pages/" + p;
     plugins.push(new HtmlWebpackPlugin({
         filename: p + ".html",
-        template: "./assets/page.ejs",
-        chunks: [ "common", p ],
+        template: "./assets/page.html",
+        chunks: [ p ],
         defaultLanguage: "en",
         page: p,
         titleId: pageTitles[p],
@@ -71,6 +62,7 @@ module.exports = {
                     path.resolve(__dirname, 'test')
                 ],
                 loader: 'babel-loader',
+                type: 'javascript/esm',
                 options: {
                     presets: [ 'env' ],
                     babelrc: false
@@ -85,17 +77,6 @@ module.exports = {
                 })
             },
             {
-                test: /\.html$/,
-                include: [
-                    path.resolve(__dirname, 'pages'),
-                    path.resolve(__dirname, 'assets')
-                ],
-                loader: 'ejs-loader',
-                options: {
-                    variable: 'data'
-                }
-            },
-            {
                 test: /manifest.json$/,
                 use: [
                     {
@@ -106,9 +87,6 @@ module.exports = {
                     },
                     {
                         loader: 'web-app-manifest-loader'
-                    },
-                    {
-                        loader: 'manifest-scope-loader'
                     }
                 ]
             },

@@ -1,3 +1,5 @@
+<% import requireString from "./scripts/insert-string";
+const translateElement = requireString(htmlWebpackPlugin.options.defaultLanguage); %>
 <!DOCTYPE html>
 <html lang="<%= htmlWebpackPlugin.options.defaultLanguage %>">
     <head>
@@ -27,9 +29,6 @@
         <meta name="availableLanguages" content="<%= webpack.assets.filter((a) => a.name.includes('.properties')).map((a) => a.name.match(/\/([a-z]{2})\//)[1]).join(',') %>">
 
         <link rel="localization" href="locales/{locale}/app.properties">
-
-        <% var requireString = require("./scripts/insert-string").default,
-            translateElement = requireString(htmlWebpackPlugin.options.defaultLanguage); %>
 
         <meta name="application-name" content="<%= translateElement("bundle.title", null, null, true) %>">
         <meta name="description"<%= translateElement('description', null, 'content') %>

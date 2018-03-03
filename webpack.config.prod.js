@@ -1,11 +1,7 @@
-const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ProvidePlugin = require("webpack/lib/ProvidePlugin");
 const OfflinePlugin = require("offline-plugin");
-const UglifyJsPlugin = require("webpack/lib/optimize/UglifyJsPlugin");
-const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
 const path = require("path");
 
 const pageTitles = require("./pages/titles.json");
@@ -16,37 +12,16 @@ const pages = Object.keys(pageTitles);
 const entry = {};
 const plugins = [
     new CleanPlugin([ 'dist' ]),
-    new LoaderOptionsPlugin({
-        debug: false,
-        minimize: true
-    }),
-    new CommonsChunkPlugin({
-        name: "common",
-        filename: "scripts/common-[hash].js"
-    }),
     new ExtractTextPlugin({
         filename: "styles/[name]-[hash].css"
-    }),
-    new ProvidePlugin({
-        _: "underscore",
-        'window.jQuery': 'jquery'
     }),
     new OfflinePlugin({
         ServiceWorker: {
             entry: './assets/sw/global-events.js',
-            events: true
+            events: true,
+            minify: false
         },
         AppCache: false
-    }),
-    new UglifyJsPlugin({
-        compress: {
-            warnings: true
-        },
-        output: {
-            comments: false
-        },
-        sourceMap: false,
-        minimize: true
     })
 ];
 
@@ -54,7 +29,7 @@ for(const p of pages) {
     entry[p] = "./pages/" + p;
     plugins.push(new HtmlWebpackPlugin({
         filename: p + ".html",
-        template: "./assets/page.ejs",
+        template: "./assets/page.html",
         chunks: [ "common", p ],
         defaultLanguage: "en",
         page: p,
@@ -91,13 +66,6 @@ module.exports = {
                 })
             },
             {
-                test: /\.html$/,
-                loader: 'ejs-loader',
-                options: {
-                    variable: 'data'
-                }
-            },
-            {
                 test: /manifest.json$/,
                 use: [
                     {
@@ -108,9 +76,6 @@ module.exports = {
                     },
                     {
                         loader: 'web-app-manifest-loader'
-                    },
-                    {
-                        loader: 'manifest-scope-loader'
                     }
                 ]
             },

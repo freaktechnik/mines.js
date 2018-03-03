@@ -1,4 +1,5 @@
 import Highscores from '../../src/highscores';
+import $ from 'jquery';
 
 let nf;
 const DIM_X = 0,
