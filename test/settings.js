@@ -1,5 +1,6 @@
 import test from 'ava';
 import Storage from 'dom-storage';
+import defaults from '../src/settings/defaults.json';
 
 global.localStorage = new Storage(null);
 global.navigator = {};
@@ -77,8 +78,7 @@ test("Preferences.reset()", (t) => {
     Preferences.autouncover.value = false;
 
     Preferences.reset();
-    t.is(Preferences.fieldsize.value, Preferences.fieldsize.defaultValue);
-    t.false(Preferences.autotoggle.value);
-    t.is(Preferences.vibration.value, "vibrate" in navigator);
-    t.true(Preferences.autouncover.value);
+    for(const p in defaults) {
+        t.is(Preferences[p].value, defaults[p].value);
+    }
 });

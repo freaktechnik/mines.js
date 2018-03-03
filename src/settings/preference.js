@@ -3,7 +3,7 @@ export default class Preference {
         this.type = type;
         this.title = title;
         this.defaultValue = defaultValue;
-        this.value = null;
+        this.value = defaultValue;
         if(localStorage.getItem(this.title) === null && defaultValue !== null) {
             this.value = this.defaultValue;
         }
