@@ -1,5 +1,8 @@
 import getRandomInt from '../../random';
-import GridGenerator from './index';
+import GridGenerator from '.';
+
+const NONE = 0;
+const ORIGIN = 0;
 
 export default class RandomGenerator extends GridGenerator {
     constructor(grid, clickPosition) {
@@ -8,9 +11,9 @@ export default class RandomGenerator extends GridGenerator {
         let remainingMines = grid.mines,
             x,
             y;
-        while(remainingMines > 0) {
-            x = getRandomInt(0, grid.width);
-            y = getRandomInt(0, grid.height);
+        while(remainingMines > NONE) {
+            x = getRandomInt(ORIGIN, grid.width);
+            y = getRandomInt(ORIGIN, grid.height);
             if(!grid.getCell(x, y) && !this.isInEmptyArea(x, y)) {
                 grid.addCell(x, y, true);
                 --remainingMines;

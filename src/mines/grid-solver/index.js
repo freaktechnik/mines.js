@@ -1,4 +1,4 @@
-import { NotImplemented } from './error';
+import { NotImplemented } from '../error';
 
 //TODO make this workerable?
 /**

@@ -1,15 +1,16 @@
 const RIGHT = "right",
     TOP = "top",
     LEFT = "left",
-    BOTTOM = "bottom";
+    BOTTOM = "bottom",
+    FORWARD = 1,
+    BACKWARD = -1,
+    IDENTITY = 0;
 
 const combine = (a, b) => {
     if(a == TOP || a == BOTTOM) {
         return a + b;
     }
-    else {
-        return b + a;
-    }
+    return b + a;
 };
 
 const TOPLEFT = combine(TOP, LEFT),
@@ -29,14 +30,38 @@ const DIRECTIONS = [
 ];
 
 const DIR_TO_COORD = {
-    [RIGHT]: [ 1, 0 ],
-    [TOPRIGHT]: [ 1, -1 ],
-    [TOP]: [ 0, -1 ],
-    [TOPLEFT]: [ -1, -1 ],
-    [LEFT]: [ -1, 0 ],
-    [BOTTOMLEFT]: [ -1, 1 ],
-    [BOTTOM]: [ 0, 1 ],
-    [BOTTOMRIGHT]: [ 1, 1 ]
+    [RIGHT]: [
+        FORWARD,
+        IDENTITY
+    ],
+    [TOPRIGHT]: [
+        FORWARD,
+        BACKWARD
+    ],
+    [TOP]: [
+        IDENTITY,
+        BACKWARD
+    ],
+    [TOPLEFT]: [
+        BACKWARD,
+        BACKWARD
+    ],
+    [LEFT]: [
+        BACKWARD,
+        IDENTITY
+    ],
+    [BOTTOMLEFT]: [
+        BACKWARD,
+        FORWARD
+    ],
+    [BOTTOM]: [
+        IDENTITY,
+        FORWARD
+    ],
+    [BOTTOMRIGHT]: [
+        FORWARD,
+        FORWARD
+    ]
 };
 
 const OPPOSITE_DIRS = {
@@ -50,4 +75,8 @@ const OPPOSITE_DIRS = {
     [BOTTOMRIGHT]: TOPRIGHT
 };
 
-export { DIRECTIONS, DIR_TO_COORD, OPPOSITE_DIRS };
+export {
+    DIRECTIONS,
+    DIR_TO_COORD,
+    OPPOSITE_DIRS
+};

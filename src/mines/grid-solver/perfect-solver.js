@@ -1,14 +1,15 @@
-import GridSolver from './index';
+import GridSolver from '.';
+
+const NONE = -1;
 
 /**
- * @class
  * @implements module:mines/grid-solver
  * @exports module:mines/grid-solver/perfect-solver
  */
 export default class PerfectSolver extends GridSolver {
     attemptToSolve() {
         let completed = this.grid.countCompleteCells(),
-            prevCompleted = -1;
+            prevCompleted = NONE;
 
         //TODO will need adjustment if solved is true even when not everythong's flagged.
 

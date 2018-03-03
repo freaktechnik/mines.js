@@ -16,4 +16,8 @@ class NotImplemented extends Error {
     }
 }
 
-export { Loss, GridFull, NotImplemented };
+export {
+    Loss,
+    GridFull,
+    NotImplemented
+};

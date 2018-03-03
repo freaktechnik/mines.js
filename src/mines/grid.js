@@ -1,11 +1,19 @@
 import Channel from '../channel';
 import { GridFull } from './error';
 import Cell from './cell';
-import { DIR_TO_COORD, OPPOSITE_DIRS } from './directions';
+import {
+    DIR_TO_COORD,
+    OPPOSITE_DIRS
+} from './directions';
+import {
+    X,
+    Y
+} from './const.json';
+
+const ORIGIN = 0;
+const NONE = 0;
 
 export default class Grid {
-    cells = {};
-
     constructor(height, width, mines) {
         this.height = height;
         this.width = width;
@@ -15,17 +23,15 @@ export default class Grid {
         this._channel = new Channel(this);
     }
 
-    _getCellKey(x, y) {
-        return `${x}:${y}`;
-    }
-
     /**
      * Fills the grid up with empty cells.
+     *
+     * @returns {undefined}
      */
     fillGrid() {
-        for(let x = 0; x < this.height; ++x) {
-            for(let y = 0; y < this.width; ++y) {
-                if(!(this._getCellKey(x, y) in this.cells)) {
+        for(let x = ORIGIN; x < this.height; ++x) {
+            for(let y = ORIGIN; y < this.width; ++y) {
+                if(!(Grid._getCellKey(x, y) in this.cells)) {
                     this.addCell(x, y);
                 }
             }
@@ -33,22 +39,12 @@ export default class Grid {
     }
 
     getCell(x, y) {
-        return this.cells[this._getCellKey(x, y)];
-    }
-
-    _getCellInDir(x, y, direction) {
-        const ops = DIR_TO_COORD[direction];
-        return this.getCell(x + ops[0], y + ops[1]);
-    }
-
-    _linkCells(cellA, cellB, direction) {
-        cellA.setSide(direction, cellB);
-        cellB.setSide(OPPOSITE_DIRS[direction], cellA);
+        return this.cells[Grid._getCellKey(x, y)];
     }
 
     addCell(x, y, mine = false) {
         if(this.cells.length < this.cellNumber) {
-            const key = this._getCellKey(x, y),
+            const key = Grid._getCellKey(x, y),
                 cell = new Cell({
                     x,
                     y,
@@ -60,20 +56,18 @@ export default class Grid {
             for(const dir in DIR_TO_COORD) {
                 siblingCell = this._getCellInDir(x, y, dir);
                 if(siblingCell) {
-                    this._linkCells(cell, siblingCell, dir);
+                    Grid._linkCells(cell, siblingCell, dir);
                 }
             }
 
             this.cells[key] = cell;
             return cell;
         }
-        else {
-            throw new GridFull();
-        }
+        throw new GridFull();
     }
 
     countMines() {
-        let mines = 0;
+        let mines = NONE;
         for(const cell of this.cells) {
             if(cell.mine) {
                 ++mines;
@@ -83,7 +77,7 @@ export default class Grid {
     }
 
     countFlags() {
-        let flags = 0;
+        let flags = NONE;
         for(const cell of this.cells) {
             if(cell.marked) {
                 ++flags;
@@ -94,7 +88,7 @@ export default class Grid {
     }
 
     countCompleteCells() {
-        let complete = 0;
+        let complete = NONE;
         for(const cell of this.cells) {
             if(cell.complete) {
                 ++complete;
@@ -105,8 +99,8 @@ export default class Grid {
     }
 
     countUncovered() {
-        let uncovered = 0;
-        for(const cell if this.cells) {
+        let uncovered = ORIGIN;
+        for(const cell in this.cells) {
             if(!cell.covered) {
                 ++uncovered;
             }
@@ -130,9 +124,24 @@ export default class Grid {
      *
      * @param {string} event - Event name that was sent to the channel.
      * @param {?} data - Data the other side sent along.
+     * @returns {undefined}
      */
     onMessage(event, data) {
         console.warn(event, data);
         //TODO do stuff
+    }
+
+    static _getCellKey(x, y) {
+        return `${x}:${y}`;
+    }
+
+    static _linkCells(cellA, cellB, direction) {
+        cellA.setSide(direction, cellB);
+        cellB.setSide(OPPOSITE_DIRS[direction], cellA);
+    }
+
+    _getCellInDir(x, y, direction) {
+        const ops = DIR_TO_COORD[direction];
+        return this.getCell(x + ops[X], y + ops[Y]);
     }
 }
