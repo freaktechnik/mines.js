@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const OfflinePlugin = require("offline-plugin");
@@ -15,7 +15,7 @@ const plugins = [
     new CleanPlugin([ 'dist' ], {
         exclude: [ 'images', 'locales', 'fonts', 'manifest.json' ]
     }),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
         filename: "styles/[name]-[hash].css"
     }),
     new OfflinePlugin({
@@ -36,7 +36,7 @@ for(const p of pages) {
     entry[p] = "./pages/" + p;
     plugins.push(new HtmlWebpackPlugin({
         filename: p + ".html",
-        template: "./assets/page.html",
+        template: "./assets/page.ejs",
         chunks: [ p ],
         defaultLanguage: "en",
         page: p,
@@ -70,11 +70,10 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'css-loader',
-                    publicPath: "../"
-                })
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
             },
             {
                 test: /manifest.json$/,

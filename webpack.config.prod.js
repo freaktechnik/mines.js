@@ -1,4 +1,4 @@
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const OfflinePlugin = require("offline-plugin");
@@ -12,7 +12,7 @@ const pages = Object.keys(pageTitles);
 const entry = {};
 const plugins = [
     new CleanPlugin([ 'dist' ]),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
         filename: "styles/[name]-[hash].css"
     }),
     new OfflinePlugin({
@@ -59,11 +59,10 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: 'css-loader',
-                    publicPath: '../'
-                })
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
             },
             {
                 test: /manifest.json$/,
