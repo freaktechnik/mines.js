@@ -4,7 +4,7 @@
   "description": "Yet another Minesweeeper clone with custom boards and mine-flagging",
   "version": "2.0.0",
   "devDependencies": {
-    "@freaktechnik/eslint-config-browser": "^6.2.0",
+    "@freaktechnik/eslint-config-browser": "6.4.4",
     "@freaktechnik/eslint-config-test": "^6.2.0",
     "@freaktechnik/eslint-config-webpack": "^6.3.4",
     "ava": "^0.25.0",
