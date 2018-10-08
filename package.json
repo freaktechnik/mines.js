@@ -31,7 +31,7 @@
     "nyc": "^11.5.0",
     "offline-plugin": "^4.9.0",
     "properties-loader": "0.0.1",
-    "style-loader": "^0.20.1",
+    "style-loader": "^0.21.0",
     "stylelint": "^9.0.0",
     "stylelint-config-standard": "^18.0.0",
     "stylelint-no-unsupported-browser-features": "^2.0.0",
