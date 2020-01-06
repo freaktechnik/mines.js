@@ -36,7 +36,7 @@
     "stylelint-config-standard": "^18.0.0",
     "stylelint-no-unsupported-browser-features": "^2.0.0",
     "transifex-loader": "^5.0.0",
-    "underscore": "^1.8.3",
+    "underscore": "1.9.1",
     "web-app-manifest-loader": "^0.1.1",
     "webpack": "^4.0.1"
   },
