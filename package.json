@@ -63,7 +63,7 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.5.0",
     "material-design-icons": "^3.0.1",
-    "materialize-css": "^0.100.1",
+    "materialize-css": "^1.0.0",
     "what-input": "^5.0.5"
   },
   "pre-push": [
